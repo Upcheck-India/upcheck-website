@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import farmImage from "C:\\Users\\hari\\Videos\\MotionCanvas\\attached_assets\\shrimpfarm.png"
+import farmImage from "@assets/shrimpfarm.png"
 
 export default function AboutSection() {
   const ref = useRef(null);
