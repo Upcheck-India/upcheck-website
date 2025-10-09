@@ -1,0 +1,11 @@
+/* Prevent body from hiding scrollbar when dropdown is open */
+body[style*="overflow: hidden;"] {
+	overflow: auto !important;
+	padding-right: 0 !important;
+}
+
+/* Ensure dropdowns stay above other content */
+.dropdown-content {
+	position: relative;
+	z-index: 50;
+}
