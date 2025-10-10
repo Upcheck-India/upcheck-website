@@ -6,6 +6,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Serve static assets from attached_assets directory
+app.use("/attached_assets", express.static("attached_assets"));
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -60,14 +63,14 @@ app.use((req, res, next) => {
   // Other ports are firewalled. Default to 5000 if not specified.
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
-const port = parseInt(process.env.PORT || '4000', 10);
-server.listen(
-  {
-    port,
-    host: "127.0.0.1",
-  },
-  () => {
-    log(`serving on port ${port}`);
-  } 
-);
+  const port = parseInt(process.env.PORT || "4000", 10);
+  server.listen(
+    {
+      port,
+      host: "127.0.0.1",
+    },
+    () => {
+      log(`serving on port ${port}`);
+    }
+  );
 })();

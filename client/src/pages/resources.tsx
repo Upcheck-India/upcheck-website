@@ -4,74 +4,47 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Search, Calendar, User } from "lucide-react";
 
-const categories = [
-  "All",
-  "Diseases",
-  "General",
-  "Tips",
-  "Parameters",
-  "News",
-  "Shrimp",
-  "UPCHECK",
-  "Economics"
-];
+// Import posts from posts.json
+import postsData from "./posts.json";
 
-const articles = [
-  {
-    id: 1,
-    title: "Shrimp Farming Made Easy with Tarpaulin Ponds",
-    description: "Shrimp farming in tarpaulin ponds is a popular practice due to its high economic value in both local and international markets. It offers advantages...",
-    category: "Diseases",
-    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&auto=format&fit=crop",
-    author: "Jovan",
-    date: "6/11/2025",
-    tags: ["Shrimp", "Farming", "Water", "Management"]
-  },
-  {
-    id: 2,
-    title: "Empowering Shrimp Farmers through Dedicated Field Support",
-    description: "Comprehensive support is critical for shrimp farmers to ensure optimal yield. Our team provides field assistance, training programs, and technical guidance...",
-    category: "General",
-    image: "https://images.unsplash.com/photo-1535850452227-f4e8ded1f46f?w=800&auto=format&fit=crop",
-    author: "Jovan",
-    date: "5/8/2025",
-    tags: ["Support", "Training", "Field", "Management"]
-  },
-  {
-    id: 3,
-    title: "Optimizing Shrimp Growth Through Understanding Molting Phases",
-    description: "Understanding the molting phase is essential in ensuring optimal growth of your shrimp. Molting is critical to shrimp development and requires...",
-    category: "General",
-    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&auto=format&fit=crop",
-    author: "Jovan",
-    date: "5/5/2025",
-    tags: ["Growth", "Molting", "Development"]
-  },
-  {
-    id: 4,
-    title: "Vannamei Shrimp Hatching Techniques for Successful Cultivation",
-    description: "In the realm of Vannamei shrimp farming, the quality of spawn or larvae plays a crucial role in determining the success. It is critical therefore, if...",
-    category: "Diseases",
-    image: "https://images.unsplash.com/photo-1565098772267-60af42b81ef2?w=800&auto=format&fit=crop",
-    author: "Jovan",
-    date: "5/2/2025",
-    tags: ["Shrimp", "Farming", "Water", "Management", "Disease", "Aquaculture"]
-  },
-  {
-    id: 5,
-    title: "Successful Shrimp Farming Practices for Vannamei Shrimp Cultivation",
-    description: "The vannamei shrimp cultivation business is an economically significant growth area in the high demand for shrimp in the market. Its careful...",
-    category: "Tips",
-    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&auto=format&fit=crop",
-    author: "Jovan",
-    date: "4/23/2025",
-    tags: ["Shrimp", "Aquaculture", "Farming", "Water", "Management", "Cultivation"]
-  }
-];
+// Define article type
+interface Article {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  image: string;
+  author: string;
+  date: string;
+  tags: string[];
+}
+
+// Transform posts data to match the expected format
+const articles: Article[] = postsData.map((post) => ({
+  id: post.id,
+  title: post.translations.en.title,
+  description: post.translations.en.description,
+  category: post.categories[0] || "General",
+  image: post.thumbnail, // Use the thumbnail from posts.json
+  author: post.author,
+  date: new Date(post.publishedAt).toLocaleDateString(),
+  tags: post.tags,
+}));
+
+// Get unique categories from posts data
+const uniqueCategories = Array.from(
+  new Set(postsData.flatMap((post) => post.categories || ["General"]))
+);
+const categories: string[] = ["All", ...uniqueCategories];
 
 export default function Resources() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -79,17 +52,19 @@ export default function Resources() {
   const [postsPerPage] = useState(6);
   const [currentPage] = useState(1);
 
-  const filteredArticles = articles.filter(article => {
-    const matchesCategory = selectedCategory === "All" || article.category === selectedCategory;
-    const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         article.description.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredArticles = articles.filter((article) => {
+    const matchesCategory =
+      selectedCategory === "All" || article.category === selectedCategory;
+    const matchesSearch =
+      article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      article.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
   return (
     <div className="min-h-screen bg-site-gradient">
       <Navigation />
-      
+
       <main className="pt-32 pb-20 px-6">
         <div className="container mx-auto">
           <motion.div
@@ -98,13 +73,13 @@ export default function Resources() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h1 
+            <h1
               className="text-4xl md:text-6xl font-bold mb-4"
               style={{
                 background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-                backgroundClip: "text"
+                backgroundClip: "text",
               }}
             >
               Resources
@@ -135,14 +110,25 @@ export default function Resources() {
               {categories.map((category) => (
                 <Button
                   key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
+                  variant={
+                    selectedCategory === category ? "default" : "outline"
+                  }
                   size="sm"
                   onClick={() => setSelectedCategory(category)}
-                  className={selectedCategory === category ? "bg-primary text-primary-foreground" : ""}
-                  style={selectedCategory === category ? {
-                    background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
-                    border: "none"
-                  } : {}}
+                  className={
+                    selectedCategory === category
+                      ? "bg-primary text-primary-foreground"
+                      : ""
+                  }
+                  style={
+                    selectedCategory === category
+                      ? {
+                          background:
+                            "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+                          border: "none",
+                        }
+                      : {}
+                  }
                 >
                   {category}
                 </Button>
@@ -162,9 +148,10 @@ export default function Resources() {
                   size="sm"
                   className="w-8 h-8 p-0 rounded-full"
                   style={{
-                    background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+                    background:
+                      "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
                     color: "white",
-                    border: "none"
+                    border: "none",
                   }}
                 >
                   {currentPage}
@@ -193,9 +180,7 @@ export default function Resources() {
                       alt={article.title}
                       className="w-full h-full object-cover"
                     />
-                    <Badge 
-                      className="absolute top-4 left-4 bg-background/90 text-foreground border-0"
-                    >
+                    <Badge className="absolute top-4 left-4 bg-background/90 text-foreground border-0">
                       {article.category}
                     </Badge>
                   </div>
@@ -218,7 +203,11 @@ export default function Resources() {
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {article.tags.slice(0, 4).map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-xs">
+                        <Badge
+                          key={tag}
+                          variant="secondary"
+                          className="text-xs"
+                        >
                           {tag}
                         </Badge>
                       ))}
@@ -226,11 +215,11 @@ export default function Resources() {
                   </CardContent>
                   <CardFooter>
                     <a href={`/resources/${article.id}`} className="w-full">
-                      <Button 
-                        variant="ghost" 
+                      <Button
+                        variant="ghost"
                         className="w-full text-primary hover:text-primary"
                         style={{
-                          color: "#00C9E4"
+                          color: "#00C9E4",
                         }}
                       >
                         Read More →
@@ -254,7 +243,7 @@ export default function Resources() {
               style={{
                 background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
                 color: "white",
-                border: "none"
+                border: "none",
               }}
             >
               {currentPage}
