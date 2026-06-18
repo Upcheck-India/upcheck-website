@@ -18,7 +18,11 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/resources" component={Resources} />
       <Route path="/resources/:id" component={Article} />
+<<<<<<< HEAD
       <Route path="/products" component={Products} />
+=======
+      <Route path="/products" component={Products} /> 
+>>>>>>> main
       <Route component={NotFound} />
     </Switch>
   );
