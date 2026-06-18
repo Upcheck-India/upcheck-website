@@ -77,7 +77,7 @@ export default function Navigation() {
                   <a href="/resources" className="w-full">Resources</a>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  Products
+                  <a href="/products" className="w-full">Products</a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -218,7 +218,7 @@ export default function Navigation() {
                       >
                         <a href="/about" className="py-2 text-sm text-muted-foreground">About</a>
                         <a href="/resources" className="py-2 text-sm text-muted-foreground">Resources</a>
-                        <a href="#" className="py-2 text-sm text-muted-foreground">Products</a>
+                        <a href="/products" className="py-2 text-sm text-muted-foreground">Products</a>
                       </motion.div>
                     )}
                   </div>
