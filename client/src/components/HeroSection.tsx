@@ -5,23 +5,25 @@ import logoUrl from "@assets/upcheck-logo.png";
 
 export default function HeroSection() {
   return (
-  <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-site-gradient bg-background">
-      {/* Interactive Pond Grid Background */}
-      <div className="absolute inset-0 grid grid-cols-12 grid-rows-12">
-        {Array.from({ length: 144 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="border border-primary/5 hover-elevate"
-            whileHover={{
-              backgroundColor: "hsl(194 100% 43% / 0.1)",
-              transition: { duration: 3, ease: "easeOut" }
-            }}
-          />
-        ))}
-      </div>
+  <section className="dark text-foreground relative min-h-[60vh] md:min-h-[70vh] py-20 flex items-center justify-center overflow-hidden bg-site-gradient bg-background">
+      {/* Background Video */}
+      <video
+        src="/attached_assets/shrimp.1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+      />
+
+      {/* Dark Overlay (50% opacity) */}
+      <div className="absolute inset-0 bg-black/50 z-10" />
+
+      {/* UpCheck Blue Tint Overlay (15% opacity) */}
+      <div className="absolute inset-0 bg-[#00C9E4]/15 z-10" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 text-center">
+      <div className="relative z-20 container mx-auto px-6 text-center">
         {/* Logo Animation */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
