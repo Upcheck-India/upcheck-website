@@ -29,19 +29,40 @@ export default function Navigation() {
   const logoScale = useTransform(scrollY, [0, 100], [1, 0.8]);
   const headerPadding = useTransform(scrollY, [0, 100], ["1.5rem", "1rem"]);
 
+  const headerBg = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.9)"]
+  );
+
+  const headerBorder = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(255, 255, 255, 0)", "rgba(226, 232, 240, 0.8)"]
+  );
+
+  const headerTextColor = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(255, 255, 255, 1)", "rgba(15, 23, 42, 1)"]
+  );
+
   return (
     <motion.header
       style={{
-        backgroundColor: "white",
+        backgroundColor: headerBg,
+        borderColor: headerBorder,
+        color: headerTextColor,
+        backdropFilter: backdropBlur,
         paddingTop: headerPadding,
         paddingBottom: headerPadding,
       }}
-      className="sticky top-0 left-0 right-0 z-50 border-b border-border bg-white text-slate-900"
+      className="fixed top-0 left-0 right-0 z-50 border-b"
       data-testid="header-navigation"
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <motion.div style={{ scale: logoScale }} className="flex items-center gap-3">
-          <img src={logoUrl} alt="Upcheck" className="h-12 md:h-14 lg:h-16 w-auto" data-testid="img-nav-logo" />
+          <img src={logoUrl} alt="Upcheck" className="h-16 md:h-20 lg:h-24 w-auto" data-testid="img-nav-logo" />
         </motion.div>
 
         <nav className="hidden md:flex items-center gap-6">

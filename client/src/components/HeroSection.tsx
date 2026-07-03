@@ -5,10 +5,10 @@ import logoUrl from "@assets/upcheck-logo.png";
 
 export default function HeroSection() {
   return (
-  <section className="dark text-foreground relative min-h-[60vh] md:min-h-[70vh] py-20 flex items-center justify-center overflow-hidden bg-site-gradient bg-background">
+  <section className="dark text-foreground relative min-h-[80vh] md:min-h-[95vh] py-28 flex items-center justify-center overflow-hidden bg-site-gradient bg-background">
       {/* Background Video */}
       <video
-        src="/attached_assets/shrimp.1.mp4"
+        src="/attached_assets/herovideo.mp4"
         autoPlay
         muted
         loop
@@ -21,6 +21,9 @@ export default function HeroSection() {
 
       {/* UpCheck Blue Tint Overlay (15% opacity) */}
       <div className="absolute inset-0 bg-[#00C9E4]/15 z-10" />
+
+      {/* White gradient bottom overlay to blend into the next white section */}
+      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white/30 to-transparent z-10 pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-20 container mx-auto px-6 text-center">
@@ -39,17 +42,17 @@ export default function HeroSection() {
           />
         </motion.div>
 
-        {/* Hero Headline with Gradient */}
         <motion.h1
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6"
+          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight pb-3"
           style={{ 
             background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
-            backgroundClip: "text"
+            backgroundClip: "text",
+            paddingBottom: "0.15em"
           }}
           data-testid="text-hero-headline"
         >
