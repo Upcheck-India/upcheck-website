@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import express from "express";
 import { ObjectId } from "mongodb";
-import { MongoClient } from "mongodb";
+import { MongoClient, GridFSBucket } from "mongodb";
 
 // Inline mongo connection (avoids dotenv issues in serverless)
 const uri = process.env.MONGODB_URI;
@@ -71,6 +71,49 @@ app.get("/api/posts/:id", async (req, res) => {
   } catch (e) {
     console.error("Failed to fetch post:", e);
     return res.status(500).json({ error: "Failed to fetch post" });
+  }
+});
+
+// GET /api/media/:id
+app.get("/api/media/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const client = await getClientPromise();
+    const db = client.db("resources");
+
+    let objId: ObjectId;
+    try {
+      objId = new ObjectId(id);
+    } catch (err) {
+      return res.status(400).json({ error: "Invalid ID format" });
+    }
+
+    const bucket = new GridFSBucket(db);
+
+    // Check if the file exists in metadata
+    const files = await db.collection("fs.files").find({ _id: objId }).toArray();
+    if (files.length === 0) {
+      return res.status(404).json({ error: "File not found" });
+    }
+
+    const file = files[0];
+    res.setHeader("Content-Type", file.contentType || "image/jpeg");
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+
+    const downloadStream = bucket.openDownloadStream(objId);
+    downloadStream.on("data", (chunk) => {
+      res.write(chunk);
+    });
+    downloadStream.on("error", (err) => {
+      console.error("GridFS download error:", err);
+      res.status(404).end();
+    });
+    downloadStream.on("end", () => {
+      res.end();
+    });
+  } catch (e) {
+    console.error("Failed to fetch media:", e);
+    res.status(500).json({ error: "Failed to fetch media" });
   }
 });
 
