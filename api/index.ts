@@ -1,58 +1,79 @@
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 import express from "express";
-import { registerRoutes } from "../server/routes";
-import clientPromise from "../lib/mongo";
+import { ObjectId } from "mongodb";
+import { MongoClient } from "mongodb";
+
+// Inline mongo connection (avoids dotenv issues in serverless)
+const uri = process.env.MONGODB_URI;
+
+if (!uri) {
+  console.error("MONGODB_URI environment variable is not set");
+}
+
+let clientPromise: Promise<MongoClient> | null = null;
+
+function getClientPromise(): Promise<MongoClient> {
+  if (!uri) throw new Error("MONGODB_URI is not defined");
+  if (!clientPromise) {
+    const client = new MongoClient(uri);
+    clientPromise = client.connect();
+  }
+  return clientPromise;
+}
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Middleware to capture and log API requests (similar to server/index.ts)
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
-
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    let logLine = `[Serverless] ${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-    if (capturedJsonResponse) {
-      logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-    }
-    if (logLine.length > 80) {
-      logLine = logLine.slice(0, 79) + "…";
-    }
-    console.log(logLine);
-  });
-
-  next();
+// GET /api/posts
+app.get("/api/posts", async (req, res) => {
+  try {
+    const client = await getClientPromise();
+    const db = client.db("resources");
+    const posts = await db
+      .collection("website-resource")
+      .find({})
+      .sort({ publishedAt: -1 })
+      .toArray();
+    res.json(posts);
+  } catch (e) {
+    console.error("Failed to fetch posts:", e);
+    res.status(500).json({ error: "Failed to fetch posts" });
+  }
 });
 
-let initialized = false;
-const initApp = async () => {
-  if (!initialized) {
-    // Wait for MongoDB to connect
-    await clientPromise;
-    console.log("MongoDB connected in serverless function");
-    
-    // Register the routes
-    await registerRoutes(app);
-    initialized = true;
-  }
-};
-
-export default async (req: any, res: any) => {
+// GET /api/posts/:id
+app.get("/api/posts/:id", async (req, res) => {
   try {
-    await initApp();
-    // Pass the request and response objects to Express
-    app(req, res);
-  } catch (error) {
-    console.error("Failed to handle request in serverless function:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    const { id } = req.params;
+    const client = await getClientPromise();
+    const db = client.db("resources");
+
+    // Try string id first
+    let post = await db.collection("website-resource").findOne({ id });
+
+    // Fallback to ObjectId
+    if (!post) {
+      try {
+        post = await db
+          .collection("website-resource")
+          .findOne({ _id: new ObjectId(id) });
+      } catch {
+        // Invalid ObjectId format, ignore
+      }
+    }
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    return res.json(post);
+  } catch (e) {
+    console.error("Failed to fetch post:", e);
+    return res.status(500).json({ error: "Failed to fetch post" });
   }
-};
+});
+
+export default function handler(req: VercelRequest, res: VercelResponse) {
+  return app(req as any, res as any);
+}
