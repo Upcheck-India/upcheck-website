@@ -7,8 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Serve static assets from attached_assets directory
-app.use("/attached_assets", express.static("attached_assets"));
+// Serve static assets from client/public/attached_assets (single source of truth)
+app.use("/attached_assets", express.static("client/public/attached_assets"));
 
 app.use((req, res, next) => {
   const start = Date.now();
