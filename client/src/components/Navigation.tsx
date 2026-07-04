@@ -18,11 +18,7 @@ export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   
-  const backgroundColor = useTransform(
-    scrollY,
-    [0, 100],
-    ["hsla(var(--background), 0)", "hsla(var(--background), 0.8)"]
-  );
+  const backgroundColor = "hsl(var(--background))";
   
   const backdropBlur = useTransform(
     scrollY,
@@ -33,21 +29,40 @@ export default function Navigation() {
   const logoScale = useTransform(scrollY, [0, 100], [1, 0.8]);
   const headerPadding = useTransform(scrollY, [0, 100], ["1.5rem", "1rem"]);
 
+  const headerBg = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.9)"]
+  );
+
+  const headerBorder = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(255, 255, 255, 0)", "rgba(226, 232, 240, 0.8)"]
+  );
+
+  const headerTextColor = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(255, 255, 255, 1)", "rgba(15, 23, 42, 1)"]
+  );
+
   return (
     <motion.header
       style={{
-        backgroundColor,
+        backgroundColor: headerBg,
+        borderColor: headerBorder,
+        color: headerTextColor,
         backdropFilter: backdropBlur,
-        WebkitBackdropFilter: backdropBlur,
         paddingTop: headerPadding,
         paddingBottom: headerPadding,
       }}
-      className="fixed top-0 left-0 right-0 z-50 border-b border-border/50"
+      className="fixed top-0 left-0 right-0 z-50 border-b"
       data-testid="header-navigation"
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <motion.div style={{ scale: logoScale }} className="flex items-center gap-3">
-          <img src={logoUrl} alt="Upcheck" className="h-8 w-auto" data-testid="img-nav-logo" />
+          <img src={logoUrl} alt="Upcheck" className="h-16 md:h-20 lg:h-24 w-auto" data-testid="img-nav-logo" />
         </motion.div>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -65,8 +80,7 @@ export default function Navigation() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="start"
-                className="w-48 dropdown-content bg-background border border-border/50"
-                style={{ backgroundColor: "white" }}
+                className="w-48 dropdown-content bg-background/80 backdrop-blur-md border border-border/50"
                 onMouseEnter={exploreHover.onMouseEnter}
                 onMouseLeave={exploreHover.onMouseLeave}
               >
@@ -97,8 +111,7 @@ export default function Navigation() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="start"
-                className="w-48 dropdown-content bg-background border border-border/50"
-                style={{ backgroundColor: "white" }}
+                className="w-48 dropdown-content bg-background/80 backdrop-blur-md border border-border/50"
                 onMouseEnter={participateHover.onMouseEnter}
                 onMouseLeave={participateHover.onMouseLeave}
               >
@@ -168,8 +181,7 @@ export default function Navigation() {
 
   <DropdownMenuContent
     align="end"
-    className="w-32 bg-background border border-border/50"
-    style={{ backgroundColor: "white" }}
+    className="w-32 bg-background/80 backdrop-blur-md border border-border/50"
   >
     <DropdownMenuItem>English</DropdownMenuItem>
     <DropdownMenuItem>தமிழ்</DropdownMenuItem>
@@ -197,8 +209,7 @@ export default function Navigation() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="absolute top-full left-0 right-0 bg-background border-b border-border/50 shadow-lg md:hidden"
-                style={{ backgroundColor: "white" }}
+                className="absolute top-full left-0 right-0 bg-background/80 backdrop-blur-md border-b border-border/50 shadow-lg md:hidden"
               >
                 <div className="container mx-auto px-6 py-4 flex flex-col gap-2">
                   <div className="flex flex-col">

@@ -1,7 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Activity, Brain, Utensils, Users } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const features = [
   {
@@ -26,13 +26,101 @@ const features = [
   },
 ];
 
+function FeatureCard({ feature, index, isInView }: { feature: typeof features[0]; index: number; isInView: boolean }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!cardRef.current) return;
+    const { left, top } = cardRef.current.getBoundingClientRect();
+    setCoords({
+      x: e.clientX - left,
+      y: e.clientY - top,
+    });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ 
+        duration: 0.5, 
+        delay: index * 0.2,
+        ease: "easeOut" 
+      }}
+      whileHover={{ 
+        scale: 1.03,
+        y: -5,
+        transition: { duration: 0.2 }
+      }}
+      data-testid={`card-feature-${index}`}
+    >
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="relative overflow-hidden rounded-xl border border-border/50 bg-card p-6 h-full transition-all duration-300 hover:border-primary/50"
+      >
+        {/* Cursor Glow effect */}
+        {isHovered && (
+          <div
+            className="pointer-events-none absolute -inset-px transition-opacity duration-300"
+            style={{
+              background: `radial-gradient(300px circle at ${coords.x}px ${coords.y}px, rgba(0, 201, 228, 0.15), transparent 80%)`
+            }}
+          />
+        )}
+
+        <motion.div
+          animate={{ 
+            y: [0, -6, 0],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="mb-4 relative z-10"
+        >
+          <div className="w-14 h-14 rounded-md flex items-center justify-center"
+            style={{ background: "rgba(0, 201, 228, 0.1)" }}
+          >
+            <feature.icon 
+              className="w-7 h-7" 
+              style={{ color: "#00C9E4" }}
+              data-testid={`icon-feature-${index}`} 
+            />
+          </div>
+        </motion.div>
+        
+        <h3 
+          className="text-xl font-bold mb-3 relative z-10" 
+          style={{ 
+            background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text"
+          }}
+          data-testid={`text-feature-title-${index}`}
+        >
+          {feature.title}
+        </h3>
+        <p className="text-muted-foreground relative z-10" data-testid={`text-feature-desc-${index}`}>
+          {feature.description}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function FeatureCards() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-  <section ref={ref} className="py-20 px-6 bg-site-gradient bg-background" data-testid="section-features">
-      {/* interactive Pond Grid Background */}
+    <section ref={ref} className="py-20 px-6 bg-site-gradient bg-background" data-testid="section-features">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -59,62 +147,7 @@ export default function FeatureCards() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ 
-                duration: 0.5, 
-                delay: index * 0.2,
-                ease: "easeOut" 
-              }}
-              whileHover={{ 
-                scale: 1.05,
-                rotateY: 5,
-                transition: { duration: 0.3 }
-              }}
-              data-testid={`card-feature-${index}`}
-            >
-              <Card className="p-6 h-full hover-elevate active-elevate-2 overflow-visible">
-                <motion.div
-                  animate={{ 
-                    y: [0, -10, 0],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="mb-4"
-                >
-                  <div className="w-14 h-14 rounded-md flex items-center justify-center"
-                    style={{ background: "rgba(0, 201, 228, 0.1)" }}
-                  >
-                    <feature.icon 
-                      className="w-7 h-7" 
-                      style={{ color: "#00C9E4" }}
-                      data-testid={`icon-feature-${index}`} 
-                    />
-                  </div>
-                </motion.div>
-                
-                <h3 
-                  className="text-xl font-bold mb-3" 
-                  style={{ 
-                    background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text"
-                  }}
-                  data-testid={`text-feature-title-${index}`}
-                >
-                  {feature.title}
-                </h3>
-                <p className="text-muted-foreground" data-testid={`text-feature-desc-${index}`}>
-                  {feature.description}
-                </p>
-              </Card>
-            </motion.div>
+            <FeatureCard key={feature.title} feature={feature} index={index} isInView={isInView} />
           ))}
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import CTASection from "@/components/CTASection";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -360,43 +361,7 @@ export default function Products() {
             </div>
           </section>
 
-          <motion.section
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.55 }}
-          >
-            <Card className="overflow-hidden border-border/60 bg-site-gradient">
-              <CardContent className="p-8 md:p-12 text-center relative">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(0,201,228,0.12),_transparent_36%)]" />
-                <div className="relative">
-                  <Badge className="mb-5 bg-background/80 text-foreground border border-border/50">
-                    Ready to get started?
-                  </Badge>
-                  <h2 className="text-3xl md:text-4xl font-bold mb-4">Bring the full Upcheck system to your farm</h2>
-                  <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
-                    See how monitoring, feeding, analytics, and alerts can work together in one connected platform.
-                  </p>
-                  <div className="flex flex-wrap justify-center gap-4">
-                    <Button
-                      size="lg"
-                      className="gap-2"
-                      style={{
-                        background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
-                        border: "none",
-                      }}
-                    >
-                      Request a Demo
-                      <ArrowRight className="w-5 h-5" />
-                    </Button>
-                    <Button size="lg" variant="outline">
-                      View Contact Options
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.section>
+          <CTASection />
         </div>
       </main>
 
