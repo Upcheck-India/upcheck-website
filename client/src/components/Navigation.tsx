@@ -103,7 +103,7 @@ export default function Navigation() {
                 onMouseLeave={participateHover.onMouseLeave}
               >
                 <DropdownMenuItem>
-                  Surveys
+                  <a href="/participate/survey" className="w-full">Surveys</a>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   Polls
@@ -238,7 +238,7 @@ export default function Navigation() {
                         exit={{ height: 0, opacity: 0 }}
                         className="ml-4 flex flex-col gap-2 py-2"
                       >
-                        <a href="#" className="py-2 text-sm text-muted-foreground">Surveys</a>
+                        <a href="/participate/survey" className="py-2 text-sm text-muted-foreground">Surveys</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Polls</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Feedback</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Events</a>
