@@ -47,7 +47,7 @@ export default function Navigation() {
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <motion.div style={{ scale: logoScale }} className="flex items-center gap-3">
-          <img src={logoUrl} alt="Upcheck" className="h-8 w-auto" data-testid="img-nav-logo" />
+          <img src={logoUrl} alt="Upcheck" className="h-16 w-auto" data-testid="img-nav-logo" />
         </motion.div>
 
         <nav className="hidden md:flex items-center gap-6">
