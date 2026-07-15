@@ -8,15 +8,51 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useHover } from "@/hooks/use-hover";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logoUrl from "@assets/upcheck-logo.png";
 
-export default function Navigation() {
+export default function Navigation({ transparentOnDark = false }: { transparentOnDark?: boolean }) {
   const { scrollY } = useScroll();
   const exploreHover = useHover();
   const participateHover = useHover();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const isNavDark = transparentOnDark && !isScrolled;
+
+  const navItemClass = `flex items-center gap-1 px-3 py-2 transition-colors ${
+    isNavDark 
+      ? "text-white hover:text-white/85 hover:bg-white/10" 
+      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  }`;
+
+  const contactClass = `text-sm font-medium hover-elevate px-3 py-2 rounded-md transition-colors ${
+    isNavDark 
+      ? "text-white hover:text-white/85 hover:bg-white/10" 
+      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  }`;
+
+  const langClass = `flex items-center gap-2 text-sm font-medium px-2 py-1 transition-colors ${
+    isNavDark 
+      ? "text-white hover:text-white/85 hover:bg-white/10" 
+      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  }`;
+
+  const mobileMenuButtonClass = `md:hidden transition-colors ${
+    isNavDark 
+      ? "text-white hover:text-white/85 hover:bg-white/10" 
+      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  }`;
   
   const backgroundColor = useTransform(
     scrollY,
@@ -58,7 +94,7 @@ export default function Navigation() {
           >
             <DropdownMenu open={exploreHover.isOpen}>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-1 px-3 py-2">
+                <Button variant="ghost" className={navItemClass}>
                   Explore
                   <ChevronDown className="w-4 h-4" />
                 </Button>
@@ -90,7 +126,7 @@ export default function Navigation() {
           >
             <DropdownMenu open={participateHover.isOpen}>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-1 px-3 py-2">
+                <Button variant="ghost" className={navItemClass}>
                   Participate
                   <ChevronDown className="w-4 h-4" />
                 </Button>
@@ -118,7 +154,7 @@ export default function Navigation() {
             </DropdownMenu>
           </div>
 
-          <a href="#contact" className="text-sm font-medium hover-elevate px-3 py-2 rounded-md">
+          <a href="#contact" className={contactClass}>
             Contact
           </a>
         </nav>
@@ -140,7 +176,7 @@ export default function Navigation() {
   <DropdownMenuTrigger asChild>
     <Button
       variant="ghost"
-      className="flex items-center gap-2 text-sm font-medium px-2 py-1"
+      className={langClass}
     >
       <svg
         className="w-5 h-5"
@@ -183,7 +219,7 @@ export default function Navigation() {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="md:hidden" 
+            className={mobileMenuButtonClass} 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             data-testid="button-menu"
           >
