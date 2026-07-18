@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useHover } from "@/hooks/use-hover";
 import { useState } from "react";
-import logoUrl from "@assets/upcheck-logo.png";
+// Logo path used directly: /attached_assets/upcheck-logo.png
 
 export default function Navigation() {
   const { scrollY } = useScroll();
@@ -29,23 +29,11 @@ export default function Navigation() {
   const logoScale = useTransform(scrollY, [0, 100], [1, 0.8]);
   const headerPadding = useTransform(scrollY, [0, 100], ["1.5rem", "1rem"]);
 
-  const headerBg = useTransform(
-    scrollY,
-    [0, 100],
-    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.9)"]
-  );
+  const headerBg = "rgba(255, 255, 255, 1)";
 
-  const headerBorder = useTransform(
-    scrollY,
-    [0, 100],
-    ["rgba(255, 255, 255, 0)", "rgba(226, 232, 240, 0.8)"]
-  );
+  const headerBorder = "rgba(226, 232, 240, 0.8)";
 
-  const headerTextColor = useTransform(
-    scrollY,
-    [0, 100],
-    ["rgba(255, 255, 255, 1)", "rgba(15, 23, 42, 1)"]
-  );
+  const headerTextColor = "rgba(15, 23, 42, 1)";
 
   return (
     <motion.header
@@ -62,7 +50,7 @@ export default function Navigation() {
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <motion.div style={{ scale: logoScale }} className="flex items-center gap-3">
-          <img src={logoUrl} alt="Upcheck" className="h-16 md:h-20 lg:h-24 w-auto" data-testid="img-nav-logo" />
+          <img src="/attached_assets/upcheck-logo.png" alt="Upcheck" className="h-16 md:h-20 lg:h-24 w-auto" data-testid="img-nav-logo" />
         </motion.div>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -125,7 +113,7 @@ export default function Navigation() {
                   Feedback
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  Events
+                  <a href="/events" className="w-full">Events</a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -252,7 +240,7 @@ export default function Navigation() {
                         <a href="#" className="py-2 text-sm text-muted-foreground">Surveys</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Polls</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Feedback</a>
-                        <a href="#" className="py-2 text-sm text-muted-foreground">Events</a>
+                        <a href="/events" className="py-2 text-sm text-muted-foreground">Events</a>
                       </motion.div>
                     )}
                   </div>

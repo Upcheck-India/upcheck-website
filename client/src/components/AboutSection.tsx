@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import farmImage from "@assets/shrimpfarm.png";
+// Image path used directly: /attached_assets/shrimpfarm.png
 
 export default function AboutSection() {
   const ref = useRef(null);
@@ -65,7 +65,7 @@ export default function AboutSection() {
               {/* Aerial pond image for shrimp farm */}
               <div className="aspect-[4/3] bg-gradient-to-br from-primary/20 via-muted to-[hsl(197,100%,36%)]/20 flex items-center justify-center" data-testid="img-about-pond">
                 <img
-                  src={farmImage}
+                  src="/attached_assets/shrimpfarm.png"
                   alt="Aerial view of shrimp farm with monitoring sensors"
                   className="w-full h-full object-cover"
                 />
