@@ -119,7 +119,7 @@ export default function Navigation() {
             </DropdownMenu>
           </div>
 
-          <a href="#contact" className="text-sm font-medium hover-elevate px-3 py-2 rounded-md">
+          <a href="/contact" className="text-sm font-medium hover-elevate px-3 py-2 rounded-md">
             Contact
           </a>
         </nav>
@@ -245,7 +245,7 @@ export default function Navigation() {
                     )}
                   </div>
 
-                  <a href="#contact" className="py-2 text-sm font-medium">Contact</a>
+                  <a href="/contact" className="py-2 text-sm font-medium">Contact</a>
                   
                   <Button 
                     className="mt-2"
