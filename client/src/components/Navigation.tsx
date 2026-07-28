@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useHover } from "@/hooks/use-hover";
 import { useState, useEffect } from "react";
-import logoUrl from "@assets/upcheck-logo.png";
+import logoUrl from "@assets/upcheck-logo.png?url";
 
 export default function Navigation({ transparentOnDark = false }: { transparentOnDark?: boolean }) {
   const { scrollY } = useScroll();
