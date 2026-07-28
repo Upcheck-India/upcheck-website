@@ -10,6 +10,7 @@ import Resources from "@/pages/resources";
 import Article from "@/pages/article";
 import Products from "@/pages/products";
 import Survey from "@/pages/survey";
+import Events from "@/pages/events";
 
 import NotFound from "@/pages/not-found";
 
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/resources/:id" component={Article} />
       <Route path="/products" component={Products} />
       <Route path="/participate/survey" component={Survey} />
+      <Route path="/participate/events" component={Events} />
       <Route component={NotFound} />
     </Switch>
   );

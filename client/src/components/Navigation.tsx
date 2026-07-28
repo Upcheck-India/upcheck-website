@@ -148,7 +148,7 @@ export default function Navigation({ transparentOnDark = false }: { transparentO
                   Feedback
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  Events
+                  <a href="/participate/events" className="w-full">Events</a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -277,7 +277,7 @@ export default function Navigation({ transparentOnDark = false }: { transparentO
                         <a href="/participate/survey" className="py-2 text-sm text-muted-foreground">Surveys</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Polls</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Feedback</a>
-                        <a href="#" className="py-2 text-sm text-muted-foreground">Events</a>
+                        <a href="/participate/events" className="py-2 text-sm text-muted-foreground">Events</a>
                       </motion.div>
                     )}
                   </div>
