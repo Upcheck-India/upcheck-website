@@ -8,17 +8,57 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useHover } from "@/hooks/use-hover";
-import { useState } from "react";
-// Logo path used directly: /attached_assets/upcheck-logo.png
+import { useState, useEffect } from "react";
+const logoUrl = "/attached_assets/upcheck-logo.png";
 
-export default function Navigation() {
+export default function Navigation({ transparentOnDark = false }: { transparentOnDark?: boolean }) {
   const { scrollY } = useScroll();
   const exploreHover = useHover();
   const participateHover = useHover();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const isNavDark = transparentOnDark && !isScrolled;
+
+  const navItemClass = `flex items-center gap-1 px-3 py-2 transition-colors ${
+    isNavDark 
+      ? "text-white hover:text-white/85 hover:bg-white/10" 
+      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  }`;
+
+  const contactClass = `text-sm font-medium hover-elevate px-3 py-2 rounded-md transition-colors ${
+    isNavDark 
+      ? "text-white hover:text-white/85 hover:bg-white/10" 
+      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  }`;
+
+  const langClass = `flex items-center gap-2 text-sm font-medium px-2 py-1 transition-colors ${
+    isNavDark 
+      ? "text-white hover:text-white/85 hover:bg-white/10" 
+      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  }`;
+
+  const mobileMenuButtonClass = `md:hidden transition-colors ${
+    isNavDark 
+      ? "text-white hover:text-white/85 hover:bg-white/10" 
+      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  }`;
   
-  const backgroundColor = "hsl(var(--background))";
+  const backgroundColor = useTransform(
+    scrollY,
+    [0, 100],
+    ["hsla(var(--background), 0)", "hsla(var(--background), 0.8)"]
+  );
   
   const backdropBlur = useTransform(
     scrollY,
@@ -29,28 +69,21 @@ export default function Navigation() {
   const logoScale = useTransform(scrollY, [0, 100], [1, 0.8]);
   const headerPadding = useTransform(scrollY, [0, 100], ["1.5rem", "1rem"]);
 
-  const headerBg = "rgba(255, 255, 255, 1)";
-
-  const headerBorder = "rgba(226, 232, 240, 0.8)";
-
-  const headerTextColor = "rgba(15, 23, 42, 1)";
-
   return (
     <motion.header
       style={{
-        backgroundColor: headerBg,
-        borderColor: headerBorder,
-        color: headerTextColor,
+        backgroundColor,
         backdropFilter: backdropBlur,
+        WebkitBackdropFilter: backdropBlur,
         paddingTop: headerPadding,
         paddingBottom: headerPadding,
       }}
-      className="fixed top-0 left-0 right-0 z-50 border-b"
+      className="fixed top-0 left-0 right-0 z-50 border-b border-border/50"
       data-testid="header-navigation"
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <motion.div style={{ scale: logoScale }} className="flex items-center gap-3">
-          <img src="/attached_assets/upcheck-logo.png" alt="Upcheck" className="h-16 md:h-20 lg:h-24 w-auto" data-testid="img-nav-logo" />
+          <img src={logoUrl} alt="Upcheck" className="h-16 w-auto" data-testid="img-nav-logo" />
         </motion.div>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -61,14 +94,15 @@ export default function Navigation() {
           >
             <DropdownMenu open={exploreHover.isOpen}>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-1 px-3 py-2">
+                <Button variant="ghost" className={navItemClass}>
                   Explore
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="start"
-                className="w-48 dropdown-content bg-background/80 backdrop-blur-md border border-border/50"
+                className="w-48 dropdown-content bg-background border border-border/50"
+                style={{ backgroundColor: "white" }}
                 onMouseEnter={exploreHover.onMouseEnter}
                 onMouseLeave={exploreHover.onMouseLeave}
               >
@@ -92,19 +126,20 @@ export default function Navigation() {
           >
             <DropdownMenu open={participateHover.isOpen}>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-1 px-3 py-2">
+                <Button variant="ghost" className={navItemClass}>
                   Participate
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="start"
-                className="w-48 dropdown-content bg-background/80 backdrop-blur-md border border-border/50"
+                className="w-48 dropdown-content bg-background border border-border/50"
+                style={{ backgroundColor: "white" }}
                 onMouseEnter={participateHover.onMouseEnter}
                 onMouseLeave={participateHover.onMouseLeave}
               >
                 <DropdownMenuItem>
-                  Surveys
+                  <a href="/participate/survey" className="w-full">Surveys</a>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   Polls
@@ -113,13 +148,13 @@ export default function Navigation() {
                   Feedback
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <a href="/events" className="w-full">Events</a>
+                  <a href="/participate/events" className="w-full">Events</a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
 
-          <a href="#contact" className="text-sm font-medium hover-elevate px-3 py-2 rounded-md">
+          <a href="#contact" className={contactClass}>
             Contact
           </a>
         </nav>
@@ -141,7 +176,7 @@ export default function Navigation() {
   <DropdownMenuTrigger asChild>
     <Button
       variant="ghost"
-      className="flex items-center gap-2 text-sm font-medium px-2 py-1"
+      className={langClass}
     >
       <svg
         className="w-5 h-5"
@@ -169,7 +204,8 @@ export default function Navigation() {
 
   <DropdownMenuContent
     align="end"
-    className="w-32 bg-background/80 backdrop-blur-md border border-border/50"
+    className="w-32 bg-background border border-border/50"
+    style={{ backgroundColor: "white" }}
   >
     <DropdownMenuItem>English</DropdownMenuItem>
     <DropdownMenuItem>தமிழ்</DropdownMenuItem>
@@ -183,7 +219,7 @@ export default function Navigation() {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="md:hidden" 
+            className={mobileMenuButtonClass} 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             data-testid="button-menu"
           >
@@ -197,7 +233,8 @@ export default function Navigation() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="absolute top-full left-0 right-0 bg-background/80 backdrop-blur-md border-b border-border/50 shadow-lg md:hidden"
+                className="absolute top-full left-0 right-0 bg-background border-b border-border/50 shadow-lg md:hidden"
+                style={{ backgroundColor: "white" }}
               >
                 <div className="container mx-auto px-6 py-4 flex flex-col gap-2">
                   <div className="flex flex-col">
@@ -237,10 +274,10 @@ export default function Navigation() {
                         exit={{ height: 0, opacity: 0 }}
                         className="ml-4 flex flex-col gap-2 py-2"
                       >
-                        <a href="#" className="py-2 text-sm text-muted-foreground">Surveys</a>
+                        <a href="/participate/survey" className="py-2 text-sm text-muted-foreground">Surveys</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Polls</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Feedback</a>
-                        <a href="/events" className="py-2 text-sm text-muted-foreground">Events</a>
+                        <a href="/participate/events" className="py-2 text-sm text-muted-foreground">Events</a>
                       </motion.div>
                     )}
                   </div>

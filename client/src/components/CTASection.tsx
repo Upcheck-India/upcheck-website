@@ -10,6 +10,7 @@ export default function CTASection() {
 
   return (
     <section 
+      id="contact"
       ref={ref} 
       className="relative py-20 px-6 overflow-hidden text-white" 
       style={{ background: "linear-gradient(90deg, #59b2d8 0%, #4a87b3 100%)" }}
