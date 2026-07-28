@@ -6,17 +6,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import CountUp from "react-countup";
-import upcheckDeviceImg from "@assets/upcheck-iot-device.png?url";
-import yellowDeviceImg from "@assets/upcheck-yellow-device.jpg?url";
-import appScreenshotImg from "@assets/upcheck-app-screenshot.jpg?url";
-import aquaculturePensImg from "@assets/aquaculture-pens.png?url";
-import shrimpHarvestImg from "@assets/shrimp-harvest.png?url";
-import fishermanBoatImg from "@assets/fisherman-boat.jpg?url";
-import diseaseShrimpImg from "@assets/disease-shrimp.jpg?url";
-import platformAccuracyImg from "@assets/platform-accuracy.png?url";
-import liveAnalyticsSeaImg from "@assets/live-analytics-sea.png?url";
-import aiFeedingSeaweedImg from "@assets/ai-feeding-seaweed.jpg?url";
-import traceabilityPlaceholderImg from "@assets/traceability-placeholder.png?url";
+const upcheckDeviceImg = "/attached_assets/upcheck-iot-device.png";
+const yellowDeviceImg = "/attached_assets/upcheck-yellow-device.jpg";
+const appScreenshotImg = "/attached_assets/upcheck-app-screenshot.jpg";
+const aquaculturePensImg = "/attached_assets/aquaculture-pens.png";
+const shrimpHarvestImg = "/attached_assets/shrimp-harvest.png";
+const fishermanBoatImg = "/attached_assets/fisherman-boat.jpg";
+const diseaseShrimpImg = "/attached_assets/disease-shrimp.jpg";
+const platformAccuracyImg = "/attached_assets/platform-accuracy.png";
+const liveAnalyticsSeaImg = "/attached_assets/live-analytics-sea.png";
+const aiFeedingSeaweedImg = "/attached_assets/ai-feeding-seaweed.jpg";
+const traceabilityPlaceholderImg = "/attached_assets/traceability-placeholder.png";
 import {
   Activity,
   ArrowRight,
