@@ -1,6 +1,5 @@
 import HeroSection from "@/components/HeroSection";
-import ProblemsScrollytelling from "@/components/ProblemsScrollytelling";
-import SolutionSection from "@/components/SolutionSection";
+import FeatureCards from "@/components/FeatureCards";
 import VideoSection from "@/components/VideoSection";
 import PricingSection from "@/components/PricingSection";
 import CTASection from "@/components/CTASection";
@@ -13,8 +12,7 @@ export default function Home() {
       <Navigation />
       <main>
         <HeroSection />
-        <ProblemsScrollytelling />
-        <SolutionSection />
+        <FeatureCards />
         <VideoSection />
         <PricingSection />
         <CTASection />

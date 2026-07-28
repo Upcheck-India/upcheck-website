@@ -9,7 +9,7 @@ import About from "@/pages/about";
 import Resources from "@/pages/resources";
 import Article from "@/pages/article";
 import Products from "@/pages/products";
-import Events from "@/pages/events";
+
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,8 +19,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/resources" component={Resources} />
       <Route path="/resources/:id" component={Article} />
-      <Route path="/products" component={Products} /> 
-      <Route path="/events" component={Events} /> 
+      <Route path="/products" component={Products} />
       <Route component={NotFound} />
     </Switch>
   );
