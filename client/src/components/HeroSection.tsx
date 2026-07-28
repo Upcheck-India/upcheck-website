@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, PlayCircle } from "lucide-react";
-import logoUrl from "@assets/upcheck-logo.png";
+// Logo path used directly: /attached_assets/upcheck-logo.png
 
 export default function HeroSection() {
   return (
@@ -35,7 +35,7 @@ export default function HeroSection() {
           className="flex justify-center mb-8"
         >
           <img 
-            src={logoUrl} 
+            src="/attached_assets/upcheck-logo.png" 
             alt="Upcheck Logo" 
             className="h-32 md:h-20 "
             data-testid="img-logo"
