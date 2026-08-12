@@ -9,8 +9,13 @@ import About from "@/pages/about";
 import Resources from "@/pages/resources";
 import Article from "@/pages/article";
 import Products from "@/pages/products";
+import Survey from "@/pages/survey";
 import Events from "@/pages/events";
+<<<<<<< HEAD
 import Contact from "@/pages/contact";
+=======
+
+>>>>>>> origin/main
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -20,9 +25,15 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/resources" component={Resources} />
       <Route path="/resources/:id" component={Article} />
+<<<<<<< HEAD
       <Route path="/products" component={Products} /> 
       <Route path="/events" component={Events} /> 
       <Route path="/contact" component={Contact} /> 
+=======
+      <Route path="/products" component={Products} />
+      <Route path="/participate/survey" component={Survey} />
+      <Route path="/participate/events" component={Events} />
+>>>>>>> origin/main
       <Route component={NotFound} />
     </Switch>
   );

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Check } from "lucide-react";
-// Logo path used directly: /attached_assets/upcheck-logo.png
+const logoUrl = "/attached_assets/upcheck-logo.png";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -27,7 +27,7 @@ export default function Footer() {
       <div className="container mx-auto">
         <div className="grid md:grid-cols-2 gap-12 mb-12">
           <div>
-            <img src="/attached_assets/upcheck-logo.png" alt="Upcheck" className="h-8 mb-4" data-testid="img-footer-logo" />
+            <img src={logoUrl} alt="Upcheck" className="h-8 mb-4" data-testid="img-footer-logo" />
             <p className="text-muted-foreground mb-6 max-w-md" data-testid="text-footer-desc">
               Revolutionizing aquaculture with AI-powered monitoring and insights for sustainable shrimp farming.
             </p>
