@@ -10,7 +10,7 @@ import Navigation from "@/components/Navigation";
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <Navigation />
+      <Navigation transparentOnDark={true} />
       <main>
         <HeroSection />
         <ProblemsScrollytelling />
