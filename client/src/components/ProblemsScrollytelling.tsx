@@ -178,11 +178,11 @@ export default function ProblemsScrollytelling() {
                           {problems[activeIndex].metricLabel}
                         </span>
                       </div>
-                      {problems[activeIndex].metric !== "0%" && (
-                        <div className="px-5 py-2.5 rounded-full text-xs font-black bg-red-500/20 border border-red-500/30 text-red-400 tracking-wider shadow-sm">
+                      <div className="text-right">
+                        <span className="text-3xl font-black text-[#00C9E4] tracking-tight">
                           {problems[activeIndex].metric}
-                        </div>
-                      )}
+                        </span>
+                      </div>
                     </div>
                   </motion.div>
                 </AnimatePresence>
