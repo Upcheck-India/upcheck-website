@@ -154,11 +154,7 @@ export default function Navigation({ transparentOnDark = false }: { transparentO
             </DropdownMenu>
           </div>
 
-<<<<<<< HEAD
-          <a href="/contact" className="text-sm font-medium hover-elevate px-3 py-2 rounded-md">
-=======
-          <a href="#contact" className={contactClass}>
->>>>>>> origin/main
+          <a href="/contact" className={contactClass}>
             Contact
           </a>
         </nav>
