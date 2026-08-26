@@ -1,73 +1,110 @@
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { useHover } from "@/hooks/use-hover";
 import { useState, useEffect } from "react";
+
 const logoUrl = "/attached_assets/upcheck-logo.png";
 
-export default function Navigation({ transparentOnDark = false }: { transparentOnDark?: boolean }) {
+export default function Navigation({
+  transparentOnDark = false,
+}: {
+  transparentOnDark?: boolean;
+}) {
   const { scrollY } = useScroll();
+
   const exploreHover = useHover();
   const participateHover = useHover();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(
+    null,
+  );
+
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+
     handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () =>
+      window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const isNavDark = transparentOnDark && !isScrolled;
 
   const navItemClass = `flex items-center gap-1 px-3 py-2 transition-colors ${
-    isNavDark 
-      ? "text-white hover:text-white/85 hover:bg-white/10" 
+    isNavDark
+      ? "text-white hover:text-white/85 hover:bg-white/10"
       : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
   }`;
 
   const contactClass = `text-sm font-medium hover-elevate px-3 py-2 rounded-md transition-colors ${
-    isNavDark 
-      ? "text-white hover:text-white/85 hover:bg-white/10" 
+    isNavDark
+      ? "text-white hover:text-white/85 hover:bg-white/10"
       : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
   }`;
 
   const langClass = `flex items-center gap-2 text-sm font-medium px-2 py-1 transition-colors ${
-    isNavDark 
-      ? "text-white hover:text-white/85 hover:bg-white/10" 
+    isNavDark
+      ? "text-white hover:text-white/85 hover:bg-white/10"
       : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
   }`;
 
   const mobileMenuButtonClass = `md:hidden transition-colors ${
-    isNavDark 
-      ? "text-white hover:text-white/85 hover:bg-white/10" 
+    isNavDark
+      ? "text-white hover:text-white/85 hover:bg-white/10"
       : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
   }`;
-  
+
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
-    ["hsla(var(--background), 0)", "hsla(var(--background), 0.8)"]
+    [
+      "hsla(var(--background), 0)",
+      "hsla(var(--background), 0.8)",
+    ],
   );
-  
+
   const backdropBlur = useTransform(
     scrollY,
     [0, 100],
-    ["blur(0px)", "blur(12px)"]
+    ["blur(0px)", "blur(12px)"],
   );
 
-  const logoScale = useTransform(scrollY, [0, 100], [1, 0.8]);
-  const headerPadding = useTransform(scrollY, [0, 100], ["1.5rem", "1rem"]);
+  const logoScale = useTransform(
+    scrollY,
+    [0, 100],
+    [1, 0.8],
+  );
+
+  const headerPadding = useTransform(
+    scrollY,
+    [0, 100],
+    ["1.5rem", "1rem"],
+  );
 
   return (
     <motion.header
@@ -82,12 +119,21 @@ export default function Navigation({ transparentOnDark = false }: { transparentO
       data-testid="header-navigation"
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        <motion.div style={{ scale: logoScale }} className="flex items-center gap-3">
-          <img src={logoUrl} alt="Upcheck" className="h-16 w-auto" data-testid="img-nav-logo" />
+        <motion.div
+          style={{ scale: logoScale }}
+          className="flex items-center gap-3"
+        >
+          <img
+            src={logoUrl}
+            alt="Upcheck"
+            className="h-16 w-auto"
+            data-testid="img-nav-logo"
+          />
         </motion.div>
 
         <nav className="hidden md:flex items-center gap-6">
-          <div 
+          {/* Explore */}
+          <div
             className="relative"
             onMouseEnter={exploreHover.onMouseEnter}
             onMouseLeave={exploreHover.onMouseLeave}
@@ -99,6 +145,7 @@ export default function Navigation({ transparentOnDark = false }: { transparentO
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent
                 align="start"
                 className="w-48 dropdown-content bg-background border border-border/50"
@@ -107,19 +154,28 @@ export default function Navigation({ transparentOnDark = false }: { transparentO
                 onMouseLeave={exploreHover.onMouseLeave}
               >
                 <DropdownMenuItem>
-                  <a href="/about" className="w-full">About</a>
+                  <a href="/about" className="w-full">
+                    About
+                  </a>
                 </DropdownMenuItem>
+
                 <DropdownMenuItem>
-                  <a href="/resources" className="w-full">Resources</a>
+                  <a href="/resources" className="w-full">
+                    Resources
+                  </a>
                 </DropdownMenuItem>
+
                 <DropdownMenuItem>
-                  <a href="/products" className="w-full">Products</a>
+                  <a href="/products" className="w-full">
+                    Products
+                  </a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          
-          <div 
+
+          {/* Participate */}
+          <div
             className="relative"
             onMouseEnter={participateHover.onMouseEnter}
             onMouseLeave={participateHover.onMouseLeave}
@@ -131,6 +187,7 @@ export default function Navigation({ transparentOnDark = false }: { transparentO
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent
                 align="start"
                 className="w-48 dropdown-content bg-background border border-border/50"
@@ -139,16 +196,32 @@ export default function Navigation({ transparentOnDark = false }: { transparentO
                 onMouseLeave={participateHover.onMouseLeave}
               >
                 <DropdownMenuItem>
-                  <a href="/participate/survey" className="w-full">Surveys</a>
+                  <a
+                    href="/participate/survey"
+                    className="w-full"
+                  >
+                    Surveys
+                  </a>
                 </DropdownMenuItem>
+
                 <DropdownMenuItem>
                   Polls
                 </DropdownMenuItem>
+
+                {/* Your Feedback Page */}
                 <DropdownMenuItem>
-                  Feedback
+                  <a href="/feedback" className="w-full">
+                    Feedback
+                  </a>
                 </DropdownMenuItem>
+
                 <DropdownMenuItem>
-                  <a href="/participate/events" className="w-full">Events</a>
+                  <a
+                    href="/participate/events"
+                    className="w-full"
+                  >
+                    Events
+                  </a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -160,70 +233,81 @@ export default function Navigation({ transparentOnDark = false }: { transparentO
         </nav>
 
         <div className="flex items-center gap-4">
-          <Button 
-            variant="default" 
-            className="hidden md:inline-flex relative overflow-hidden" 
+          <Button
+            variant="default"
+            className="hidden md:inline-flex relative overflow-hidden"
             data-testid="button-join"
             style={{
-              background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
-              border: "none"
+              background:
+                "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+              border: "none",
             }}
           >
             Join us
           </Button>
 
+          {/* Language Dropdown */}
           <DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button
-      variant="ghost"
-      className={langClass}
-    >
-      <svg
-        className="w-5 h-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M3.6 9h16.8M3.6 15h16.8"
-        />
-      </svg>
-      <span>English</span>
-      <ChevronDown className="w-4 h-4" />
-    </Button>
-  </DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className={langClass}
+              >
+                <svg
+                  className="w-5 h-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
 
-  <DropdownMenuContent
-    align="end"
-    className="w-32 bg-background border border-border/50"
-    style={{ backgroundColor: "white" }}
-  >
-    <DropdownMenuItem>English</DropdownMenuItem>
-    <DropdownMenuItem>தமிழ்</DropdownMenuItem>
-    <DropdownMenuItem>తెలుగు</DropdownMenuItem>
-    <DropdownMenuItem>हिन्दी</DropdownMenuItem>
-    <DropdownMenuItem>বাংলা</DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3.6 9h16.8M3.6 15h16.8"
+                  />
+                </svg>
 
+                <span>English</span>
 
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className={mobileMenuButtonClass} 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                <ChevronDown className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent
+              align="end"
+              className="w-32 bg-background border border-border/50"
+              style={{ backgroundColor: "white" }}
+            >
+              <DropdownMenuItem>English</DropdownMenuItem>
+              <DropdownMenuItem>தமிழ்</DropdownMenuItem>
+              <DropdownMenuItem>తెలుగు</DropdownMenuItem>
+              <DropdownMenuItem>हिन्दी</DropdownMenuItem>
+              <DropdownMenuItem>বাংলা</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Mobile Menu Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className={mobileMenuButtonClass}
+            onClick={() =>
+              setMobileMenuOpen(!mobileMenuOpen)
+            }
             data-testid="button-menu"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </Button>
 
           {/* Mobile Menu */}
@@ -237,58 +321,153 @@ export default function Navigation({ transparentOnDark = false }: { transparentO
                 style={{ backgroundColor: "white" }}
               >
                 <div className="container mx-auto px-6 py-4 flex flex-col gap-2">
+                  {/* Mobile Explore */}
                   <div className="flex flex-col">
                     <button
-                      onClick={() => setMobileExpanded(mobileExpanded === 'explore' ? null : 'explore')}
+                      onClick={() =>
+                        setMobileExpanded(
+                          mobileExpanded === "explore"
+                            ? null
+                            : "explore",
+                        )
+                      }
                       className="flex items-center justify-between py-2 text-sm font-medium"
                     >
                       Explore
-                      <ChevronRight className={`w-4 h-4 transition-transform ${mobileExpanded === 'explore' ? 'rotate-90' : ''}`} />
+
+                      <ChevronRight
+                        className={`w-4 h-4 transition-transform ${
+                          mobileExpanded === "explore"
+                            ? "rotate-90"
+                            : ""
+                        }`}
+                      />
                     </button>
-                    {mobileExpanded === 'explore' && (
+
+                    {mobileExpanded === "explore" && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
+                        initial={{
+                          height: 0,
+                          opacity: 0,
+                        }}
+                        animate={{
+                          height: "auto",
+                          opacity: 1,
+                        }}
+                        exit={{
+                          height: 0,
+                          opacity: 0,
+                        }}
                         className="ml-4 flex flex-col gap-2 py-2"
                       >
-                        <a href="/about" className="py-2 text-sm text-muted-foreground">About</a>
-                        <a href="/resources" className="py-2 text-sm text-muted-foreground">Resources</a>
-                        <a href="/products" className="py-2 text-sm text-muted-foreground">Products</a>
+                        <a
+                          href="/about"
+                          className="py-2 text-sm text-muted-foreground"
+                        >
+                          About
+                        </a>
+
+                        <a
+                          href="/resources"
+                          className="py-2 text-sm text-muted-foreground"
+                        >
+                          Resources
+                        </a>
+
+                        <a
+                          href="/products"
+                          className="py-2 text-sm text-muted-foreground"
+                        >
+                          Products
+                        </a>
                       </motion.div>
                     )}
                   </div>
 
+                  {/* Mobile Participate */}
                   <div className="flex flex-col">
                     <button
-                      onClick={() => setMobileExpanded(mobileExpanded === 'participate' ? null : 'participate')}
+                      onClick={() =>
+                        setMobileExpanded(
+                          mobileExpanded === "participate"
+                            ? null
+                            : "participate",
+                        )
+                      }
                       className="flex items-center justify-between py-2 text-sm font-medium"
                     >
                       Participate
-                      <ChevronRight className={`w-4 h-4 transition-transform ${mobileExpanded === 'participate' ? 'rotate-90' : ''}`} />
+
+                      <ChevronRight
+                        className={`w-4 h-4 transition-transform ${
+                          mobileExpanded === "participate"
+                            ? "rotate-90"
+                            : ""
+                        }`}
+                      />
                     </button>
-                    {mobileExpanded === 'participate' && (
+
+                    {mobileExpanded === "participate" && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
+                        initial={{
+                          height: 0,
+                          opacity: 0,
+                        }}
+                        animate={{
+                          height: "auto",
+                          opacity: 1,
+                        }}
+                        exit={{
+                          height: 0,
+                          opacity: 0,
+                        }}
                         className="ml-4 flex flex-col gap-2 py-2"
                       >
-                        <a href="/participate/survey" className="py-2 text-sm text-muted-foreground">Surveys</a>
-                        <a href="#" className="py-2 text-sm text-muted-foreground">Polls</a>
-                        <a href="#" className="py-2 text-sm text-muted-foreground">Feedback</a>
-                        <a href="/participate/events" className="py-2 text-sm text-muted-foreground">Events</a>
+                        <a
+                          href="/participate/survey"
+                          className="py-2 text-sm text-muted-foreground"
+                        >
+                          Surveys
+                        </a>
+
+                        <a
+                          href="#"
+                          className="py-2 text-sm text-muted-foreground"
+                        >
+                          Polls
+                        </a>
+
+                        {/* Your Feedback Page */}
+                        <a
+                          href="/feedback"
+                          className="py-2 text-sm text-muted-foreground"
+                        >
+                          Feedback
+                        </a>
+
+                        <a
+                          href="/participate/events"
+                          className="py-2 text-sm text-muted-foreground"
+                        >
+                          Events
+                        </a>
                       </motion.div>
                     )}
                   </div>
 
-                  <a href="/contact" className="py-2 text-sm font-medium">Contact</a>
-                  
-                  <Button 
+                  <a
+                    href="/contact"
+                    className="py-2 text-sm font-medium"
+                  >
+                    Contact
+                  </a>
+
+                  <Button
                     className="mt-2"
                     style={{
-                      background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
-                      border: "none"
+                      background:
+                        "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+                      border: "none",
                     }}
                   >
                     Join us
