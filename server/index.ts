@@ -1,9 +1,37 @@
 import express, { type Request, Response, NextFunction } from "express";
+import helmet from "helmet";
+import cors from "cors";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import clientPromise from "../lib/mongo.js";  // Import the Mongo client promise
 
 const app = express();
+app.set("trust proxy", 1);
+
+// Secure app with Helmet HTTP headers (with customized CSP for Vite dev server compatibility)
+app.use(helmet({
+  contentSecurityPolicy: process.env.NODE_ENV === "development" ? false : undefined
+}));
+
+// CORS Configuration to restrict access to trusted origins only
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const allowed = [
+      "http://localhost:4000",
+      "http://127.0.0.1:4000",
+      "http://localhost:5173",
+      "http://127.0.0.1:5173"
+    ];
+    if (allowed.includes(origin) || origin.endsWith(".gitpod.io") || origin.endsWith(".repl.co")) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

@@ -10,6 +10,7 @@ import {
 import { useHover } from "@/hooks/use-hover";
 import { useState } from "react";
 import logoUrl from "@assets/upcheck-logo.png";
+import { useLocation } from "wouter";
 
 export default function Navigation() {
   const { scrollY } = useScroll();
@@ -17,13 +18,15 @@ export default function Navigation() {
   const participateHover = useHover();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [location] = useLocation();
+  const isHome = location === "/";
   
   const backgroundColor = "hsl(var(--background))";
   
   const backdropBlur = useTransform(
     scrollY,
     [0, 100],
-    ["blur(0px)", "blur(12px)"]
+    isHome ? ["blur(0px)", "blur(12px)"] : ["blur(12px)", "blur(12px)"]
   );
 
   const logoScale = useTransform(scrollY, [0, 100], [1, 0.8]);
@@ -32,19 +35,25 @@ export default function Navigation() {
   const headerBg = useTransform(
     scrollY,
     [0, 100],
-    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.9)"]
+    isHome 
+      ? ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.9)"] 
+      : ["rgba(255, 255, 255, 0.9)", "rgba(255, 255, 255, 0.9)"]
   );
 
   const headerBorder = useTransform(
     scrollY,
     [0, 100],
-    ["rgba(255, 255, 255, 0)", "rgba(226, 232, 240, 0.8)"]
+    isHome 
+      ? ["rgba(255, 255, 255, 0)", "rgba(226, 232, 240, 0.8)"] 
+      : ["rgba(226, 232, 240, 0.8)", "rgba(226, 232, 240, 0.8)"]
   );
 
   const headerTextColor = useTransform(
     scrollY,
     [0, 100],
-    ["rgba(255, 255, 255, 1)", "rgba(15, 23, 42, 1)"]
+    isHome 
+      ? ["rgba(255, 255, 255, 1)", "rgba(15, 23, 42, 1)"] 
+      : ["rgba(15, 23, 42, 1)", "rgba(15, 23, 42, 1)"]
   );
 
   return (
@@ -122,7 +131,7 @@ export default function Navigation() {
                   Polls
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  Feedback
+                  <a href="/feedback" className="w-full">Feedback</a>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   Events
@@ -251,7 +260,7 @@ export default function Navigation() {
                       >
                         <a href="#" className="py-2 text-sm text-muted-foreground">Surveys</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Polls</a>
-                        <a href="#" className="py-2 text-sm text-muted-foreground">Feedback</a>
+                        <a href="/feedback" className="py-2 text-sm text-muted-foreground">Feedback</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Events</a>
                       </motion.div>
                     )}
