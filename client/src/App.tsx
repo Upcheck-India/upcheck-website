@@ -4,12 +4,17 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
+
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import Resources from "@/pages/resources";
 import Article from "@/pages/article";
 import Products from "@/pages/products";
 import Polls from "@/pages/polls";
+import Feedback from "@/pages/feedback";
+import Survey from "@/pages/survey";
+import Events from "@/pages/events";
+import Contact from "@/pages/contact";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,8 +24,16 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/resources" component={Resources} />
       <Route path="/resources/:id" component={Article} />
-      <Route path="/products" component={Products} /> 
+      <Route path="/products" component={Products} />
       <Route path="/polls" component={Polls} />
+
+      {/* Feedback page */}
+      <Route path="/feedback" component={Feedback} />
+
+      {/* Latest main branch pages */}
+      <Route path="/participate/survey" component={Survey} />
+      <Route path="/participate/events" component={Events} />
+      <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>
   );

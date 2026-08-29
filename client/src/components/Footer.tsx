@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Check } from "lucide-react";
-import logoUrl from "@assets/upcheck-logo.png";
+const logoUrl = "/attached_assets/upcheck-logo.png";
 
 export default function Footer() {
   const [email, setEmail] = useState("");

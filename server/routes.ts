@@ -2,6 +2,45 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { ObjectId, GridFSBucket } from "mongodb";
 import clientPromise from "../lib/mongo"; // import MongoDB clientPromise
+import rateLimit from "express-rate-limit";
+import { z } from "zod";
+
+// Rate limiting middleware to prevent spam on feedback submission
+const feedbackRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 feedback submissions per 15 minutes
+  message: {
+    error: "Too many feedback submissions from this IP. Please try again after 15 minutes."
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Zod Validation Schema for request validation
+const feedbackSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name is too long"),
+  email: z.string().email("Invalid email address").max(100, "Email is too long"),
+  farmName: z.string().max(100, "Farm name is too long").optional().or(z.literal("")),
+  location: z.string().max(100, "Location is too long").optional().or(z.literal("")),
+  rating: z.preprocess((val) => Number(val), z.number().int().min(1, "Rating must be between 1 and 5").max(5, "Rating must be between 1 and 5")),
+  feedback: z.string().min(1, "Feedback message is required").max(2000, "Feedback is too long"),
+});
+
+// HTML Input Sanitizer & XSS Protection helper function
+function sanitizeInput(str: string): string {
+  if (typeof str !== "string") return str;
+  // Strip HTML tag syntax
+  let cleaned = str.replace(/<[^>]*>/g, "");
+  // Escape HTML entities to prevent execution
+  cleaned = cleaned
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;")
+    .replace(/\//g, "&#x2F;");
+  return cleaned.trim();
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register GET /api/posts route
@@ -54,6 +93,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (e) {
       console.error(e);
       return res.status(500).json({ error: "Failed to fetch post" });
+    }
+  });
+
+  // Register POST /api/feedback route with security middleware
+  app.post("/api/feedback", feedbackRateLimiter, async (req, res) => {
+    try {
+      // 1. Request Structure & Type Validation
+      const parseResult = feedbackSchema.safeParse(req.body);
+      if (!parseResult.success) {
+        return res.status(400).json({
+          error: "Validation failed",
+          details: parseResult.error.flatten().fieldErrors
+        });
+      }
+
+      const validatedData = parseResult.data;
+
+      // 2. Input Sanitization & XSS Protection
+      const sanitizedName = sanitizeInput(validatedData.name);
+      const sanitizedEmail = sanitizeInput(validatedData.email);
+      const sanitizedFarmName = validatedData.farmName ? sanitizeInput(validatedData.farmName) : "";
+      const sanitizedLocation = validatedData.location ? sanitizeInput(validatedData.location) : "";
+      const sanitizedFeedback = sanitizeInput(validatedData.feedback);
+
+      console.log("Sanitized feedback received:", { 
+        name: sanitizedName, 
+        email: sanitizedEmail, 
+        farmName: sanitizedFarmName, 
+        location: sanitizedLocation, 
+        rating: validatedData.rating, 
+        feedback: sanitizedFeedback 
+      });
+
+      const client = await clientPromise;
+      const db = client.db("resources");
+
+      const result = await db.collection("feedback").insertOne({
+        name: sanitizedName,
+        email: sanitizedEmail,
+        farmName: sanitizedFarmName,
+        location: sanitizedLocation,
+        rating: validatedData.rating,
+        feedback: sanitizedFeedback,
+        createdAt: new Date()
+      });
+
+      res.status(201).json({ success: true, id: result.insertedId });
+    } catch (e) {
+      console.error("Failed to save feedback securely:", e);
+      // Secure error handling to avoid leaking database/system internals
+      res.status(500).json({ error: "An unexpected error occurred while saving your feedback. Please try again." });
     }
   });
 
