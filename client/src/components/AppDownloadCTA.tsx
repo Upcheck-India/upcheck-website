@@ -11,19 +11,30 @@ export default function AppDownloadCTA() {
   return (
     <section 
       ref={ref} 
-  className="py-20 px-6 bg-site-gradient bg-gradient-to-r from-[hsl(194,100%,43%)] to-[hsl(197,100%,36%)] text-white" 
+      className="relative py-20 px-6 bg-site-gradient bg-gradient-to-r from-[hsl(194,100%,43%)] to-[hsl(197,100%,36%)] text-white overflow-hidden" 
       data-testid="section-app-download"
     >
-      <div className="container mx-auto text-center">
+      {/* Subtle dark overlay for premium readability of white text */}
+      <div className="absolute inset-0 bg-slate-900/35 z-0 pointer-events-none" />
+
+      <div className="container mx-auto text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4" data-testid="text-app-download-title">
+          <h2 
+            className="text-3xl md:text-5xl font-bold mb-4 text-white" 
+            style={{ textShadow: "0 2px 4px rgba(0,0,0,0.15)" }}
+            data-testid="text-app-download-title"
+          >
             Download the UpCheck App
           </h2>
-          <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto" data-testid="text-app-download-subtitle">
+          <p 
+            className="text-lg mb-8 opacity-100 max-w-2xl mx-auto text-white" 
+            style={{ textShadow: "0 1px 2px rgba(0,0,0,0.15)" }}
+            data-testid="text-app-download-subtitle"
+          >
             Experience the future of shrimp farming. Our app is currently in development, but stay tuned!
           </p>
 

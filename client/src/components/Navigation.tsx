@@ -11,7 +11,7 @@ import { useHover } from "@/hooks/use-hover";
 import { useState } from "react";
 import logoUrl from "@assets/upcheck-logo.png";
 
-export default function Navigation() {
+export default function Navigation({ isLightHero = false }: { isLightHero?: boolean }) {
   const { scrollY } = useScroll();
   const exploreHover = useHover();
   const participateHover = useHover();
@@ -41,10 +41,14 @@ export default function Navigation() {
     ["rgba(255, 255, 255, 0)", "rgba(226, 232, 240, 0.8)"]
   );
 
+  const textColors = isLightHero
+    ? ["rgba(15, 23, 42, 1)", "rgba(15, 23, 42, 1)"]
+    : ["rgba(255, 255, 255, 1)", "rgba(15, 23, 42, 1)"];
+
   const headerTextColor = useTransform(
     scrollY,
     [0, 100],
-    ["rgba(255, 255, 255, 1)", "rgba(15, 23, 42, 1)"]
+    textColors
   );
 
   return (
@@ -119,7 +123,7 @@ export default function Navigation() {
                   Surveys
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  Polls
+                  <a href="/polls" className="w-full">Polls</a>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   Feedback
@@ -250,7 +254,7 @@ export default function Navigation() {
                         className="ml-4 flex flex-col gap-2 py-2"
                       >
                         <a href="#" className="py-2 text-sm text-muted-foreground">Surveys</a>
-                        <a href="#" className="py-2 text-sm text-muted-foreground">Polls</a>
+                        <a href="/polls" className="py-2 text-sm text-muted-foreground">Polls</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Feedback</a>
                         <a href="#" className="py-2 text-sm text-muted-foreground">Events</a>
                       </motion.div>
