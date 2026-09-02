@@ -21,8 +21,10 @@ import { useState, useEffect } from "react";
 const logoUrl = "/attached_assets/upcheck-logo.png";
 
 export default function Navigation({
+  isLightHero = false,
   transparentOnDark = false,
 }: {
+  isLightHero?: boolean;
   transparentOnDark?: boolean;
 }) {
   const { scrollY } = useScroll();
@@ -104,6 +106,16 @@ export default function Navigation({
     scrollY,
     [0, 100],
     ["1.5rem", "1rem"],
+  );
+
+  const textColors = isLightHero
+    ? ["rgba(15, 23, 42, 1)", "rgba(15, 23, 42, 1)"]
+    : ["rgba(255, 255, 255, 1)", "rgba(15, 23, 42, 1)"];
+
+  const headerTextColor = useTransform(
+    scrollY,
+    [0, 100],
+    textColors
   );
 
   return (
@@ -205,7 +217,7 @@ export default function Navigation({
                 </DropdownMenuItem>
 
                 <DropdownMenuItem>
-                  Polls
+                  <a href="/polls" className="w-full">Polls</a>
                 </DropdownMenuItem>
 
                 {/* Your Feedback Page */}
@@ -431,7 +443,7 @@ export default function Navigation({
                         </a>
 
                         <a
-                          href="#"
+                          href="/polls"
                           className="py-2 text-sm text-muted-foreground"
                         >
                           Polls
