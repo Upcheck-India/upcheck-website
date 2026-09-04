@@ -8,19 +8,19 @@ const values = [
     icon: Sprout,
     title: "Sustainability",
     description: "We promote sustainable practices to ensure long-term environmental benefits.",
-    color: "text-green-500"
+    color: "text-blue-600"
   },
   {
     icon: Zap,
     title: "Empowerment",
     description: "We empower farmers with actionable data and tools for better decision-making.",
-    color: "text-amber-500"
+    color: "text-blue-600"
   },
   {
     icon: DollarSign,
     title: "Affordability",
     description: "We offer solutions that are accessible and affordable for all farmers.",
-    color: "text-orange-500"
+    color: "text-blue-600"
   }
 ];
 
@@ -56,21 +56,11 @@ export default function ValuesSection() {
               data-testid={`card-value-${i}`}
             >
               <Card className="p-8 h-full hover-elevate active-elevate-2 overflow-visible">
-                <motion.div
-                  animate={{ 
-                    rotate: [0, 10, -10, 0],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="mb-6"
-                >
+                <div className="mb-6">
                   <div className={`w-16 h-16 rounded-md bg-primary/10 flex items-center justify-center ${value.color}`}>
                     <value.icon className="w-8 h-8" data-testid={`icon-value-${i}`} />
                   </div>
-                </motion.div>
+                </div>
                 
                 <h3 className="text-xl font-bold mb-3" data-testid={`text-value-title-${i}`}>
                   {value.title}

@@ -1,5 +1,4 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import express from "express";
+import express, { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import { MongoClient, GridFSBucket } from "mongodb";
 
@@ -25,21 +24,46 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+let cachedPosts: any[] | null = null;
+let lastFetchTime = 0;
+const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
 // GET /api/posts
 app.get("/api/posts", async (req, res) => {
-  try {
-    const client = await getClientPromise();
-    const db = client.db("resources");
-    const posts = await db
-      .collection("website-resource")
-      .find({})
-      .sort({ publishedAt: -1 })
-      .toArray();
-    res.json(posts);
-  } catch (e) {
-    console.error("Failed to fetch posts:", e);
-    res.status(500).json({ error: "Failed to fetch posts" });
+  const now = Date.now();
+  if (cachedPosts && now - lastFetchTime < CACHE_TTL_MS) {
+    return res.json(cachedPosts);
   }
+
+  try {
+    const fetchPromise = (async () => {
+      const client = await getClientPromise();
+      const db = client.db("resources");
+      return await db
+        .collection("website-resource")
+        .find({})
+        .sort({ publishedAt: -1 })
+        .toArray();
+    })();
+
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Timeout")), 2500)
+    );
+
+    const posts = await Promise.race([fetchPromise, timeoutPromise]);
+    if (posts && Array.isArray(posts) && posts.length > 0) {
+      cachedPosts = posts;
+      lastFetchTime = now;
+      return res.json(cachedPosts);
+    }
+  } catch (e) {
+    console.error("Failed to fetch posts or timed out:", e);
+  }
+
+  if (cachedPosts) {
+    return res.json(cachedPosts);
+  }
+  res.status(500).json({ error: "Failed to fetch posts" });
 });
 
 // GET /api/posts/:id
@@ -117,6 +141,6 @@ app.get("/api/media/:id", async (req, res) => {
   }
 });
 
-export default function handler(req: VercelRequest, res: VercelResponse) {
+export default function handler(req: Request, res: Response) {
   return app(req as any, res as any);
 }

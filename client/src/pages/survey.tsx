@@ -202,33 +202,18 @@ export default function Survey() {
     mouseY.set(0);
   }
 
-  // Cinematic Perspective Variants (from previous turn instruction details)
-  const cinematicTitleVariants = {
+  // Smooth, refined title entrance animation
+  const titleVariants = {
     hidden: {
-      rotateX: 65,
-      rotateY: -18,
-      x: -220,
-      y: 160,
-      z: -900,
-      scale: 2.2,
       opacity: 0,
-      filter: "blur(18px)",
+      y: 24,
     },
     visible: {
-      rotateX: 0,
-      rotateY: 0,
-      x: 0,
-      y: 0,
-      z: 0,
-      scale: 1,
       opacity: 1,
-      filter: "blur(0px)",
+      y: 0,
       transition: {
-        type: "spring",
-        stiffness: 85,
-        damping: 18,
-        mass: 1.1,
-        duration: 1.8,
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1],
       },
     },
   };
@@ -367,8 +352,8 @@ export default function Survey() {
               </Badge>
 
               <motion.h1
-                variants={cinematicTitleVariants}
-                className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight origin-bottom-left select-none"
+                variants={titleVariants}
+                className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight select-none"
                 style={{
                   background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
                   WebkitBackgroundClip: "text",

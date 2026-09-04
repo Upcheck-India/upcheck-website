@@ -32,30 +32,34 @@ export default function AppDownloadCTA() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 gap-2"
-                data-testid="button-download-android"
-              >
-                <SiAndroid className="w-5 h-5" />
-                Download for Android
-              </Button>
+              <a href="/download">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 gap-2 cursor-pointer"
+                  data-testid="button-download-android"
+                >
+                  <SiAndroid className="w-5 h-5" />
+                  Download for Android
+                </Button>
+              </a>
             </motion.div>
             
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 gap-2"
-                data-testid="button-download-ios"
-              >
-                <SiApple className="w-5 h-5" />
-                Download for iOS
-              </Button>
+              <a href="/download">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 gap-2 cursor-pointer"
+                  data-testid="button-download-ios"
+                >
+                  <SiApple className="w-5 h-5" />
+                  Download for iOS
+                </Button>
+              </a>
             </motion.div>
           </div>
         </motion.div>
