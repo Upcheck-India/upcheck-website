@@ -82,18 +82,20 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.5 }}
           >
-            <Button 
-              size="lg" 
-              className="gap-2 relative overflow-hidden"
-              data-testid="button-download-app"
-              style={{
-                background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
-                border: "none"
-              }}
-            >
-              <Download className="w-5 h-5" />
-              Download App
-            </Button>
+            <a href="/download">
+              <Button 
+                size="lg" 
+                className="gap-2 relative overflow-hidden shadow-lg shadow-cyan-500/20 hover:scale-105 active:scale-95 transition-all duration-300"
+                data-testid="button-download-app"
+                style={{
+                  background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+                  border: "none"
+                }}
+              >
+                <Download className="w-5 h-5" />
+                Download App
+              </Button>
+            </a>
           </motion.div>
           
           <motion.div

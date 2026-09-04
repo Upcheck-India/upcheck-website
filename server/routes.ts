@@ -42,21 +42,56 @@ function sanitizeInput(str: string): string {
   return cleaned.trim();
 }
 
+import localPosts from "../client/src/pages/posts.json";
+
+let cachedPosts: any[] | null = null;
+let lastFetchTime = 0;
+const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
+async function getPostsWithCache(): Promise<any[]> {
+  const now = Date.now();
+  if (cachedPosts && now - lastFetchTime < CACHE_TTL_MS) {
+    return cachedPosts;
+  }
+
+  try {
+    // 2.5 second timeout so user never waits for slow MongoDB connection
+    const fetchPromise = (async () => {
+      const client = await clientPromise;
+      const db = client.db("resources");
+      return await db
+        .collection("website-resource")
+        .find({})
+        .sort({ publishedAt: -1 })
+        .toArray();
+    })();
+
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("MongoDB query timeout")), 2500)
+    );
+
+    const posts = await Promise.race([fetchPromise, timeoutPromise]);
+    if (posts && Array.isArray(posts) && posts.length > 0) {
+      cachedPosts = posts;
+      lastFetchTime = now;
+      return cachedPosts;
+    }
+  } catch (err) {
+    console.warn("MongoDB fetch failed or timed out, serving fast cached/local posts:", err);
+  }
+
+  return cachedPosts || (localPosts as any[]);
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register GET /api/posts route
   app.get("/api/posts", async (req, res) => {
     try {
-      const client = await clientPromise;
-      const db = client.db("resources");
-      const posts = await db
-        .collection("website-resource")
-        .find({})
-        .sort({ publishedAt: -1 }) // newest first
-        .toArray();
+      const posts = await getPostsWithCache();
       res.json(posts);
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: "Failed to fetch posts" });
+      res.json(localPosts);
     }
   });
 

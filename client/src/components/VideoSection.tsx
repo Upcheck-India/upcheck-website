@@ -29,9 +29,9 @@ export default function VideoSection() {
   const subtitleOpacity = useTransform(smoothProgress, [0.1, 0.5], [0, 1]);
 
   return (
-    <section ref={sectionRef} className="py-20 px-6 relative" style={{ background: "linear-gradient(180deg, #e0f2fe 0%, #ffffff 100%)" }} data-testid="section-video">
+    <section ref={sectionRef} className="py-10 md:py-14 px-6 relative" style={{ background: "linear-gradient(180deg, #e0f2fe 0%, #ffffff 100%)" }} data-testid="section-video">
       <div className="container mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-10">
           <motion.h2 
             style={{ 
               y: titleY,

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Check } from "lucide-react";
+import { Link } from "wouter";
 const logoUrl = "/attached_assets/upcheck-logo.png";
 
 export default function Footer() {
@@ -27,7 +28,9 @@ export default function Footer() {
       <div className="container mx-auto">
         <div className="grid md:grid-cols-2 gap-12 mb-12">
           <div>
-            <img src={logoUrl} alt="Upcheck" className="h-8 mb-4" data-testid="img-footer-logo" />
+            <Link href="/" className="inline-block cursor-pointer hover:opacity-90 transition-opacity">
+              <img src={logoUrl} alt="Upcheck" className="h-8 mb-4" data-testid="img-footer-logo" />
+            </Link>
             <p className="text-muted-foreground mb-6 max-w-md" data-testid="text-footer-desc">
               Revolutionizing aquaculture with AI-powered monitoring and insights for sustainable shrimp farming.
             </p>
@@ -99,7 +102,8 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-3" data-testid="text-footer-product">Product</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-features-footer">Features</a></li>
+              <li><a href="/products" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-features-footer">Products</a></li>
+              <li><a href="/download" className="hover-elevate inline-block px-2 py-1 rounded text-primary font-medium" data-testid="link-app-download-footer">Mobile App (Download)</a></li>
               <li><a href="#" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-pricing-footer">Pricing</a></li>
               <li><a href="#" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-integrations">Integrations</a></li>
             </ul>

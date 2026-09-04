@@ -43,7 +43,7 @@ export default function CTASection() {
             <div className="flex flex-wrap gap-4 items-center">
               {/* Premium Android App Download Button */}
               <a 
-                href="#download-android" 
+                href="/download" 
                 className="inline-flex items-center gap-3 bg-white hover:bg-slate-50 text-slate-800 px-6 h-14 rounded-xl shadow-md transition-all duration-300 hover:scale-[1.03]"
                 data-testid="button-cta-android-download"
               >

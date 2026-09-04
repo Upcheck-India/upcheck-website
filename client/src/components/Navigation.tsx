@@ -17,7 +17,8 @@ import {
 
 import { useHover } from "@/hooks/use-hover";
 import { useState, useEffect } from "react";
-
+import { Link } from "wouter";
+import { useLanguage, LANGUAGES } from "@/context/LanguageContext";
 const logoUrl = "/attached_assets/upcheck-logo.png";
 
 export default function Navigation({
@@ -28,21 +29,17 @@ export default function Navigation({
   transparentOnDark?: boolean;
 }) {
   const { scrollY } = useScroll();
-
+  const { language, setLanguage, t, currentLanguageOption } = useLanguage();
   const exploreHover = useHover();
   const participateHover = useHover();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const [mobileExpanded, setMobileExpanded] = useState<string | null>(
-    null,
-  );
-
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 30);
     };
 
     handleScroll();
@@ -51,215 +48,151 @@ export default function Navigation({
       passive: true,
     });
 
-    return () =>
-      window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const isNavDark = transparentOnDark && !isScrolled;
 
-  const navItemClass = `flex items-center gap-1 px-3 py-2 transition-colors ${
-    isNavDark
-      ? "text-white hover:text-white/85 hover:bg-white/10"
-      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  const navItemClass = `flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium focus-visible:ring-0 focus-visible:outline-none focus:outline-none focus:ring-0 transition-all duration-200 ${
+    isNavDark 
+      ? "text-white hover:text-cyan-200 hover:bg-white/15" 
+      : "text-slate-700 hover:text-[#0067B1] hover:bg-slate-100/80"
   }`;
 
-  const contactClass = `text-sm font-medium hover-elevate px-3 py-2 rounded-md transition-colors ${
-    isNavDark
-      ? "text-white hover:text-white/85 hover:bg-white/10"
-      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  const contactClass = `text-sm font-medium px-3 py-1.5 rounded-xl focus-visible:ring-0 focus-visible:outline-none focus:outline-none focus:ring-0 transition-all duration-200 ${
+    isNavDark 
+      ? "text-white hover:text-cyan-200 hover:bg-white/15" 
+      : "text-slate-700 hover:text-[#0067B1] hover:bg-slate-100/80"
   }`;
 
-  const langClass = `flex items-center gap-2 text-sm font-medium px-2 py-1 transition-colors ${
-    isNavDark
-      ? "text-white hover:text-white/85 hover:bg-white/10"
-      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  const langClass = `flex items-center gap-2 text-sm font-medium px-3 py-1.5 rounded-xl focus-visible:ring-0 focus-visible:outline-none focus:outline-none focus:ring-0 transition-all duration-200 ${
+    isNavDark 
+      ? "text-white hover:text-cyan-200 hover:bg-white/15" 
+      : "text-slate-700 hover:text-[#0067B1] hover:bg-slate-100/80"
   }`;
 
-  const mobileMenuButtonClass = `md:hidden transition-colors ${
-    isNavDark
-      ? "text-white hover:text-white/85 hover:bg-white/10"
-      : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+  const mobileMenuButtonClass = `md:hidden p-2 rounded-xl focus-visible:ring-0 focus-visible:outline-none focus:outline-none transition-all duration-200 ${
+    isNavDark 
+      ? "text-white hover:text-cyan-200 hover:bg-white/15" 
+      : "text-slate-700 hover:text-[#0067B1] hover:bg-slate-100/80"
   }`;
-
-  const backgroundColor = useTransform(
-    scrollY,
-    [0, 100],
-    [
-      "hsla(var(--background), 0)",
-      "hsla(var(--background), 0.8)",
-    ],
-  );
-
-  const backdropBlur = useTransform(
-    scrollY,
-    [0, 100],
-    ["blur(0px)", "blur(12px)"],
-  );
-
-  const logoScale = useTransform(
-    scrollY,
-    [0, 100],
-    [1, 0.8],
-  );
-
-  const headerPadding = useTransform(
-    scrollY,
-    [0, 100],
-    ["1.5rem", "1rem"],
-  );
-
-  const textColors = isLightHero
-    ? ["rgba(15, 23, 42, 1)", "rgba(15, 23, 42, 1)"]
-    : ["rgba(255, 255, 255, 1)", "rgba(15, 23, 42, 1)"];
-
-  const headerTextColor = useTransform(
-    scrollY,
-    [0, 100],
-    textColors
-  );
+  
+  const logoScale = useTransform(scrollY, [0, 80], [1, 0.85]);
+  const headerPadding = useTransform(scrollY, [0, 80], ["1.25rem", "0.75rem"]);
 
   return (
     <motion.header
       style={{
-        backgroundColor,
-        backdropFilter: backdropBlur,
-        WebkitBackdropFilter: backdropBlur,
         paddingTop: headerPadding,
         paddingBottom: headerPadding,
       }}
-      className="fixed top-0 left-0 right-0 z-50 border-b border-border/50"
+      className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,box-shadow] duration-300 ${
+        isNavDark 
+          ? "bg-transparent border-b border-transparent" 
+          : "bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-md border-b border-slate-200/90 dark:border-slate-800"
+      }`}
       data-testid="header-navigation"
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        <motion.div
-          style={{ scale: logoScale }}
-          className="flex items-center gap-3"
-        >
-          <img
-            src={logoUrl}
-            alt="Upcheck"
-            className="h-16 w-auto"
-            data-testid="img-nav-logo"
-          />
+        <motion.div style={{ scale: logoScale }} className="flex items-center gap-3">
+          <Link href="/" className="cursor-pointer flex items-center gap-3 hover:opacity-90 transition-opacity" data-testid="link-nav-logo">
+            <img src={logoUrl} alt="Upcheck" className="h-16 w-auto" data-testid="img-nav-logo" />
+          </Link>
         </motion.div>
 
         <nav className="hidden md:flex items-center gap-6">
           {/* Explore */}
-          <div
+          <div 
             className="relative"
             onMouseEnter={exploreHover.onMouseEnter}
             onMouseLeave={exploreHover.onMouseLeave}
           >
-            <DropdownMenu open={exploreHover.isOpen}>
+            <DropdownMenu open={exploreHover.isOpen} modal={false} onOpenChange={(open) => { if (!open) exploreHover.onMouseLeave(); }}>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className={navItemClass}>
                   Explore
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
-
               <DropdownMenuContent
                 align="start"
-                className="w-48 dropdown-content bg-background border border-border/50"
-                style={{ backgroundColor: "white" }}
+                className="w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-2xl p-1.5 z-50"
                 onMouseEnter={exploreHover.onMouseEnter}
                 onMouseLeave={exploreHover.onMouseLeave}
               >
-                <DropdownMenuItem>
-                  <a href="/about" className="w-full">
-                    About
-                  </a>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
+                  <Link href="/about" className="w-full text-inherit">About</Link>
                 </DropdownMenuItem>
-
-                <DropdownMenuItem>
-                  <a href="/resources" className="w-full">
-                    Resources
-                  </a>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
+                  <Link href="/resources" className="w-full text-inherit">Resources</Link>
                 </DropdownMenuItem>
-
-                <DropdownMenuItem>
-                  <a href="/products" className="w-full">
-                    Products
-                  </a>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
+                  <Link href="/products" className="w-full text-inherit">Products</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-[#0067B1] hover:bg-cyan-50 dark:hover:bg-cyan-950/40 focus:bg-cyan-50 focus:text-[#0067B1] transition-colors">
+                  <Link href="/download" className="w-full flex items-center justify-between text-inherit">
+                    <span>Download App</span>
+                    <span className="text-[10px] bg-[#00C9E4]/20 text-[#0067B1] px-2 py-0.5 rounded-full font-bold">New</span>
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-
+          
           {/* Participate */}
-          <div
+          <div 
             className="relative"
             onMouseEnter={participateHover.onMouseEnter}
             onMouseLeave={participateHover.onMouseLeave}
           >
-            <DropdownMenu open={participateHover.isOpen}>
+            <DropdownMenu open={participateHover.isOpen} modal={false} onOpenChange={(open) => { if (!open) participateHover.onMouseLeave(); }}>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className={navItemClass}>
                   Participate
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
-
               <DropdownMenuContent
                 align="start"
-                className="w-48 dropdown-content bg-background border border-border/50"
-                style={{ backgroundColor: "white" }}
+                className="w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-2xl p-1.5 z-50"
                 onMouseEnter={participateHover.onMouseEnter}
                 onMouseLeave={participateHover.onMouseLeave}
               >
-                <DropdownMenuItem>
-                  <a
-                    href="/participate/survey"
-                    className="w-full"
-                  >
-                    Surveys
-                  </a>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
+                  <Link href="/participate/survey" className="w-full text-inherit">Surveys</Link>
                 </DropdownMenuItem>
-
-                <DropdownMenuItem>
-                  <a href="/polls" className="w-full">Polls</a>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
+                  <Link href="/polls" className="w-full text-inherit">Polls</Link>
                 </DropdownMenuItem>
-
-                {/* Your Feedback Page */}
-                <DropdownMenuItem>
-                  <a href="/feedback" className="w-full">
-                    Feedback
-                  </a>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
+                  <Link href="/feedback" className="w-full text-inherit">Feedback</Link>
                 </DropdownMenuItem>
-
-                <DropdownMenuItem>
-                  <a
-                    href="/participate/events"
-                    className="w-full"
-                  >
-                    Events
-                  </a>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
+                  <Link href="/participate/events" className="w-full text-inherit">Events</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
 
-          <a href="/contact" className={contactClass}>
+          <Link href="/contact" className={contactClass}>
             Contact
-          </a>
+          </Link>
         </nav>
 
         <div className="flex items-center gap-4">
-          <Button
-            variant="default"
-            className="hidden md:inline-flex relative overflow-hidden"
+          <Button 
+            variant="default" 
+            className="hidden md:inline-flex relative overflow-hidden font-medium" 
             data-testid="button-join"
             style={{
-              background:
-                "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
-              border: "none",
+              background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+              border: "none"
             }}
           >
             Join us
           </Button>
 
-          {/* Language Dropdown */}
-          <DropdownMenu>
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
@@ -277,7 +210,6 @@ export default function Navigation({
                     strokeWidth={2}
                     d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
-
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -285,41 +217,43 @@ export default function Navigation({
                     d="M3.6 9h16.8M3.6 15h16.8"
                   />
                 </svg>
-
-                <span>English</span>
-
+                <span>{currentLanguageOption.nativeLabel}</span>
                 <ChevronDown className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent
               align="end"
-              className="w-32 bg-background border border-border/50"
-              style={{ backgroundColor: "white" }}
+              className="w-40 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-2xl p-1.5 z-50"
             >
-              <DropdownMenuItem>English</DropdownMenuItem>
-              <DropdownMenuItem>தமிழ்</DropdownMenuItem>
-              <DropdownMenuItem>తెలుగు</DropdownMenuItem>
-              <DropdownMenuItem>हिन्दी</DropdownMenuItem>
-              <DropdownMenuItem>বাংলা</DropdownMenuItem>
+              {LANGUAGES.map((lang) => (
+                <DropdownMenuItem
+                  key={lang.code}
+                  onClick={() => setLanguage(lang.code)}
+                  className={`cursor-pointer rounded-xl px-3 py-2 text-sm font-medium transition-colors flex items-center justify-between ${
+                    language === lang.code
+                      ? "bg-cyan-50 dark:bg-cyan-950/50 text-[#0067B1] font-bold"
+                      : "text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100"
+                  }`}
+                >
+                  <span>{lang.nativeLabel}</span>
+                  {language === lang.code && (
+                    <span className="w-2 h-2 rounded-full bg-[#00C9E4]" />
+                  )}
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
 
           {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className={mobileMenuButtonClass}
-            onClick={() =>
-              setMobileMenuOpen(!mobileMenuOpen)
-            }
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className={mobileMenuButtonClass} 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             data-testid="button-menu"
           >
-            {mobileMenuOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
 
           {/* Mobile Menu */}
@@ -333,156 +267,65 @@ export default function Navigation({
                 style={{ backgroundColor: "white" }}
               >
                 <div className="container mx-auto px-6 py-4 flex flex-col gap-2">
-                  {/* Mobile Explore */}
                   <div className="flex flex-col">
                     <button
-                      onClick={() =>
-                        setMobileExpanded(
-                          mobileExpanded === "explore"
-                            ? null
-                            : "explore",
-                        )
-                      }
+                      onClick={() => setMobileExpanded(mobileExpanded === 'explore' ? null : 'explore')}
                       className="flex items-center justify-between py-2 text-sm font-medium"
                     >
-                      Explore
-
-                      <ChevronRight
-                        className={`w-4 h-4 transition-transform ${
-                          mobileExpanded === "explore"
-                            ? "rotate-90"
-                            : ""
-                        }`}
-                      />
+                      {t("nav.solutions", "Explore")}
+                      <ChevronRight className={`w-4 h-4 transition-transform ${mobileExpanded === 'explore' ? 'rotate-90' : ''}`} />
                     </button>
-
-                    {mobileExpanded === "explore" && (
+                    {mobileExpanded === 'explore' && (
                       <motion.div
-                        initial={{
-                          height: 0,
-                          opacity: 0,
-                        }}
-                        animate={{
-                          height: "auto",
-                          opacity: 1,
-                        }}
-                        exit={{
-                          height: 0,
-                          opacity: 0,
-                        }}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
                         className="ml-4 flex flex-col gap-2 py-2"
                       >
-                        <a
-                          href="/about"
-                          className="py-2 text-sm text-muted-foreground"
-                        >
-                          About
-                        </a>
-
-                        <a
-                          href="/resources"
-                          className="py-2 text-sm text-muted-foreground"
-                        >
-                          Resources
-                        </a>
-
-                        <a
-                          href="/products"
-                          className="py-2 text-sm text-muted-foreground"
-                        >
-                          Products
-                        </a>
+                        <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.about", "About")}</Link>
+                        <Link href="/resources" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.resources", "Resources")}</Link>
+                        <Link href="/products" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.products", "Products")}</Link>
+                        <Link href="/download" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm font-semibold text-[#0067B1] flex items-center justify-between">
+                          <span>{t("nav.download", "Download App")}</span>
+                          <span className="text-[10px] bg-[#00C9E4]/20 text-[#0067B1] px-1.5 py-0.5 rounded-full font-semibold">New</span>
+                        </Link>
                       </motion.div>
                     )}
                   </div>
 
-                  {/* Mobile Participate */}
                   <div className="flex flex-col">
                     <button
-                      onClick={() =>
-                        setMobileExpanded(
-                          mobileExpanded === "participate"
-                            ? null
-                            : "participate",
-                        )
-                      }
+                      onClick={() => setMobileExpanded(mobileExpanded === 'participate' ? null : 'participate')}
                       className="flex items-center justify-between py-2 text-sm font-medium"
                     >
-                      Participate
-
-                      <ChevronRight
-                        className={`w-4 h-4 transition-transform ${
-                          mobileExpanded === "participate"
-                            ? "rotate-90"
-                            : ""
-                        }`}
-                      />
+                      {t("nav.participate", "Participate")}
+                      <ChevronRight className={`w-4 h-4 transition-transform ${mobileExpanded === 'participate' ? 'rotate-90' : ''}`} />
                     </button>
-
-                    {mobileExpanded === "participate" && (
+                    {mobileExpanded === 'participate' && (
                       <motion.div
-                        initial={{
-                          height: 0,
-                          opacity: 0,
-                        }}
-                        animate={{
-                          height: "auto",
-                          opacity: 1,
-                        }}
-                        exit={{
-                          height: 0,
-                          opacity: 0,
-                        }}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
                         className="ml-4 flex flex-col gap-2 py-2"
                       >
-                        <a
-                          href="/participate/survey"
-                          className="py-2 text-sm text-muted-foreground"
-                        >
-                          Surveys
-                        </a>
-
-                        <a
-                          href="/polls"
-                          className="py-2 text-sm text-muted-foreground"
-                        >
-                          Polls
-                        </a>
-
-                        {/* Your Feedback Page */}
-                        <a
-                          href="/feedback"
-                          className="py-2 text-sm text-muted-foreground"
-                        >
-                          Feedback
-                        </a>
-
-                        <a
-                          href="/participate/events"
-                          className="py-2 text-sm text-muted-foreground"
-                        >
-                          Events
-                        </a>
+                        <Link href="/participate/survey" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.survey", "Surveys")}</Link>
+                        <Link href="/polls" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.polls", "Polls")}</Link>
+                        <Link href="/feedback" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.feedback", "Feedback")}</Link>
+                        <Link href="/participate/events" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.events", "Events")}</Link>
                       </motion.div>
                     )}
                   </div>
 
-                  <a
-                    href="/contact"
-                    className="py-2 text-sm font-medium"
-                  >
-                    Contact
-                  </a>
-
-                  <Button
+                  <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm font-medium">{t("nav.contact", "Contact")}</Link>
+                  
+                  <Button 
                     className="mt-2"
                     style={{
-                      background:
-                        "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
-                      border: "none",
+                      background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+                      border: "none"
                     }}
                   >
-                    Join us
+                    {t("common.getStarted", "Join us")}
                   </Button>
                 </div>
               </motion.div>
