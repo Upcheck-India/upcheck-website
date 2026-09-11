@@ -1,741 +1,460 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 import {
   Calendar,
   Clock,
   MapPin,
-  Search,
-  BookOpen,
-  Users,
-  TrendingUp,
-  Award,
-  CheckCircle,
-  HelpCircle,
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
   Sparkles,
+  ChevronDown,
+  ArrowRight,
+  Trophy,
+  ExternalLink,
 } from "lucide-react";
 
-// Upcoming Program Interface
-interface Program {
-  id: string;
-  title: string;
-  type: "Webinar" | "Workshop" | "Training" | "Meet-up";
-  dates: string;
-  location: string;
-  geographicFocus: string;
-  deadline: string;
-  description: string;
-  highlights?: string[];
-  status: "Open" | "Closed";
-  image: string;
-  partnerLogos: { name: string; color: string }[];
-}
-
-const PROGRAMS_DATA: Program[] = [
-  {
-    id: "1",
-    title: "Smart Aquaculture Webinar",
-    type: "Webinar",
-    dates: "12. September, 2026",
-    location: "Online via Zoom Link",
-    geographicFocus: "Global Focus",
-    deadline: "10. September, 2026",
-    description: "Join industry experts to learn about the latest developments in smart aquaculture technology.",
-    highlights: [
-      "AI in aquaculture",
-      "IoT monitoring",
-      "Data-driven farming",
-      "Industry experts"
-    ],
-    status: "Open",
-    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=800&q=80",
-    partnerLogos: [
-      { name: "UpCheck", color: "#00C9E4" }
-    ]
-  },
-  {
-    id: "2",
-    title: "UpCheck Product Demo",
-    type: "Workshop",
-    dates: "05. October, 2026",
-    location: "Online / Live Stream",
-    geographicFocus: "Global Focus",
-    deadline: "03. October, 2026",
-    description: "See the UpCheck devices in action during this comprehensive walk-through and Q&A session.",
-    highlights: [
-      "Live demonstration of the UpCheck device",
-      "Mobile app walkthrough",
-      "Q&A session"
-    ],
-    status: "Open",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
-    partnerLogos: [
-      { name: "UpCheck", color: "#00C9E4" }
-    ]
-  },
-  {
-    id: "3",
-    title: "Student Innovation Challenge",
-    type: "Workshop",
-    dates: "14. November, 2026",
-    location: "Online & On-site",
-    geographicFocus: "National Focus",
-    deadline: "12. November, 2026",
-    description: "Showcase your IoT ideas and AI applications for building next-generation aquaculture solutions.",
-    highlights: [
-      "Build aquaculture solutions",
-      "IoT ideas",
-      "AI applications",
-      "Project showcase"
-    ],
-    status: "Open",
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80",
-    partnerLogos: [
-      { name: "UpCheck", color: "#00C9E4" }
-    ]
-  },
-  {
-    id: "4",
-    title: "Community Meet-up",
-    type: "Meet-up",
-    dates: "12. December, 2026",
-    location: "Chennai, Tamil Nadu, India",
-    geographicFocus: "Regional Focus",
-    deadline: "08. December, 2026",
-    description: "Connect with local shrimp farmers for knowledge sharing, networking, and discussions on the latest industry trends.",
-    highlights: [
-      "Meet local shrimp farmers",
-      "Knowledge sharing",
-      "Industry discussions"
-    ],
-    status: "Open",
-    image: "https://images.unsplash.com/photo-1558449028-b53a39d100fc?auto=format&fit=crop&w=800&q=80",
-    partnerLogos: [
-      { name: "UpCheck", color: "#00C9E4" }
-    ]
-  }
-];
-
-// Past Programs Interface
-interface PastProgram {
+export interface EventItem {
+  id: number;
+  slug: string;
   title: string;
   subtitle: string;
-  role: string;
   description: string;
+  startDate: string;
+  endDate: string;
+  venue: string;
+  duration: string;
+  organizer: string;
   image: string;
+  accentColor: string;
+  tags: string[];
+  website: string;
+  registration: string;
 }
 
-const PAST_PROGRAMS_DATA: PastProgram[] = [
+export const EVENTS_DATA: EventItem[] = [
   {
-    title: "Make-a-thon 7.0",
+    id: 1,
+    slug: "makeathon-7",
+    title: "Makeathon 7.0",
     subtitle: "National Level Hardware & Software Hackathon",
-    role: "UPCHECK: INDUSTRIAL PARTNER & JURY",
-    description: "A 24-hour national hackathon where student innovators develop hardware and software solutions to solve real-world challenges in aquaculture, sustainability, and smart farming.",
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80",
+    description:
+      "A 24-hour innovation-driven hackathon where student innovators from institutions across India tackle real-world, industry-oriented challenges.",
+    startDate: "2026-04-15T00:00:00",
+    endDate: "2026-04-16T23:59:59",
+    venue: "SVCE, Sriperumbudur, Tamil Nadu",
+    duration: "24 Hours",
+    organizer: "Department of ECE, SVCE",
+    image:
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    accentColor: "from-[#00C9E4] to-[#0067B1]",
+    tags: ["Hardware", "Software", "AI/ML", "IoT"],
+    website: "https://make-a-thon-7.in",
+    registration: "https://forms.gle/MSiu9x7Mo2kYBmmA9",
   },
-  {
-    title: "Smart Aquaculture Webinar",
-    subtitle: "Expert Session on AI & IoT in Aquaculture",
-    role: "UPCHECK: KNOWLEDGE PARTNER",
-    description: "An interactive webinar featuring industry experts discussing AI, IoT, and data-driven technologies that are transforming modern aquaculture and improving farm productivity.",
-    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    title: "Innovation Challenge",
-    subtitle: "National Innovation Competition",
-    role: "UPCHECK: ORGANIZER & MENTOR",
-    description: "A competition inviting students, researchers, and startups to present innovative ideas and technology solutions that address key challenges in sustainable aquaculture and smart farming.",
-    image: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=600&q=80",
-  }
 ];
 
-
-
-// FAQs
-const FAQS = [
-  {
-    question: "Is registration free?",
-    answer: "Most of our online webinars and virtual community meetups are completely free. Certain specialized, hands-on offline workshops and certification programs may have a nominal fee to cover local logistics, catering, and printed reference materials."
-  },
-  {
-    question: "Who can attend UpCheck events?",
-    answer: "Our events are open to shrimp and fish farmers, hatchery managers, agricultural extension officers, researchers, students, and anyone interested in sustainable aquaculture and smart IoT farming technologies."
-  },
-  {
-    question: "Will participation certificates be provided?",
-    answer: "Yes, verified digital participation certificates are provided to attendees of our core Training Camps and hands-on Workshops after attendance verification."
-  },
-  {
-    question: "Are online events recorded?",
-    answer: "Yes, all our webinars are recorded. A link to access the video recording, presentation slides, and shared resource guidelines will be emailed to all registered participants within 24 hours of the live session."
-  },
-  {
-    question: "How do I join online events?",
-    answer: "Once you register for an online event, you will receive a confirmation email with a unique Zoom or Google Meet link, along with calendar invitation files to set a reminder."
+const getEventStatus = (dateStr: string) => {
+  const now = new Date();
+  const end = new Date(dateStr);
+  if (isNaN(end.getTime())) {
+    return {
+      label: "TBD",
+      color: "bg-slate-400",
+      textColor: "text-slate-500",
+      active: false,
+      urgent: false,
+    };
   }
-];
-
-export default function Events() {
-  const [selectedFilter, setSelectedFilter] = useState<string>("All");
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  
-  // Registration Dialog State
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedEventId, setSelectedEventId] = useState<string>("");
-  const [isRegistered, setIsRegistered] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    pondCount: "1-3",
-    notes: ""
-  });
-
-  // Carousel Index state for Past Programs
-  const [pastIndex, setPastIndex] = useState(0);
-
-  const nextPast = () => {
-    setPastIndex((prev) => (prev + 1) % PAST_PROGRAMS_DATA.length);
+  if (now > end) {
+    return {
+      label: "Ended",
+      color: "bg-slate-400",
+      textColor: "text-slate-500",
+      active: false,
+      urgent: false,
+    };
+  }
+  const days = Math.ceil((end.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  if (days <= 7) {
+    return {
+      label: "LIVE · Ending Soon",
+      color: "bg-rose-500",
+      textColor: "text-rose-600",
+      active: true,
+      urgent: true,
+    };
+  }
+  if (days <= 30) {
+    return {
+      label: "LIVE NOW",
+      color: "bg-emerald-500",
+      textColor: "text-emerald-600",
+      active: true,
+      urgent: false,
+    };
+  }
+  return {
+    label: "Upcoming",
+    color: "bg-[#0067B1]",
+    textColor: "text-[#0067B1]",
+    active: false,
+    urgent: false,
   };
+};
 
-  const prevPast = () => {
-    setPastIndex((prev) => (prev - 1 + PAST_PROGRAMS_DATA.length) % PAST_PROGRAMS_DATA.length);
-  };
+function CountdownTimer({ endDate }: { endDate: string }) {
+  const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
-  const handleRegisterClick = (eventId: string) => {
-    setSelectedEventId(eventId);
-    setIsRegistered(false);
-    setIsDialogOpen(true);
-  };
+  useEffect(() => {
+    const calc = () => {
+      const diff = new Date(endDate).getTime() - new Date().getTime();
+      if (diff <= 0) {
+        setTimeLeft({ d: 0, h: 0, m: 0, s: 0 });
+        return;
+      }
+      setTimeLeft({
+        d: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        h: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        m: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+        s: Math.floor((diff % (1000 * 60)) / 1000),
+      });
+    };
+    calc();
+    const interval = setInterval(calc, 1000);
+    return () => clearInterval(interval);
+  }, [endDate]);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone) return;
-    
-    // Simulate API registration call
-    setTimeout(() => {
-      setIsRegistered(true);
-    }, 400);
-  };
-
-  const selectedEvent = PROGRAMS_DATA.find(e => e.id === selectedEventId) || PROGRAMS_DATA[0];
-
-  const filteredPrograms = PROGRAMS_DATA.filter(prog => {
-    const matchesFilter = selectedFilter === "All" || prog.type === selectedFilter;
-    const matchesSearch = prog.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          prog.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          prog.location.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesFilter && matchesSearch;
-  });
-
-  const scrollEvents = () => {
-    const section = document.getElementById("our-programs-section");
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
+  const Box = ({ val, label }: { val: number; label: string }) => (
+    <div className="flex flex-col items-center">
+      <div className="relative w-14 h-14 bg-white shadow-xs rounded-xl flex items-center justify-center border border-cyan-200/70">
+        <span className="text-slate-900 font-extrabold text-xl tabular-nums">
+          {String(val).padStart(2, "0")}
+        </span>
+      </div>
+      <span className="text-slate-500 text-[10px] mt-1.5 uppercase tracking-widest font-semibold">
+        {label}
+      </span>
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-site-gradient text-[#0F172A] dark:text-[#F8FAFC] flex flex-col font-sans">
+    <div className="flex items-end gap-2">
+      <Box val={timeLeft.d} label="Days" />
+      <span className="text-slate-400 text-xl font-light mb-6">:</span>
+      <Box val={timeLeft.h} label="Hrs" />
+      <span className="text-slate-400 text-xl font-light mb-6">:</span>
+      <Box val={timeLeft.m} label="Min" />
+      <span className="text-slate-400 text-xl font-light mb-6">:</span>
+      <Box val={timeLeft.s} label="Sec" />
+    </div>
+  );
+}
+
+export default function Events() {
+  const [mounted, setMounted] = useState(false);
+  const [filter, setFilter] = useState<string>("all");
+
+  useEffect(() => {
+    setMounted(true);
+    window.scrollTo(0, 0);
+  }, []);
+
+  const processedEvents = EVENTS_DATA.map((e) => ({
+    ...e,
+    status: getEventStatus(e.endDate),
+  }));
+
+  const filteredEvents = processedEvents.filter((e) => {
+    if (filter === "all") return true;
+    if (filter === "live") return e.status.active;
+    if (filter === "upcoming") return e.status.label === "Upcoming";
+    if (filter === "ended") return !e.status.active && e.status.label === "Ended";
+    return true;
+  });
+
+  if (!mounted) return null;
+
+  return (
+    <div className="min-h-screen bg-site-gradient flex flex-col justify-between">
       <Navigation />
 
-      {/* 1. HERO SECTION */}
-      <section 
-        className="relative min-h-[50vh] md:min-h-[60vh] pt-48 pb-32 md:pt-56 md:pb-40 px-6 flex items-center justify-center overflow-hidden border-b border-white/10"
-        style={{ background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)" }}
-      >
-        {/* Subtle mesh background grid */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent pointer-events-none -z-10" />
-        
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 overflow-hidden">
+        {/* Subtle dot pattern and glow overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(#00c9e415_1.5px,transparent_1.5px)] [background-size:28px_28px] opacity-70 pointer-events-none" />
+        <div className="absolute top-10 left-1/4 w-96 h-96 rounded-full bg-[#00C9E4]/12 blur-[110px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-[#0067B1]/10 blur-[100px] pointer-events-none" />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-white"
-          >
-            Events
-          </motion.h1>
+        <div className="relative container mx-auto px-6">
+          <div className="max-w-3xl">
+            {/* Pill Badge */}
+            <div className="inline-flex items-center gap-2 bg-[#00C9E4]/15 border border-[#00C9E4]/30 px-4 py-1.5 rounded-full text-[#0067B1] text-sm font-semibold mb-6 shadow-2xs">
+              <Sparkles className="w-4 h-4 text-[#00C9E4]" />
+              <span>Where Innovation Meets Industry</span>
+            </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            className="text-lg md:text-xl text-white/95 max-w-2xl mx-auto mb-10 leading-relaxed font-semibold"
-          >
-            Join webinars, workshops, training sessions, and community events designed to help aquaculture professionals learn, connect, and grow.
-          </motion.p>
+            {/* Title with UpCheck signature gradient */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
+              Events &{" "}
+              <span
+                style={{
+                  background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Hackathons
+              </span>
+            </h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap gap-4 justify-center items-center"
-          >
-            <Button
-              size="lg"
-              onClick={scrollEvents}
-              className="px-8 h-14 bg-white hover:bg-slate-50 text-[#0067B1] border-none shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 font-bold"
+            {/* Subtitle */}
+            <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl">
+              Upcheck partners with top institutions as an industrial sponsor and jury — backing the
+              boldest student builders in India.
+            </p>
+
+            {/* Smooth Scroll Button */}
+            <button
+              onClick={() =>
+                document.getElementById("events-list")?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="mt-8 inline-flex items-center gap-2 text-slate-500 hover:text-[#0067B1] font-medium transition-colors text-sm cursor-pointer"
             >
-              View Programs
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => handleRegisterClick("1")}
-              className="px-8 h-14 backdrop-blur-sm border-white/40 hover:border-white text-white bg-transparent hover:bg-white/10 font-bold transition-all duration-300"
-            >
-              Register
-            </Button>
-          </motion.div>
+              <ChevronDown className="w-4 h-4 animate-bounce text-[#00C9E4]" />
+              Explore events
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* 2. OUR PROGRAMS SECTION (Inspired by Hatch Blue) */}
-      <section id="our-programs-section" className="py-24 px-6 bg-white dark:bg-[#0B1321] scroll-mt-20">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#0F172A] dark:text-white mb-4">
-              Our Programs
-            </h2>
-            <p className="text-[#475569] dark:text-[#94A3B8] text-lg max-w-xl mx-auto">
-              Incubating ideas, connecting farmers, and validating aquaculture technologies.
-            </p>
-          </div>
+      {/* Events Listing Section */}
+      <section id="events-list" className="py-12 relative z-10">
+        <div className="container mx-auto px-6">
+          {/* Header & Filter Tabs */}
+          <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+            <div>
+              <h2 className="text-3xl font-extrabold text-slate-900">All Events</h2>
+              <p className="text-slate-500 text-sm mt-1">
+                {filteredEvents.length} event{filteredEvents.length !== 1 ? "s" : ""} found
+              </p>
+            </div>
 
-          {/* Search + Filter chip toolbar */}
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-12 max-w-4xl mx-auto bg-[#F1F5F9]/60 dark:bg-[#1E293B]/40 p-4 rounded-2xl border border-[#E2E8F0] dark:border-[#334155]/60">
-            {/* Filter Chips */}
-            <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
-              {["All", "Webinar", "Workshop", "Training", "Meet-up"].map(filter => (
+            {/* Filter Tabs */}
+            <div className="flex gap-1.5 bg-white rounded-2xl p-1.5 shadow-sm border border-slate-200/80">
+              {(["all", "live", "upcoming", "ended"] as const).map((tab) => (
                 <button
-                  key={filter}
-                  onClick={() => setSelectedFilter(filter)}
-                  className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-all duration-200 ${
-                    selectedFilter === filter
-                      ? "bg-[#0067B1] text-white shadow-sm"
-                      : "bg-[#E2E8F0]/80 dark:bg-[#1E293B]/80 text-[#64748B] dark:text-[#94A3B8] hover:bg-[#CBD5E1] hover:text-[#0F172A] dark:hover:bg-[#334155] dark:hover:text-white"
+                  key={tab}
+                  onClick={() => setFilter(tab)}
+                  style={
+                    filter === tab
+                      ? {
+                          background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+                        }
+                      : {}
+                  }
+                  className={`px-4 py-2 rounded-xl text-sm font-semibold capitalize transition-all cursor-pointer ${
+                    filter === tab
+                      ? "text-white shadow-sm"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
                   }`}
                 >
-                  {filter}
+                  {tab}
                 </button>
               ))}
             </div>
-
-            {/* Search Bar */}
-            <div className="relative w-full md:w-80">
-              <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4.5 h-4.5" />
-              <Input
-                type="text"
-                placeholder="Search programs..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 h-10 bg-white dark:bg-[#152033] border-[#E2E8F0] dark:border-[#334155] focus-visible:ring-cyan-500 rounded-full text-xs"
-              />
-            </div>
           </div>
 
-          {/* Programs Grid */}
-          <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            {filteredPrograms.length > 0 ? (
-              filteredPrograms.map((prog) => (
-                <div key={prog.id} className="flex flex-col group space-y-4">
-                  {/* Hatch Blue Landscape Overlay Card */}
-                  <div className="relative aspect-[1.5] w-full rounded-2xl overflow-hidden shadow-md border border-[#E2E8F0]/80 dark:border-[#1E293B]">
-                    <img
-                      src={prog.image}
-                      alt={prog.title}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                    />
-                    
-                    {/* Blue Catalyst styled overlay */}
-                    <div className="absolute inset-0 bg-[#0F172A]/70 flex flex-col justify-between p-8 text-white z-10">
-                      
-                      {/* Top Corner Title */}
-                      <div>
-                        <h3 className="text-2xl md:text-3xl font-bold tracking-tight">
-                          {prog.title}
-                        </h3>
-                      </div>
-
-                      {/* Middle metadata block */}
-                      <div className="space-y-2 mt-4">
-                        <div className="text-xs font-semibold text-white/90 flex flex-col space-y-1">
-                          <div>
-                            <span className="text-[#90E0EF] uppercase font-bold mr-1">Dates:</span> {prog.dates}
-                          </div>
-                          <div>
-                            <span className="text-[#90E0EF] uppercase font-bold mr-1">Location:</span> {prog.location}
-                          </div>
-                          <div>
-                            <span className="text-[#90E0EF] uppercase font-bold mr-1">Geographic Focus:</span> {prog.geographicFocus}
-                          </div>
-                        </div>
-
-                        {/* Thin horizontal divider */}
-                        <div className="border-t border-white/20 my-3" />
-
-                        {/* Application deadline */}
-                        <div className="text-xs font-bold text-white/95">
-                          <span className="text-[#00C9E4] uppercase mr-1">Application Deadline:</span> {prog.deadline}
-                        </div>
-                      </div>
-
-
-                    </div>
-                  </div>
-
-                  {/* Below Card Layout */}
-                  <div className="space-y-3 text-left">
-                    <h4 className="text-2xl font-extrabold tracking-tight text-[#0F172A] dark:text-white">
-                      {prog.title}
-                    </h4>
-                    
-                    <p className="text-sm text-[#475569] dark:text-[#94A3B8] leading-relaxed">
-                      {prog.description}
-                    </p>
-
-                    {prog.highlights && prog.highlights.length > 0 && (
-                      <ul className="text-sm space-y-1.5 text-[#475569] dark:text-[#94A3B8] list-disc list-inside pl-1 py-1">
-                        {prog.highlights.map((highlight, idx) => (
-                          <li key={idx} className="font-medium">
-                            {highlight}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    {/* Double Split Buttons */}
-                    <div className="flex gap-4 pt-2">
-                      <Button
-                        onClick={scrollEvents} // Smooth scroll or focus
-                        className="w-1/2 h-11 bg-white border border-[#CBD5E1] dark:border-[#334155] text-[#0067B1] hover:bg-slate-50 dark:hover:bg-slate-800 dark:bg-transparent font-bold text-xs uppercase tracking-wider rounded-lg transition-colors"
-                      >
-                        View Program
-                      </Button>
-                      
-                      {prog.status === "Open" ? (
-                        <Button
-                          onClick={() => handleRegisterClick(prog.id)}
-                          className="w-1/2 h-11 bg-[#0067B1] hover:bg-[#005c9e] text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-transform hover:scale-[1.02] shadow-sm"
-                        >
-                          Apply Now
-                        </Button>
-                      ) : (
-                        <Button
-                          disabled
-                          className="w-1/2 h-11 bg-[#E2E8F0] dark:bg-[#1E293B] text-[#94A3B8] font-bold text-xs uppercase tracking-wider rounded-lg border border-[#CBD5E1] dark:border-transparent cursor-not-allowed"
-                        >
-                          Applications Closed
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="col-span-2 text-center py-16 bg-[#F8FAFC] dark:bg-[#152033] border border-[#E2E8F0] dark:border-[#1E293B] rounded-2xl max-w-md mx-auto shadow-xs">
-                <Search className="w-10 h-10 text-[#94A3B8] mx-auto mb-4" />
-                <h3 className="text-base font-bold">No programs match filters</h3>
-                <p className="text-xs text-muted-foreground mt-1">Try another category or keyword search query.</p>
+          {/* Cards List */}
+          <div className="space-y-6">
+            {filteredEvents.length === 0 && (
+              <div className="py-24 text-center bg-white rounded-3xl border border-slate-200/80 shadow-sm">
+                <Calendar className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                <p className="text-slate-400 text-lg font-medium">No events in this category yet.</p>
               </div>
             )}
-          </div>
-        </div>
-      </section>
 
-
-
-      {/* 4. PAST PROGRAMS SECTION (Hatch Blue Inspired Carousel Slider) */}
-      <section className="py-24 px-6 border-t border-[#E2E8F0] dark:border-[#1E293B] bg-white dark:bg-[#0B1321]">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#0F172A] dark:text-white mb-4">
-              Past Programs
-            </h2>
-            <p className="text-[#475569] dark:text-[#94A3B8] text-lg max-w-xl mx-auto">
-              Learn about previous aquaculture labs, cohorts, and accelerator studios.
-            </p>
-          </div>
-
-          {/* Carousel Wrapper */}
-          <div className="relative max-w-5xl mx-auto overflow-hidden px-4">
-            <motion.div
-              animate={{ x: `-${pastIndex * 33.33}%` }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="flex gap-6 w-full cursor-grab active:cursor-grabbing"
-              style={{ display: "flex" }}
-            >
-              {PAST_PROGRAMS_DATA.map((item, i) => (
-                <div
-                  key={i}
-                  tabIndex={0}
-                  className="w-[calc(100%-12px)] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 relative aspect-[0.8] rounded-2xl overflow-hidden group shadow-md border border-[#E2E8F0] dark:border-[#1E293B] focus:outline-none focus:ring-2 focus:ring-[#00C9E4]"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+            {filteredEvents.map((event) => (
+              <Link
+                key={event.id}
+                href={`/events/${event.slug}`}
+                className="block group cursor-pointer"
+              >
+                <div className="relative bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  {/* Top Stripe with Upcheck Gradient */}
+                  <div
+                    className="absolute top-0 left-0 right-0 h-1.5"
+                    style={{
+                      background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+                    }}
                   />
-                  {/* Interactive details overlay */}
-                  <div className="absolute inset-0 bg-[#0F2C59]/70 group-hover:bg-[#0F2C59]/90 group-focus:bg-[#0F2C59]/90 flex flex-col justify-end p-6 text-white transition-all duration-300 ease-in-out z-10">
-                    <h4 className="text-lg md:text-xl font-bold tracking-tight text-white transition-transform duration-300 group-hover:-translate-y-2 group-focus:-translate-y-2">
-                      {item.title}
-                    </h4>
-                    
-                    {/* Content visible only on hover / focus */}
-                    <div className="max-h-0 opacity-0 overflow-hidden group-hover:max-h-[300px] group-focus:max-h-[300px] group-hover:opacity-100 group-focus:opacity-100 transition-all duration-500 ease-in-out mt-1 space-y-2">
-                      <p className="text-xs font-bold text-[#00C9E4] uppercase tracking-wider">
-                        {item.subtitle}
-                      </p>
-                      <div className="text-xs font-extrabold text-[#90E0EF]">
-                        {item.role}
+
+                  <div className="flex flex-col lg:flex-row">
+                    {/* Event Image */}
+                    <div className="relative lg:w-80 h-56 lg:h-auto overflow-hidden flex-shrink-0">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                      {event.status.active && (
+                        <div className="absolute top-4 left-4">
+                          <span
+                            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-white text-xs font-bold shadow-md ${
+                              event.status.urgent ? "bg-rose-500" : "bg-emerald-500"
+                            }`}
+                          >
+                            <span
+                              className={`w-1.5 h-1.5 rounded-full bg-white ${
+                                event.status.urgent ? "animate-ping" : "animate-pulse"
+                              }`}
+                            />
+                            {event.status.label}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Event Content */}
+                    <div className="flex-1 p-8 flex flex-col justify-between">
+                      <div>
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {!event.status.active && event.status.label !== "Ended" && (
+                            <span className="px-3 py-1 bg-blue-50 text-[#0067B1] rounded-full text-xs font-semibold border border-blue-100">
+                              {event.status.label}
+                            </span>
+                          )}
+                          {event.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-3 py-1 bg-cyan-50 text-[#0067B1] rounded-full text-xs font-semibold border border-cyan-100/80"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Title & Subtitle */}
+                        <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-1.5 group-hover:text-[#0067B1] transition-colors">
+                          {event.title}
+                        </h3>
+                        <p className="text-slate-500 font-medium mb-3">{event.subtitle}</p>
+
+                        {/* Upcheck Industrial Partner Badge */}
+                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200/80 px-3.5 py-1.5 rounded-xl mb-4">
+                          <Trophy className="w-4 h-4 text-[#0067B1]" />
+                          <span className="text-xs font-bold text-[#0067B1] uppercase tracking-wide">
+                            Upcheck: Industrial Partner & Jury
+                          </span>
+                        </div>
+
+                        <p className="text-slate-600 text-sm leading-relaxed max-w-xl">
+                          {event.description}
+                        </p>
                       </div>
-                      <p className="text-xs text-white/90 leading-relaxed font-medium">
-                        {item.description}
-                      </p>
+
+                      {/* Event Meta Info & View Details Button */}
+                      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
+                        <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
+                          <span className="flex items-center gap-1.5">
+                            <Calendar className="w-4 h-4 text-[#00C9E4]" />
+                            {new Date(event.startDate).toLocaleDateString("en-IN", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Clock className="w-4 h-4 text-[#0067B1]" />
+                            {event.duration}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <MapPin className="w-4 h-4 text-rose-500" />
+                            {event.venue}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <div
+                            style={{
+                              background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+                            }}
+                            className="inline-flex items-center gap-2 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-all group-hover:shadow-md group-hover:brightness-105"
+                          >
+                            <span>View Details</span>
+                            <ArrowRight className="w-4 h-4 transform transition-transform group-hover:translate-x-1" />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Active Event Countdown Banner */}
+                  {event.status.active && (
+                    <div className="border-t border-cyan-100/80 bg-gradient-to-r from-[#eaf8fb] via-[#f4fafc] to-[#eaf8fb] px-8 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                      <div>
+                        <p className="text-slate-500 text-xs uppercase tracking-widest font-bold mb-1">
+                          Registration closes in
+                        </p>
+                        <CountdownTimer endDate={event.endDate} />
+                      </div>
+                      <a
+                        href={event.registration}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                          background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
+                        }}
+                        className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-sm hover:shadow-md hover:brightness-105 transition-all"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        <span>Register on Website</span>
+                      </a>
+                    </div>
+                  )}
                 </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Slider Controls Footer */}
-          <div className="max-w-5xl mx-auto flex items-center justify-between mt-10 px-4 lg:hidden">
-            {/* Dots left */}
-            <div className="flex gap-2">
-              {PAST_PROGRAMS_DATA.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setPastIndex(idx)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                    pastIndex === idx
-                      ? "bg-[#F06A3A] w-6"
-                      : "bg-[#CBD5E1] dark:bg-[#334155] hover:bg-[#94A3B8]"
-                  }`}
-                />
-              ))}
-            </div>
-
-            {/* Arrows right */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={prevPast}
-                className="w-10 h-10 rounded-full border border-[#CBD5E1] dark:border-[#334155] flex items-center justify-center text-[#475569] dark:text-[#94A3B8] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                aria-label="Previous past program"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={nextPast}
-                className="w-10 h-10 rounded-full border border-[#CBD5E1] dark:border-[#334155] flex items-center justify-center text-[#475569] dark:text-[#94A3B8] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                aria-label="Next past program"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. FREQUENTLY ASKED QUESTIONS SECTION */}
-      <section className="py-24 px-6 border-t border-[#E2E8F0] dark:border-[#1E293B] bg-[#F8FAFC] dark:bg-[#0B1524]">
-        <div className="container mx-auto max-w-3xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#0F172A] dark:text-white mb-4 flex items-center justify-center gap-2">
-              <HelpCircle className="w-8 h-8 text-[#0067B1]" />
-              FAQ
-            </h2>
-            <p className="text-[#475569] dark:text-[#94A3B8] text-lg">
-              Have questions about attending our sessions? Check out details below.
-            </p>
-          </div>
-
-          <Accordion type="single" collapsible className="space-y-4">
-            {FAQS.map((faq, i) => (
-              <AccordionItem
-                key={i}
-                value={`item-${i}`}
-                className="bg-white dark:bg-[#0F172A] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl px-6 hover:shadow-sm transition-all duration-200"
-              >
-                <AccordionTrigger className="text-left font-bold text-base hover:no-underline py-4 text-[#0F172A] dark:text-white">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-[#475569] dark:text-[#94A3B8] leading-relaxed pb-4 text-sm font-medium">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
+              </Link>
             ))}
-          </Accordion>
+          </div>
         </div>
       </section>
 
-      {/* 6. CALL TO ACTION SECTION */}
-      <section className="relative py-24 px-6 overflow-hidden text-white"
-               style={{ background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)" }}>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent opacity-60 pointer-events-none" />
-        
-        <div className="container mx-auto max-w-4xl text-center relative z-10 space-y-8">
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight text-white">
-            Ready to Join Our Next Event?
+      {/* Collaboration Call to Action (Actual Website Theme Gradient) */}
+      <section
+        className="relative py-20 px-6 overflow-hidden text-white mt-16"
+        style={{ background: "linear-gradient(90deg, #59b2d8 0%, #4a87b3 100%)" }}
+      >
+        <div className="container mx-auto max-w-4xl text-center relative z-10">
+          <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 px-4 py-1.5 rounded-full text-white text-xs font-semibold uppercase tracking-wider mb-6">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+            <span>Partner with us</span>
+          </div>
+
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight leading-tight text-white">
+            Want to Collaborate
+            <br />
+            on Your Next Event?
           </h2>
-          <p className="text-lg text-white/90 max-w-xl mx-auto leading-relaxed font-semibold">
-            Stay connected with the UpCheck community and never miss an opportunity to learn, improve yield metrics, and grow.
+
+          <p className="text-base md:text-lg text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Upcheck loves supporting student innovation. Reach out to explore sponsorship,
+            mentorship, or jury partnerships.
           </p>
-          <Button
-            size="lg"
-            onClick={() => handleRegisterClick("1")}
-            className="h-14 px-8 bg-white hover:bg-slate-50 text-cyan-800 rounded-xl font-bold shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-2 mx-auto"
+
+          <a
+            href="mailto:admin@upcheck.in"
+            className="inline-flex items-center gap-3 bg-white text-[#0067B1] hover:bg-slate-50 px-8 py-4 rounded-xl font-bold text-base shadow-md transition-all duration-300 hover:scale-[1.03]"
           >
-            Register Now
-            <ArrowRight className="w-5 h-5 text-cyan-800" />
-          </Button>
+            <span>Get in Touch</span>
+            <ArrowRight className="w-5 h-5" />
+          </a>
         </div>
       </section>
 
-      {/* FOOTER */}
       <Footer />
-
-      {/* REGISTRATION MODAL */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[450px] bg-white dark:bg-[#0F172A] border-none text-[#0F172A] dark:text-white p-6 rounded-2xl shadow-xl">
-          <DialogHeader className="space-y-2 mb-4">
-            <DialogTitle className="text-2xl font-extrabold tracking-tight">
-              {isRegistered ? "Application Confirmed!" : "Program Application"}
-            </DialogTitle>
-            <DialogDescription className="text-muted-foreground text-sm font-medium">
-              {isRegistered 
-                ? "You have successfully registered for the program. Check your email for details."
-                : `Applying for: ${selectedEvent.title}`}
-            </DialogDescription>
-          </DialogHeader>
-
-          {isRegistered ? (
-            <div className="text-center py-8 space-y-4">
-              <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto text-green-600">
-                <CheckCircle className="w-10 h-10" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="font-extrabold text-lg">See you there!</h4>
-                <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-                  A verification email containing calendar files and the access link has been sent to <strong>{formData.email}</strong>.
-                </p>
-              </div>
-              <Button
-                onClick={() => setIsDialogOpen(false)}
-                className="w-full bg-[#0067B1] hover:bg-cyan-700 text-white mt-6 font-bold"
-              >
-                Close Window
-              </Button>
-            </div>
-          ) : (
-            <form onSubmit={handleFormSubmit} className="space-y-4">
-              <div className="space-y-1.5">
-                <label htmlFor="name-input" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Full Name</label>
-                <Input
-                  id="name-input"
-                  required
-                  placeholder="e.g. Anand Kumar"
-                  value={formData.name}
-                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  className="bg-slate-50 dark:bg-slate-800 border-none text-[#0F172A] dark:text-white"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="email-input" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Email Address</label>
-                <Input
-                  id="email-input"
-                  required
-                  type="email"
-                  placeholder="e.g. anand@aquafarm.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  className="bg-slate-50 dark:bg-slate-800 border-none text-[#0F172A] dark:text-white"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="phone-input" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Phone Number</label>
-                <Input
-                  id="phone-input"
-                  required
-                  type="tel"
-                  placeholder="e.g. +91 98765 43210"
-                  value={formData.phone}
-                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                  className="bg-slate-50 dark:bg-slate-800 border-none text-[#0F172A] dark:text-white"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="pond-select" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">How many ponds do you manage?</label>
-                <select
-                  id="pond-select"
-                  value={formData.pondCount}
-                  onChange={(e) => setFormData(prev => ({ ...prev, pondCount: e.target.value }))}
-                  className="w-full rounded-md border-none bg-slate-50 dark:bg-slate-800 px-3 h-10 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 text-[#0F172A] dark:text-white"
-                >
-                  <option value="1-3">1 to 3 ponds</option>
-                  <option value="4-7">4 to 7 ponds</option>
-                  <option value="8+">8 or more ponds</option>
-                  <option value="None">I am not a farmer (Student/Scientist/Other)</option>
-                </select>
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="notes-textarea" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Special Request or Questions</label>
-                <textarea
-                  id="notes-textarea"
-                  placeholder="Optional questions for experts..."
-                  value={formData.notes}
-                  onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-                  className="w-full rounded-md border-none bg-slate-50 dark:bg-slate-800 p-3 h-20 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-none text-[#0F172A] dark:text-white"
-                />
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsDialogOpen(false)}
-                  className="w-1/2 border-[#CBD5E1] dark:border-[#334155]"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  className="w-1/2 bg-[#0067B1] hover:bg-cyan-700 text-white font-bold"
-                >
-                  Apply Now
-                </Button>
-              </div>
-            </form>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

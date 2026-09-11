@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { QrCode, ArrowRight, Smartphone, Sparkles } from "lucide-react";
+import { ArrowRight, Smartphone, Sparkles } from "lucide-react";
 import { FaAndroid, FaGooglePlay } from "react-icons/fa";
 
 const appScreenImg = "/attached_assets/upcheck-farm-app.jpg";
@@ -86,31 +86,6 @@ export default function AppSection() {
                 </Button>
               </Link>
             </div>
-
-            {/* QR Code Instant Install Box */}
-            <div className="pt-2 max-w-md">
-              <div className="p-3.5 rounded-2xl bg-white/15 border border-white/25 backdrop-blur-md flex items-center gap-4 shadow-md">
-                {/* QR Code Icon Container */}
-                <div className="w-13 h-13 bg-white rounded-xl p-1.5 flex items-center justify-center shrink-0 shadow-sm">
-                  <div className="w-full h-full bg-slate-900 rounded-lg flex items-center justify-center p-1 text-white">
-                    <svg className="w-full h-full" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm10-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm14 2h2v4h-2v-4zm-4-2h2v2h-2v-2zm2 2h2v2h-2v-2zm-2 2h2v2h-2v-2zm4-2h2v2h-2v-2zm2-2h2v2h-2v-2zm0 4h2v2h-2v-2zm-6-4h2v2h-2v-2zm2-2h2v2h-2v-2zM6 6h2v2H6V6zm12 0h2v2h-2V6zM6 18h2v2H6v-2z" />
-                    </svg>
-                  </div>
-                </div>
-                
-                {/* QR Instructions */}
-                <div>
-                  <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
-                    Scan to Instant Install
-                  </h4>
-                  <p className="text-[11px] text-white/80 leading-snug mt-0.5">
-                    Point your camera to instantly load the Upcheck Installer onto your Android phone.
-                  </p>
-                </div>
-              </div>
-            </div>
-
           </motion.div>
 
           {/* RIGHT COLUMN: Realistic Smartphone Mockup */}

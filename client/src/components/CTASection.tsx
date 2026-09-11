@@ -65,29 +65,6 @@ export default function CTASection() {
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </div>
-
-            {/* Premium QR Code Container */}
-            <div className="mt-8 flex items-center gap-5">
-              <div className="relative w-24 h-24 bg-white border border-white/10 rounded-xl flex items-center justify-center p-2 shadow-sm">
-                <div className="w-full h-full bg-slate-50 rounded-lg p-1.5 flex items-center justify-center">
-                  <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-0.5">
-                    {[...Array(25)].map((_, idx) => {
-                      const filled = (idx * 7) % 3 === 0 || idx % 4 === 0 || idx < 5 || idx > 20 || idx % 5 === 0;
-                      return (
-                        <div 
-                          key={idx} 
-                          className={`rounded-sm ${filled ? 'bg-[#4a87b3]' : 'bg-transparent'}`} 
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-              <div className="text-left max-w-xs">
-                <h4 className="text-sm font-bold text-white">Scan to Instant Install</h4>
-                <p className="text-xs text-white/85 mt-1">Point your camera to instantly load the Upcheck installer onto your Android phone.</p>
-              </div>
-            </div>
           </motion.div>
 
           {/* Interactive iPhone Mockup Column */}

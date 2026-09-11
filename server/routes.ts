@@ -99,25 +99,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/posts/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      console.log("Fetching post with id:", id);
-      
-      const client = await clientPromise;
-      const db = client.db("resources");
+      let post: any = null;
 
-      // First try to find by string id
-      let post = await db
-        .collection("website-resource")
-        .findOne({ id: id });
+      try {
+        const client = await clientPromise;
+        const db = client.db("resources");
 
-      // If not found, try to find by ObjectId
-      if (!post) {
-        try {
-          post = await db.collection("website-resource").findOne({
-            _id: new ObjectId(id),
-          });
-        } catch (error) {
-          console.error("Invalid ObjectId format:", error);
+        // First try to find by string id
+        post = await db.collection("website-resource").findOne({ id: id });
+
+        // If not found, try numeric id
+        if (!post && !isNaN(Number(id))) {
+          post = await db.collection("website-resource").findOne({ id: Number(id) });
         }
+
+        // If not found, try ObjectId
+        if (!post) {
+          try {
+            post = await db.collection("website-resource").findOne({
+              _id: new ObjectId(id),
+            });
+          } catch (error) {
+            // Not a valid ObjectId format, ignore
+          }
+        }
+      } catch (dbError) {
+        console.warn("Database lookup error, checking local posts:", dbError);
+      }
+
+      // Robust fallback to localPosts
+      if (!post) {
+        post = (localPosts as any[]).find(
+          (p: any) =>
+            String(p.id) === String(id) ||
+            String(p._id) === String(id) ||
+            (!isNaN(Number(id)) && Number(p.id) === Number(id))
+        );
       }
 
       if (!post) {
@@ -127,6 +144,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.json(post);
     } catch (e) {
       console.error(e);
+      const post = (localPosts as any[]).find(
+        (p: any) =>
+          String(p.id) === String(req.params.id) ||
+          String(p._id) === String(req.params.id) ||
+          (!isNaN(Number(req.params.id)) && Number(p.id) === Number(req.params.id))
+      );
+      if (post) return res.json(post);
       return res.status(500).json({ error: "Failed to fetch post" });
     }
   });

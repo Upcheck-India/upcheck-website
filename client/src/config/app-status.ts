@@ -5,7 +5,7 @@
  * - true  : App is launched and available on Google Play Store (Case 1)
  * - false : App is in "Coming Soon" / Pre-registration phase (Case 2)
  */
-export const IS_APP_LAUNCHED: boolean = true;
+export const IS_APP_LAUNCHED: boolean = false;
 
 export interface AppConfigType {
   appName: string;

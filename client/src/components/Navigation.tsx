@@ -19,6 +19,7 @@ import { useHover } from "@/hooks/use-hover";
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { useLanguage, LANGUAGES } from "@/context/LanguageContext";
+import { IS_APP_LAUNCHED } from "@/config/app-status";
 const logoUrl = "/attached_assets/upcheck-logo.png";
 
 export default function Navigation({
@@ -131,8 +132,14 @@ export default function Navigation({
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-[#0067B1] hover:bg-cyan-50 dark:hover:bg-cyan-950/40 focus:bg-cyan-50 focus:text-[#0067B1] transition-colors">
                   <Link href="/download" className="w-full flex items-center justify-between text-inherit">
-                    <span>Download App</span>
-                    <span className="text-[10px] bg-[#00C9E4]/20 text-[#0067B1] px-2 py-0.5 rounded-full font-bold">New</span>
+                    <span>{IS_APP_LAUNCHED ? "Download App" : "Mobile App"}</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                      IS_APP_LAUNCHED 
+                        ? "bg-[#00C9E4]/20 text-[#0067B1]" 
+                        : "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-300/50"
+                    }`}>
+                      {IS_APP_LAUNCHED ? "New" : "Coming Soon"}
+                    </span>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -161,9 +168,7 @@ export default function Navigation({
                 <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
                   <Link href="/participate/survey" className="w-full text-inherit">Surveys</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
-                  <Link href="/polls" className="w-full text-inherit">Polls</Link>
-                </DropdownMenuItem>
+                {/* Polls hidden as requested */}
                 <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
                   <Link href="/feedback" className="w-full text-inherit">Feedback</Link>
                 </DropdownMenuItem>
@@ -286,8 +291,14 @@ export default function Navigation({
                         <Link href="/resources" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.resources", "Resources")}</Link>
                         <Link href="/products" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.products", "Products")}</Link>
                         <Link href="/download" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm font-semibold text-[#0067B1] flex items-center justify-between">
-                          <span>{t("nav.download", "Download App")}</span>
-                          <span className="text-[10px] bg-[#00C9E4]/20 text-[#0067B1] px-1.5 py-0.5 rounded-full font-semibold">New</span>
+                          <span>{IS_APP_LAUNCHED ? t("nav.download", "Download App") : t("nav.mobileApp", "Mobile App")}</span>
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${
+                            IS_APP_LAUNCHED 
+                              ? "bg-[#00C9E4]/20 text-[#0067B1]" 
+                              : "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-300/50"
+                          }`}>
+                            {IS_APP_LAUNCHED ? "New" : "Coming Soon"}
+                          </span>
                         </Link>
                       </motion.div>
                     )}
@@ -309,7 +320,7 @@ export default function Navigation({
                         className="ml-4 flex flex-col gap-2 py-2"
                       >
                         <Link href="/participate/survey" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.survey", "Surveys")}</Link>
-                        <Link href="/polls" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.polls", "Polls")}</Link>
+                        {/* Polls hidden as requested */}
                         <Link href="/feedback" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.feedback", "Feedback")}</Link>
                         <Link href="/participate/events" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.events", "Events")}</Link>
                       </motion.div>

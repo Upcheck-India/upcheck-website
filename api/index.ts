@@ -24,6 +24,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+import localPosts from "../client/src/pages/posts.json";
+
 let cachedPosts: any[] | null = null;
 let lastFetchTime = 0;
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
@@ -47,7 +49,7 @@ app.get("/api/posts", async (req, res) => {
     })();
 
     const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error("Timeout")), 2500)
+      setTimeout(() => reject(new Error("Timeout")), 4000)
     );
 
     const posts = await Promise.race([fetchPromise, timeoutPromise]);
@@ -57,34 +59,52 @@ app.get("/api/posts", async (req, res) => {
       return res.json(cachedPosts);
     }
   } catch (e) {
-    console.error("Failed to fetch posts or timed out:", e);
+    console.error("Failed to fetch posts from MongoDB, serving fallback:", e);
   }
 
-  if (cachedPosts) {
-    return res.json(cachedPosts);
-  }
-  res.status(500).json({ error: "Failed to fetch posts" });
+  return res.json(cachedPosts || localPosts);
 });
 
 // GET /api/posts/:id
 app.get("/api/posts/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const client = await getClientPromise();
-    const db = client.db("resources");
+    let post: any = null;
 
-    // Try string id first
-    let post = await db.collection("website-resource").findOne({ id });
+    try {
+      const client = await getClientPromise();
+      const db = client.db("resources");
 
-    // Fallback to ObjectId
-    if (!post) {
-      try {
-        post = await db
-          .collection("website-resource")
-          .findOne({ _id: new ObjectId(id) });
-      } catch {
-        // Invalid ObjectId format, ignore
+      // Try string id first
+      post = await db.collection("website-resource").findOne({ id });
+
+      // Try numeric id
+      if (!post && !isNaN(Number(id))) {
+        post = await db.collection("website-resource").findOne({ id: Number(id) });
       }
+
+      // Fallback to ObjectId
+      if (!post) {
+        try {
+          post = await db
+            .collection("website-resource")
+            .findOne({ _id: new ObjectId(id) });
+        } catch {
+          // Invalid ObjectId format, ignore
+        }
+      }
+    } catch (dbErr) {
+      console.warn("MongoDB fetch error in serverless, falling back to local posts:", dbErr);
+    }
+
+    // Fallback to localPosts
+    if (!post) {
+      post = (localPosts as any[]).find(
+        (p: any) =>
+          String(p.id) === String(id) ||
+          String(p._id) === String(id) ||
+          (!isNaN(Number(id)) && Number(p.id) === Number(id))
+      );
     }
 
     if (!post) {
@@ -94,6 +114,13 @@ app.get("/api/posts/:id", async (req, res) => {
     return res.json(post);
   } catch (e) {
     console.error("Failed to fetch post:", e);
+    const post = (localPosts as any[]).find(
+      (p: any) =>
+        String(p.id) === String(req.params.id) ||
+        String(p._id) === String(req.params.id) ||
+        (!isNaN(Number(req.params.id)) && Number(p.id) === Number(req.params.id))
+    );
+    if (post) return res.json(post);
     return res.status(500).json({ error: "Failed to fetch post" });
   }
 });

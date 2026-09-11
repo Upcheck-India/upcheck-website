@@ -72,7 +72,7 @@ import initialPostsData from "./posts.json";
 
 function transformPosts(postsData: any[], lang: string): Article[] {
   return postsData.map((post: any) => ({
-    id: post.id,
+    id: post.id ?? post._id,
     title:
       post.translations?.[lang]?.title ??
       post.translations?.en?.title ??
@@ -84,37 +84,40 @@ function transformPosts(postsData: any[], lang: string): Article[] {
       post.description ??
       "",
     category: post.categories?.[0] ?? "General",
-    image: post.thumbnail ?? "",
+    image: post.thumbnail ?? "/attached_assets/shrimpfarm.png",
     author: post.author ?? "Unknown",
-    date: new Date(post.publishedAt).toLocaleDateString(),
+    date: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : "",
     tags: post.tags ?? [],
   }));
 }
 
 export default function Resources() {
   const { language, t } = useLanguage();
+  const [rawPosts, setRawPosts] = useState<any[]>(initialPostsData);
   const [articles, setArticles] = useState<Article[]>(() =>
     transformPosts(initialPostsData, language)
   );
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [postsPerPage, setPostsPerPage] = useState(3);
+  const [postsPerPage, setPostsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Update articles immediately when language changes
+  // Update articles immediately when language or rawPosts change
   useEffect(() => {
-    setArticles((prev) => transformPosts(initialPostsData, language));
-  }, [language]);
+    setArticles(transformPosts(rawPosts, language));
+  }, [language, rawPosts]);
 
   // Fetch posts from API in background to keep data fresh without blocking UI
   useEffect(() => {
     async function fetchPosts() {
       try {
         const res = await fetch("/api/posts");
-        const postsData = await res.json();
-        if (Array.isArray(postsData) && postsData.length > 0) {
-          setArticles(transformPosts(postsData, language));
+        if (res.ok) {
+          const postsData = await res.json();
+          if (Array.isArray(postsData) && postsData.length > 0) {
+            setRawPosts(postsData);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch latest posts:", error);
@@ -122,12 +125,12 @@ export default function Resources() {
     }
 
     fetchPosts();
-  }, [language]);
+  }, []);
 
   // Get categories dynamically
   const uniqueCategories = Array.from(
-    new Set(articles.flatMap((article) => article.category || ["General"]))
-  );
+    new Set(articles.map((article) => article.category || "General"))
+  ).filter(Boolean).sort();
   const categories: string[] = ["All", ...uniqueCategories];
 
   // Filter articles based on category and search query
@@ -431,6 +434,7 @@ export default function Resources() {
                   <option value={3}>3</option>
                   <option value={6}>6</option>
                   <option value={9}>9</option>
+                  <option value={12}>12</option>
                 </select>
               </div>
 
