@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  WEB3FORMS_KEY,
+  WEB3FORMS_ENDPOINT,
+  FORMS_CONFIGURED,
+  CONTACT_EMAIL,
+} from "@/config/forms";
 import { 
   MapPin, 
-  Mail, 
-  Phone, 
-  Clock, 
+  Mail,
+  Clock,
   Send, 
   CheckCircle2, 
   User, 
@@ -17,6 +22,12 @@ import {
   ChevronRight,
   Sparkles
 } from "lucide-react";
+
+const SUBJECT_BY_SLUG: Record<string, string> = {
+  demo: "Schedule a Demo",
+  support: "Technical Support",
+  general: "General Inquiry",
+};
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -29,6 +40,19 @@ export default function Contact() {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  // Deep links like /contact?subject=demo preselect the subject and jump to the form.
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("subject");
+    if (!requested) return;
+    const match = SUBJECT_BY_SLUG[requested.toLowerCase()];
+    if (!match) return;
+    setFormData(prev => ({ ...prev, subject: match }));
+    document
+      .getElementById("contact-content-section")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -38,16 +62,53 @@ export default function Contact() {
     }));
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
-    
+
+    if (!FORMS_CONFIGURED) {
+      // Never show a success state we cannot back up. Fail loudly instead.
+      setSubmitError(
+        `This form is not configured yet. Please email us directly at ${CONTACT_EMAIL}.`
+      );
+      return;
+    }
+
     setIsSubmitting(true);
-    // Simulate secure submission API
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `[upcheck.in] ${formData.subject} — ${formData.name}`,
+          from_name: "Upcheck website",
+          replyto: formData.email,
+          name: formData.name,
+          email: formData.email,
+          organisation: formData.orgName || "—",
+          enquiry_type: formData.subject,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok || !result?.success) {
+        throw new Error(result?.message ?? `Request failed (${response.status})`);
+      }
+
       setIsSubmitted(true);
-    }, 1200);
+    } catch (err) {
+      setSubmitError(
+        `We couldn't send that — please check your connection and try again, or email us at ${CONTACT_EMAIL}.`
+      );
+      console.error("Contact form submission failed:", err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleScrollToForm = (subjectOption?: string) => {
@@ -193,29 +254,7 @@ export default function Contact() {
                 </div>
               </motion.div>
 
-              {/* 3. Call Us */}
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                whileHover={{ y: -4, scale: 1.01 }}
-                className="flex items-start gap-5 p-6 rounded-2xl border border-border/50 bg-[#F8FAFC]/40 dark:bg-slate-900/30 backdrop-blur-md shadow-xs hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 hover:border-[#00C9E4]/30 group"
-              >
-                <div className="p-3 bg-gradient-to-br from-[#00C9E4]/10 to-[#0067B1]/10 text-[#0067B1] dark:text-[#00C9E4] rounded-xl group-hover:scale-110 transition-transform duration-300 border border-[#00C9E4]/20">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div className="text-left">
-                  <h4 className="font-extrabold text-slate-400 dark:text-slate-500 mb-1 text-xs tracking-wider uppercase">Call Us</h4>
-                  <a 
-                    href="tel:+91XXXXXXXXXX" 
-                    className="text-base text-slate-900 dark:text-slate-100 font-extrabold hover:text-[#0067B1] dark:hover:text-[#00C9E4]"
-                  >
-                    +91 XXXXX XXXXX
-                  </a>
-                </div>
-              </motion.div>
-
-              {/* 4. Working Hours */}
+              {/* 3. Working Hours */}
               <motion.div 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -373,6 +412,16 @@ export default function Contact() {
                             className="w-full rounded-md border border-border/70 bg-slate-50/40 dark:bg-slate-900/30 p-3 h-32 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all duration-200 resize-none placeholder:text-muted-foreground"
                           />
                         </div>
+
+                        {/* Submission error */}
+                        {submitError && (
+                          <p
+                            role="alert"
+                            className="rounded-xl border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/40 px-4 py-3 text-sm font-semibold text-red-700 dark:text-red-300"
+                          >
+                            {submitError}
+                          </p>
+                        )}
 
                         {/* Submit Button */}
                         <Button

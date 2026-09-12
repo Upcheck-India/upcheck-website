@@ -189,19 +189,19 @@ export default function SolutionSection() {
               {/* MIDDLE BODY CONTENT (Rich Structured Narrative Filling the Card) */}
               <div className="relative z-10 space-y-3.5 text-white/95 text-xs sm:text-sm leading-relaxed text-left font-medium">
                 <p>
-                  <strong className="text-white font-bold">UpCheck</strong> is an integrated precision aquaculture platform designed to help shrimp farmers manage their entire operation intelligently, sustainably, and profitably.
+                  <strong className="text-white font-bold">Upcheck</strong> is a precision aquaculture platform built in two parts, and we are honest about where each one stands.
                 </p>
 
                 <p>
-                  At its core is a solar-powered floating IoT device that continuously monitors critical pond parameters such as <span className="text-white font-semibold">pH, dissolved oxygen, temperature, humidity, and rainfall</span>, providing instant real-time insights through a simple mobile application.
+                  <span className="text-white font-semibold">Neerani</span>, the farm-management app, is live in closed beta with pilot farms. It holds every pond&rsquo;s water, feed, growth, health and money records — offline at the pond bank, in six languages — and reads that record back as feeding guidance, disease risk and a cycle-end reckoning in FCR, survival and cost per kilo.
                 </p>
 
                 <p>
-                  By combining live pond data with AI-driven analytics, UpCheck generates personalized feeding schedules, enables early detection of unfavorable conditions, and supports healthier shrimp growth with reduced chemical usage.
+                  <span className="text-white font-semibold">Neero</span>, the solar-powered floating sensor, is a bench prototype in active development. Once it reaches the pond it will measure <span className="text-white font-semibold">pH, dissolved oxygen and temperature</span> continuously and feed those readings into the same app, so the daily round stops depending on someone remembering to test.
                 </p>
 
                 <p>
-                  By bringing all farm activities into a single ecosystem, UpCheck transforms traditional, guesswork-based shrimp farming into a data-driven, sustainable, and profitable operation.
+                  Together they turn guesswork-based shrimp farming into a recorded, data-driven operation — with advice that states what it was computed from, and declines to answer when the readings are too thin to be trusted.
                 </p>
               </div>
 

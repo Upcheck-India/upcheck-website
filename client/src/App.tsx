@@ -10,7 +10,6 @@ import About from "@/pages/about";
 import Resources from "@/pages/resources";
 import Article from "@/pages/article";
 import Products from "@/pages/products";
-import Polls from "@/pages/polls";
 import Feedback from "@/pages/feedback";
 import Survey from "@/pages/survey";
 import Events from "@/pages/events";
