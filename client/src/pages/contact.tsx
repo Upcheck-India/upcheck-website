@@ -4,12 +4,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  WEB3FORMS_KEY,
-  WEB3FORMS_ENDPOINT,
-  FORMS_CONFIGURED,
-  CONTACT_EMAIL,
-} from "@/config/forms";
+import { sendFormNotification, honeypotFieldProps } from "@/config/forms";
 import { 
   MapPin, 
   Mail,
@@ -41,6 +36,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState(false);
 
   // Deep links like /contact?subject=demo preselect the subject and jump to the form.
   useEffect(() => {
@@ -66,49 +62,25 @@ export default function Contact() {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
-    if (!FORMS_CONFIGURED) {
-      // Never show a success state we cannot back up. Fail loudly instead.
-      setSubmitError(
-        `This form is not configured yet. Please email us directly at ${CONTACT_EMAIL}.`
-      );
-      return;
-    }
+    if (isSubmitting) return; // guard against double-submit
 
     setIsSubmitting(true);
     setSubmitError(null);
 
-    try {
-      const response = await fetch(WEB3FORMS_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: `[upcheck.in] ${formData.subject} — ${formData.name}`,
-          from_name: "Upcheck website",
-          replyto: formData.email,
-          name: formData.name,
-          email: formData.email,
-          organisation: formData.orgName || "—",
-          enquiry_type: formData.subject,
-          message: formData.message,
-        }),
-      });
+    const result = await sendFormNotification({
+      subject: `[upcheck.in] ${formData.subject} — ${formData.name}`,
+      replyto: formData.email,
+      name: formData.name,
+      email: formData.email,
+      organisation: formData.orgName || "—",
+      enquiry_type: formData.subject,
+      message: formData.message,
+      [honeypotFieldProps.name]: honeypot ? "true" : "",
+    });
 
-      const result = await response.json().catch(() => null);
-
-      if (!response.ok || !result?.success) {
-        throw new Error(result?.message ?? `Request failed (${response.status})`);
-      }
-
-      setIsSubmitted(true);
-    } catch (err) {
-      setSubmitError(
-        `We couldn't send that — please check your connection and try again, or email us at ${CONTACT_EMAIL}.`
-      );
-      console.error("Contact form submission failed:", err);
-    } finally {
-      setIsSubmitting(false);
-    }
+    setIsSubmitting(false);
+    if (result.ok) setIsSubmitted(true);
+    else setSubmitError(result.error);
   };
 
   const handleScrollToForm = (subjectOption?: string) => {
@@ -412,6 +384,13 @@ export default function Contact() {
                             className="w-full rounded-md border border-border/70 bg-slate-50/40 dark:bg-slate-900/30 p-3 h-32 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all duration-200 resize-none placeholder:text-muted-foreground"
                           />
                         </div>
+
+                        {/* Honeypot — hidden from people, irresistible to bots */}
+                        <input
+                          {...honeypotFieldProps}
+                          checked={honeypot}
+                          onChange={(e) => setHoneypot(e.target.checked)}
+                        />
 
                         {/* Submission error */}
                         {submitError && (

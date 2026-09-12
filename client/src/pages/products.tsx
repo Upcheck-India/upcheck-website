@@ -6,17 +6,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import CountUp from "react-countup";
-const upcheckDeviceImg = "/attached_assets/upcheck-iot-device.png";
-const yellowDeviceImg = "/attached_assets/upcheck-yellow-device.jpg";
+const upcheckDeviceImg = "/attached_assets/upcheck-iot-device.webp";
+const yellowDeviceImg = "/attached_assets/upcheck-yellow-device.webp";
 const appScreenshotImg = "/attached_assets/upcheck-farm-app.jpg";
-const aquaculturePensImg = "/attached_assets/aquaculture-pens.png";
-const shrimpHarvestImg = "/attached_assets/shrimp-harvest.png";
-const fishermanBoatImg = "/attached_assets/fisherman-boat.jpg";
+const aquaculturePensImg = "/attached_assets/aquaculture-pens.webp";
+const shrimpHarvestImg = "/attached_assets/shrimp-harvest.webp";
+const fishermanBoatImg = "/attached_assets/fisherman-boat.webp";
 const diseaseShrimpImg = "/attached_assets/disease-shrimp.jpg";
-const platformAccuracyImg = "/attached_assets/platform-accuracy.png";
-const liveAnalyticsSeaImg = "/attached_assets/live-analytics-sea.png";
+const platformAccuracyImg = "/attached_assets/platform-accuracy.webp";
+const liveAnalyticsSeaImg = "/attached_assets/live-analytics-sea.webp";
 const aiFeedingSeaweedImg = "/attached_assets/ai-feeding-seaweed.jpg";
-const traceabilityPlaceholderImg = "/attached_assets/traceability-placeholder.png";
+const traceabilityPlaceholderImg = "/attached_assets/traceability-placeholder.webp";
 import {
   Activity,
   ArrowRight,

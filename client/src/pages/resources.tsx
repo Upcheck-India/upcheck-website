@@ -84,7 +84,7 @@ function transformPosts(postsData: any[], lang: string): Article[] {
       post.description ??
       "",
     category: post.categories?.[0] ?? "General",
-    image: post.thumbnail ?? "/attached_assets/shrimpfarm.png",
+    image: post.thumbnail ?? "/attached_assets/shrimpfarm.webp",
     author: post.author ?? "Unknown",
     date: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : "",
     tags: post.tags ?? [],
@@ -340,13 +340,13 @@ export default function Resources() {
                     <div>
                       <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-800">
                         <img
-                          src={article.image || "/attached_assets/shrimpfarm.png"}
+                          src={article.image || "/attached_assets/shrimpfarm.webp"}
                           alt={article.title}
                           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                           onError={(e) => {
                             const target = e.currentTarget;
-                            if (!target.src.includes("shrimpfarm.png")) {
-                              target.src = "/attached_assets/shrimpfarm.png";
+                            if (!target.src.includes("shrimpfarm.webp")) {
+                              target.src = "/attached_assets/shrimpfarm.webp";
                             }
                           }}
                         />

@@ -20,7 +20,7 @@ const problems: Problem[] = [
     description: "Farmers rely on fixed, manual feeding charts regardless of real-time shrimp appetite. Unconsumed feed rapidly sinks to the pond bottom, causing toxic ammonia spikes while burning up to 60% of daily farm operational costs.",
     metric: "35% - 40%",
     metricLabel: "Feed Investment Lost to Pond Bottom",
-    bgImage: "/attached_assets/problem2.jpg",
+    bgImage: "/attached_assets/problem2.webp",
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ const problems: Problem[] = [
     description: "Aquaculture operations depend heavily on manual labor during dangerous late-night shifts. Worker fatigue, delayed manual logs, and lack of real-time accountability leave aerators unmonitored and farms exposed to sudden failures.",
     metric: "65%",
     metricLabel: "Farm Disasters Linked to Manual Error",
-    bgImage: "/attached_assets/fisherman-boat.jpg",
+    bgImage: "/attached_assets/fisherman-boat.webp",
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ const problems: Problem[] = [
     description: "Dissolved oxygen and water chemistry can crash dangerously within 30 minutes during sudden weather changes or night shifts. Without instant automated alerts, farmers only discover lethal conditions after shrimp begin dying.",
     metric: "< 30 Mins",
     metricLabel: "Response Window Before Fatal Crop Loss",
-    bgImage: "/attached_assets/problem3.jpg",
+    bgImage: "/attached_assets/problem3.webp",
   },
   {
     id: 4,
@@ -47,7 +47,7 @@ const problems: Problem[] = [
     description: "Without continuous water quality visibility, farmers routinely dump antibiotics and chemical conditioners as defensive guesswork. This inflates production costs, builds resistance, and jeopardizes export compliance.",
     metric: "25% - 30%",
     metricLabel: "Unnecessary Chemical & Treatment Expenses",
-    bgImage: "/attached_assets/problem5.jpg",
+    bgImage: "/attached_assets/problem5.webp",
   },
   {
     id: 5,
