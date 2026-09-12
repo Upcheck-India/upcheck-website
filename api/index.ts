@@ -23,8 +23,58 @@ function getClientPromise(): Promise<MongoClient> {
 }
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
+// Vercel terminates TLS and proxies, so the client IP arrives in x-forwarded-for.
+// Without this, express-rate-limit buckets every request under the proxy IP and
+// would rate-limit all users as one.
+app.set("trust proxy", 1);
+
+// Cap body size. The only POST takes a short feedback form; anything larger is
+// either a mistake or an attempt to exhaust memory.
+app.use(express.json({ limit: "32kb" }));
+app.use(express.urlencoded({ extended: false, limit: "32kb" }));
+
+/**
+ * Rate limiting.
+ *
+ * Caveat worth knowing: express-rate-limit's default store is in-memory, and on
+ * serverless each cold instance starts with an empty bucket. Fluid Compute reuses
+ * instances so this does bite casual abuse and accidental request storms, but it
+ * is not a hard guarantee across a distributed fleet. For a real ceiling, enable
+ * rate limiting in the Vercel Firewall (WAF) at the platform edge — that runs
+ * before the function is ever invoked, so it also protects your compute bill.
+ */
+const limiter = (max: number, windowMs: number, message: string) =>
+  rateLimit({
+    windowMs,
+    max,
+    message: { error: message },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+// Read endpoints: generous, but bounded so a scraper cannot hammer MongoDB.
+const readLimiter = limiter(
+  120,
+  60 * 1000,
+  "Too many requests. Please slow down and try again shortly."
+);
+
+// Media streams straight out of GridFS, so it is the most expensive read.
+const mediaLimiter = limiter(
+  60,
+  60 * 1000,
+  "Too many media requests. Please try again shortly."
+);
+
+// Writes: tight, since this is the only endpoint that persists user input.
+const feedbackLimiter = limiter(
+  5,
+  15 * 60 * 1000,
+  "Too many feedback submissions from this IP. Please try again after 15 minutes."
+);
+
+app.use("/api/", readLimiter);
 
 import localPosts from "../client/src/pages/posts.json";
 
@@ -128,7 +178,7 @@ app.get("/api/posts/:id", async (req, res) => {
 });
 
 // GET /api/media/:id
-app.get("/api/media/:id", async (req, res) => {
+app.get("/api/media/:id", mediaLimiter, async (req, res) => {
   try {
     const { id } = req.params;
     const client = await getClientPromise();
@@ -173,16 +223,6 @@ app.get("/api/media/:id", async (req, res) => {
 // POST /api/feedback
 // Mirrors the handler in server/routes.ts. Vercel rewrites every /api/* request to
 // this file, so a route that lives only in server/routes.ts 404s in production.
-const feedbackRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  message: {
-    error: "Too many feedback submissions from this IP. Please try again after 15 minutes.",
-  },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
 const feedbackSchema = z.object({
   name: z.string().min(1, "Name is required").max(100, "Name is too long"),
   email: z.string().email("Invalid email address").max(100, "Email is too long"),
@@ -207,7 +247,7 @@ function sanitizeInput(str: string): string {
     .trim();
 }
 
-app.post("/api/feedback", feedbackRateLimiter, async (req, res) => {
+app.post("/api/feedback", feedbackLimiter, async (req, res) => {
   try {
     const parseResult = feedbackSchema.safeParse(req.body);
     if (!parseResult.success) {

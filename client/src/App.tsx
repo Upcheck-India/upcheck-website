@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { Analytics } from "@vercel/analytics/react";
+import RouteMeta from "@/components/RouteMeta";
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import Resources from "@/pages/resources";
@@ -53,6 +55,8 @@ function App() {
       <ThemeProvider>
         <LanguageProvider>
           <TooltipProvider>
+            <RouteMeta />
+            <Analytics />
             <Toaster />
             <Router />
           </TooltipProvider>

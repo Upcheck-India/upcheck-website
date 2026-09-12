@@ -2,12 +2,82 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <!-- maximum-scale removed: it blocked pinch-zoom, which older farmers need on a phone in sunlight -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Upcheck — Precision aquaculture for shrimp farmers</title>
+    <meta
+      name="description"
+      content="Upcheck builds Neerani, the farm-management app for shrimp and fish producers in India, and Neero, a solar-powered pond sensor in development. Water, feed, growth, health and cycle economics in one record — offline, in six languages."
+    />
+    <link rel="canonical" href="https://upcheck.in/" />
+    <meta name="theme-color" content="#0067B1" />
+
+    <!-- Social link previews. These are read by scrapers that do not run JavaScript,
+         so they must be static here rather than set from React. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Upcheck" />
+    <meta property="og:url" content="https://upcheck.in/" />
+    <meta property="og:title" content="Upcheck — Precision aquaculture for shrimp farmers" />
+    <meta
+      property="og:description"
+      content="Neerani keeps every pond's water, feed, growth, health and money in one record — offline, in six languages. Neero, our solar-powered pond sensor, is in development."
+    />
+    <meta property="og:image" content="https://upcheck.in/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Upcheck — precision aquaculture for shrimp farmers" />
+    <meta property="og:locale" content="en_IN" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Upcheck — Precision aquaculture for shrimp farmers" />
+    <meta
+      name="twitter:description"
+      content="Neerani keeps every pond's water, feed, growth, health and money in one record — offline, in six languages. Neero, our solar-powered pond sensor, is in development."
+    />
+    <meta name="twitter:image" content="https://upcheck.in/og-image.jpg" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <title>Upcheck - Reinventing Aquaculture</title>
-    <meta name="description" content="Revolutionary aquaculture technology platform for real-time monitoring, disease prediction, and smart feeding solutions for shrimp farmers.">
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Upcheck Technologies Private Limited",
+        "alternateName": "Upcheck",
+        "url": "https://upcheck.in/",
+        "logo": "https://upcheck.in/favicon-512.png",
+        "image": "https://upcheck.in/og-image.jpg",
+        "description": "Upcheck builds Neerani, a farm-management app for shrimp and fish producers, and Neero, a solar-powered floating pond sensor in development.",
+        "email": "admin@upcheck.in",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Chennai",
+          "addressRegion": "Tamil Nadu",
+          "addressCountry": "IN"
+        },
+        "areaServed": "IN",
+        "knowsAbout": [
+          "Shrimp aquaculture",
+          "Pond water quality monitoring",
+          "Aquaculture farm management",
+          "Feed conversion ratio"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "admin@upcheck.in",
+          "availableLanguage": ["English", "Tamil", "Telugu", "Hindi", "Bengali"]
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { sendFormNotification } from "@/config/forms";
 import {
   Star,
   Users,
@@ -269,48 +270,64 @@ export default function FeedbackPage() {
     setIsSubmitting(true);
     
     try {
-      // Send data to backend POST /api/feedback or mock it
+      // Persist to MongoDB. A 404 is a real failure, not something to paper over —
+      // showing success for a submission we did not store is how feedback silently
+      // disappeared before.
       const response = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
-      
-      // If endpoint doesn't exist, we fallback gracefully to simulate success
-      if (response.ok || response.status === 404) {
-        // Success simulation
-        setTimeout(() => {
-          setIsSubmitting(false);
-          setSubmitSuccess(true);
-          
-          // Add to local state dynamically for preview
-          const newTestimonial: Testimonial = {
-            name: formData.name,
-            farmName: formData.farmName,
-            location: formData.location,
-            rating: formData.rating,
-            feedback: formData.feedback,
-            date: "Today",
-            avatarUrl: "/attached_assets/image_1760003217493.png",
-            bgImageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80"
-          };
-          
-          setTestimonials((prev) => [newTestimonial, ...prev]);
-          
-          toast({
-            title: "Thank You!",
-            description: "Your feedback has been successfully submitted and helps us improve Upcheck.",
-          });
-        }, 1200);
-      } else {
-        throw new Error("Failed to submit feedback");
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        throw new Error(body?.error ?? `Failed to submit feedback (${response.status})`);
       }
+
+      // Stored. Also notify the team by email so feedback is read, not just filed.
+      // A failure here must not tell the farmer their feedback was lost — it wasn't.
+      const notified = await sendFormNotification({
+        subject: `[upcheck.in] Feedback ${formData.rating}★ — ${formData.name}`,
+        replyto: formData.email,
+        name: formData.name,
+        email: formData.email,
+        farm: formData.farmName || "—",
+        location: formData.location || "—",
+        rating: `${formData.rating}/5`,
+        message: formData.feedback,
+      });
+      if (!notified.ok) {
+        console.warn("Feedback stored, but email notification failed:", notified.error);
+      }
+
+      setIsSubmitting(false);
+      setSubmitSuccess(true);
+
+      const newTestimonial: Testimonial = {
+        name: formData.name,
+        farmName: formData.farmName,
+        location: formData.location,
+        rating: formData.rating,
+        feedback: formData.feedback,
+        date: "Today",
+        avatarUrl: "/attached_assets/image_1760003217493.png",
+        bgImageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80"
+      };
+      setTestimonials((prev) => [newTestimonial, ...prev]);
+
+      toast({
+        title: "Thank You!",
+        description: "Your feedback has been successfully submitted and helps us improve Upcheck.",
+      });
     } catch (err) {
       console.error(err);
       setIsSubmitting(false);
       toast({
         title: "Submission Error",
-        description: "Something went wrong. Please try again.",
+        description:
+          err instanceof Error && /Too many/i.test(err.message)
+            ? err.message
+            : "Something went wrong and your feedback was not saved. Please try again, or email admin@upcheck.in.",
         variant: "destructive"
       });
     }

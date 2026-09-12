@@ -4,12 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Check } from "lucide-react";
 import { Link } from "wouter";
-import {
-  WEB3FORMS_KEY,
-  WEB3FORMS_ENDPOINT,
-  FORMS_CONFIGURED,
-  CONTACT_EMAIL,
-} from "@/config/forms";
+import { sendFormNotification } from "@/config/forms";
 
 const logoUrl = "/attached_assets/upcheck-logo.png";
 
@@ -22,36 +17,24 @@ export default function Footer() {
     e.preventDefault();
     if (!email) return;
 
-    if (!FORMS_CONFIGURED) {
-      setError(`Newsletter signup isn't configured yet — email ${CONTACT_EMAIL} to be added.`);
+    setError(null);
+    const result = await sendFormNotification({
+      subject: `[upcheck.in] Newsletter signup — ${email}`,
+      replyto: email,
+      email,
+      message: `Newsletter subscription request from ${email}`,
+    });
+
+    if (!result.ok) {
+      setError(result.error);
       return;
     }
 
-    setError(null);
-    try {
-      const response = await fetch(WEB3FORMS_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: `[upcheck.in] Newsletter signup — ${email}`,
-          from_name: "Upcheck website",
-          email,
-          message: `Newsletter subscription request from ${email}`,
-        }),
-      });
-      const result = await response.json().catch(() => null);
-      if (!response.ok || !result?.success) throw new Error(result?.message ?? "Signup failed");
-
-      setSubscribed(true);
-      setTimeout(() => {
-        setSubscribed(false);
-        setEmail("");
-      }, 3000);
-    } catch (err) {
-      setError("Couldn't sign you up just now — please try again shortly.");
-      console.error("Newsletter signup failed:", err);
-    }
+    setSubscribed(true);
+    setTimeout(() => {
+      setSubscribed(false);
+      setEmail("");
+    }, 3000);
   };
 
   return (
