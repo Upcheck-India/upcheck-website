@@ -9,6 +9,7 @@ interface Problem {
   description: string;
   metric: string;
   metricLabel: string;
+  source?: { label: string; url: string };
   bgImage: string;
 }
 
@@ -17,45 +18,65 @@ const problems: Problem[] = [
     id: 1,
     title: "Inefficient Feeding & Feed Wastage",
     subtitle: "OVERFEEDING & SINKING FEED LOSS",
-    description: "Farmers rely on fixed, manual feeding charts regardless of real-time shrimp appetite. Unconsumed feed rapidly sinks to the pond bottom, causing toxic ammonia spikes while burning up to 60% of daily farm operational costs.",
-    metric: "35% - 40%",
-    metricLabel: "Feed Investment Lost to Pond Bottom",
+    description: "Farmers rely on fixed feeding charts rather than the animals' actual appetite. Unconsumed feed sinks to the pond bottom and breaks down into ammonia — and feed is already the largest single cost on the farm, at around 60% of production cost. A feed conversion ratio that drifts from 1.5 to 1.8 is money and water quality lost together.",
+    metric: "~60%",
+    metricLabel: "Of Shrimp Production Cost Is Feed",
+    source: {
+      label: "CIBA, via The Fish Site",
+      url: "https://thefishsite.com/articles/indias-indigenous-feed-technology-to-reduce-shrimp-production-cost-by-20",
+    },
     bgImage: "/attached_assets/problem2.webp",
   },
   {
     id: 2,
     title: "Workforce & Night Shift Management",
     subtitle: "MANUAL OBSERVATION & UNMONITORED AERATORS",
-    description: "Aquaculture operations depend heavily on manual labor during dangerous late-night shifts. Worker fatigue, delayed manual logs, and lack of real-time accountability leave aerators unmonitored and farms exposed to sudden failures.",
-    metric: "65%",
-    metricLabel: "Farm Disasters Linked to Manual Error",
+    description: "Oxygen falls furthest just before dawn, so somebody walks the pond bank in the dark to check aerators. It is the least safe shift on the farm and the one where a missed reading costs most. Andhra Pradesh's shrimp sector employs around 4 million people, largely on smallholdings under two hectares — farms that cannot staff a night watch on every pond.",
+    metric: "4 million",
+    metricLabel: "People Employed in Andhra Shrimp Farming",
+    source: {
+      label: "Sustainable Fisheries Partnership",
+      url: "https://sustainablefish.org/shrimp-farming-in-andhra-pradesh-understanding-small-scale-farmers-opportunities-for-landscape-level-improvements/",
+    },
     bgImage: "/attached_assets/fisherman-boat.webp",
   },
   {
     id: 3,
     title: "No Timely Alerts for Quick Action",
     subtitle: "BLIND SPOTS DURING CRITICAL OXYGEN CRASHES",
-    description: "Dissolved oxygen and water chemistry can crash dangerously within 30 minutes during sudden weather changes or night shifts. Without instant automated alerts, farmers only discover lethal conditions after shrimp begin dying.",
-    metric: "< 30 Mins",
-    metricLabel: "Response Window Before Fatal Crop Loss",
+    description: "Dissolved oxygen falls fastest overnight and after sudden weather changes. Feeder-canal water in Indian farming areas has been measured as low as 0.8 mg/L — deep into the hypoxic range for shrimp, and a documented trigger for disease outbreaks. Without continuous measurement, the first signal a farmer gets is animals at the surface.",
+    metric: "0.8 mg/L",
+    metricLabel: "DO Measured in Indian Feeder Canals",
+    source: {
+      label: "Peer-reviewed study, PMC",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3349133/",
+    },
     bgImage: "/attached_assets/problem3.webp",
   },
   {
     id: 4,
     title: "Excessive Chemical & Antibiotic Overuse",
     subtitle: "DEFENSIVE GUESSWORK & ESCALATING COSTS",
-    description: "Without continuous water quality visibility, farmers routinely dump antibiotics and chemical conditioners as defensive guesswork. This inflates production costs, builds resistance, and jeopardizes export compliance.",
-    metric: "25% - 30%",
-    metricLabel: "Unnecessary Chemical & Treatment Expenses",
+    description: "Without continuous water visibility, treatment becomes defensive guesswork — and residue testing at farm level is negligible, so problems surface only at the buyer's lab. Andhra farms accounted for 74% of India's antibiotic-related shrimp rejections. Notably, 85.7% of antibiotic refusals in Q1 2026 came from BAP-certified facilities, so certification alone is not catching this.",
+    metric: "74%",
+    metricLabel: "Of India's Antibiotic Rejections From Andhra Farms",
+    source: {
+      label: "The South First",
+      url: "https://thesouthfirst.com/health/andhra-farms-drove-74-of-indias-antibiotic-shrimp-rejections-centre-seeks-answers-from-states/",
+    },
     bgImage: "/attached_assets/problem5.webp",
   },
   {
     id: 5,
     title: "Disease Outbreaks & Mass Mortality",
     subtitle: "RAPID SPREAD & LATE STAGE DETECTION",
-    description: "Unaddressed water parameter fluctuations trigger virulent pathogens like White Spot Syndrome Virus (WSSV) and EHP. Because early invisible warning signs are missed, entire ponds face total crop loss within days.",
-    metric: "Up to 80%",
-    metricLabel: "Total Harvest Crop Loss",
+    description: "Hypoxia, high ammonia and abrupt swings in temperature, salinity and pH all stress the animals and trigger pathogens like White Spot Syndrome Virus and EHP. Once WSSV takes hold in a grow-out pond, cumulative mortality can reach 100% within three to ten days. The window in which a farmer can act is measured in days, and it opens before anything is visible.",
+    metric: "3–10 days",
+    metricLabel: "WSSV Can Reach 100% Mortality",
+    source: {
+      label: "Iowa State CFSPH",
+      url: "https://www.cfsph.iastate.edu/Factsheets/pdfs/white-spot-disease.pdf",
+    },
     bgImage: "/attached_assets/disease-shrimp.jpg",
   },
 ];
@@ -197,9 +218,20 @@ export default function ProblemsScrollytelling() {
                         </span>
                       </div>
                       <div className="text-right pl-4">
-                        <span className="text-2xl sm:text-3xl md:text-4xl font-black text-[#00C9E4] tracking-tight drop-shadow-sm">
+                        <span className="block text-2xl sm:text-3xl md:text-4xl font-black text-[#00C9E4] tracking-tight drop-shadow-sm">
                           {problems[activeIndex].metric}
                         </span>
+                        {problems[activeIndex].source && (
+                          <a
+                            href={problems[activeIndex].source!.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-1 inline-block text-[10px] sm:text-[11px] font-medium text-slate-400 hover:text-[#00C9E4] underline underline-offset-2 decoration-slate-600 transition-colors"
+                            data-testid="link-problem-source"
+                          >
+                            Source: {problems[activeIndex].source!.label}
+                          </a>
+                        )}
                       </div>
                     </div>
                   </motion.div>
