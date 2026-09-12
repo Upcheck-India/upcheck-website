@@ -17,6 +17,9 @@ import Events from "@/pages/events";
 import EventDetail from "@/pages/event-detail";
 import Contact from "@/pages/contact";
 import Download from "@/pages/download";
+import Privacy from "@/pages/privacy";
+import Terms from "@/pages/terms";
+import AccountDeletion from "@/pages/account-deletion";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -37,6 +40,9 @@ function Router() {
       <Route path="/participate/events" component={Events} />
       <Route path="/participate/events/:slug" component={EventDetail} />
       <Route path="/contact" component={Contact} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/account-deletion" component={AccountDeletion} />
       <Route component={NotFound} />
     </Switch>
   );

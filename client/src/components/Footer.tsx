@@ -127,9 +127,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-3" data-testid="text-footer-legal">Legal</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-privacy">Privacy</a></li>
-              <li><a href="#" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-terms">Terms</a></li>
-              <li><a href="#" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-security">Security</a></li>
+              <li><Link href="/privacy" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-privacy">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-terms">Terms of Service</Link></li>
+              <li><Link href="/account-deletion" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-account-deletion">Account & Data Deletion</Link></li>
             </ul>
           </div>
         </div>
