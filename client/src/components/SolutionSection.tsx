@@ -108,7 +108,7 @@ export default function SolutionSection() {
                 className="w-full h-full rounded-2xl overflow-hidden shadow-lg border border-slate-100 cursor-pointer relative group"
               >
                 <img 
-                  src="/attached_assets/shrimpfarm.png" 
+                  src="/attached_assets/shrimpfarm.webp" 
                   alt="Shrimp farm operations" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -152,7 +152,7 @@ export default function SolutionSection() {
                 className="w-full h-full rounded-2xl overflow-hidden shadow-2xl border-2 border-white cursor-pointer relative group"
               >
                 <img 
-                  src="/attached_assets/sol1.jpg" 
+                  src="/attached_assets/sol1.webp" 
                   alt="Healthy shrimp aquaculture" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />

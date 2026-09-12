@@ -87,7 +87,7 @@ export default function FeedbackPage() {
       feedback: "Upcheck helped us monitor water quality in real time. Shrimp survival rates have improved significantly.",
       date: "July 12, 2025",
       avatarUrl: "/attached_assets/image_1760003217493.png",
-      bgImageUrl: "/attached_assets/shrimp_probe.jpg"
+      bgImageUrl: "/attached_assets/shrimp_probe.webp"
     },
     {
       name: "Tran Minh",
@@ -97,7 +97,7 @@ export default function FeedbackPage() {
       feedback: "The dashboard gives us instant alerts before problems become serious. We prevent oxygen depletion regularly.",
       date: "June 28, 2025",
       avatarUrl: "/attached_assets/image_1759908674341.png",
-      bgImageUrl: "/attached_assets/sol1.jpg"
+      bgImageUrl: "/attached_assets/sol1.webp"
     },
     {
       name: "Made Sukartha",
@@ -106,7 +106,7 @@ export default function FeedbackPage() {
       rating: 5,
       feedback: "We reduced manual work and increased production after installing Upcheck. The automation recommendations are unmatched.",
       date: "May 15, 2025",
-      avatarUrl: "/attached_assets/image_1759908687526.png",
+      avatarUrl: "/attached_assets/image_1759908687526.webp",
       bgImageUrl: "/attached_assets/sol2.jpg"
     },
     {
@@ -117,7 +117,7 @@ export default function FeedbackPage() {
       feedback: "The telemetry from Upcheck devices matches lab results perfectly. We have full trust in the analytics engine.",
       date: "April 02, 2025",
       avatarUrl: "/attached_assets/image_1760003217493.png",
-      bgImageUrl: "/attached_assets/problem2.jpg"
+      bgImageUrl: "/attached_assets/problem2.webp"
     },
     {
       name: "Fatima Al-Saeed",
@@ -127,7 +127,7 @@ export default function FeedbackPage() {
       feedback: "Upcheck's team helped us configure localized salinity thresholds. Outstanding customer service and product utility.",
       date: "March 18, 2025",
       avatarUrl: "/attached_assets/image_1759908674341.png",
-      bgImageUrl: "/attached_assets/salinity_alert.jpg"
+      bgImageUrl: "/attached_assets/salinity_alert.webp"
     },
     {
       name: "Somchai Prasert",
@@ -182,7 +182,7 @@ export default function FeedbackPage() {
       location: "Andhra Pradesh, India",
       challenge: "Frequent, unpredictable drops in dissolved oxygen at night, resulting in periodic crop stress and lower yields.",
       result: "Maintained optimal oxygen levels 24/7, leading to a 95% survival rate and a 20% increase in harvest weight.",
-      image: "/attached_assets/shrimpfarm.png",
+      image: "/attached_assets/shrimpfarm.webp",
       tags: ["Oxygen Monitoring", "Precision Yields"]
     },
     {
@@ -192,7 +192,7 @@ export default function FeedbackPage() {
       location: "Soc Trang, Vietnam",
       challenge: "High cost of manual daily water testing across dozens of remote, spread-out farming blocks.",
       result: "Centralized real-time status monitoring, reducing labor hours by 40% while ensuring warning alerts reach site managers instantly.",
-      image: "/attached_assets/sol1.jpg",
+      image: "/attached_assets/sol1.webp",
       tags: ["Farm Analytics", "Decentralized Ponds"]
     },
     {

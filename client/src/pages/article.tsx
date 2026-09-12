@@ -58,7 +58,7 @@ function transformSinglePost(post: any, lang: string, defaultReadTime: string): 
     author: post.author ?? "Unknown",
     date: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : "",
     readTime: defaultReadTime,
-    heroImage: (post.thumbnail ?? "/attached_assets/shrimpfarm.png").replace("w=800", "w=1200"),
+    heroImage: (post.thumbnail ?? "/attached_assets/shrimpfarm.webp").replace("w=800", "w=1200"),
     content:
       post.translations?.[lang]?.content ??
       post.translations?.en?.content ??

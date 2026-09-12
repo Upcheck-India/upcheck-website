@@ -1,20 +1,63 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, PlayCircle } from "lucide-react";
 // Logo path used directly: /attached_assets/upcheck-logo.png
 
+const HERO_POSTER = "/attached_assets/hero-poster.jpg";
+
+/**
+ * Farmers on the coast are frequently on metered 4G. Load the video only when
+ * it is actually wanted: after paint, not on a save-data or slow connection,
+ * and never when the viewer has asked for reduced motion.
+ */
+function useHeroVideo() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const conn = (navigator as any).connection;
+    if (conn?.saveData) return;
+    if (conn?.effectiveType && /2g/.test(conn.effectiveType)) return;
+
+    // Let the poster and the rest of the hero paint first.
+    const id = window.setTimeout(() => setShow(true), 600);
+    return () => window.clearTimeout(id);
+  }, []);
+
+  return show;
+}
+
 export default function HeroSection() {
+  const showVideo = useHeroVideo();
+
   return (
   <section className="dark text-foreground relative min-h-[80vh] md:min-h-[95vh] py-28 flex items-center justify-center overflow-hidden bg-site-gradient bg-background">
-      {/* Background Video */}
-      <video
-        src="/attached_assets/herovideo.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
+      {/* Background video.
+          The poster paints immediately, so the hero is never blank; the video itself
+          is only fetched once the poster is up, and is skipped entirely for viewers
+          who have asked for reduced motion or are on a metered/slow connection. */}
+      <img
+        src={HERO_POSTER}
+        alt=""
+        aria-hidden="true"
+        fetchPriority="high"
         className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
       />
+      {showVideo && (
+        <video
+          src="/attached_assets/hero.mp4"
+          poster={HERO_POSTER}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+        />
+      )}
 
       {/* Dark Overlay (50% opacity) */}
       <div className="absolute inset-0 bg-black/50 z-10" />
