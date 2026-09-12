@@ -44,8 +44,21 @@ export default function NeeroHardwareSection() {
             transition={{ duration: 0.6, delay: 0.15 }}
             className="text-sm md:text-base text-slate-600 max-w-2xl mx-auto font-medium mt-1 leading-relaxed"
           >
-            The autonomous floating IoT buoy that lives in your shrimp pond, continuously measuring vital chemical and physical parameters with zero manual intervention.
+            An autonomous floating IoT buoy designed to sit in your shrimp pond and measure the vital chemical and physical parameters continuously, with no manual intervention.
           </motion.p>
+
+          {/* Honest development status */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-full bg-amber-50 border border-amber-300 text-amber-800 text-xs font-bold uppercase tracking-wider"
+            data-testid="badge-neero-stage"
+          >
+            <span className="w-2 h-2 rounded-full bg-amber-500" />
+            In development · Bench prototype · Field trials next
+          </motion.div>
         </div>
 
         {/* 2-Column Split: Hardware Visual + Story Narrative */}
@@ -94,7 +107,7 @@ export default function NeeroHardwareSection() {
                 </span>
               </h3>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
-                Traditional water testing is manual, infrequent, and slow. <strong>Neero</strong> floats freely in your pond, taking continuous electrochemical measurements every minute and transmitting them directly to the cloud without needing external power outlets or manual battery swaps.
+                Traditional water testing is manual, infrequent, and slow. <strong>Neero</strong> is being built to float freely in your pond, take continuous electrochemical measurements and transmit them to the cloud over GSM — solar powered, duty-cycled to wake only when a reading is due, so there are no power outlets to run and no battery swaps. We are validating the sensing stack on the bench now; pond trials are the next milestone.
               </p>
             </div>
 

@@ -31,68 +31,68 @@ import {
 
 const detailedSections = [
   {
-    name: "Pond Monitoring System",
+    name: "Pond Monitoring & Daily Log",
     icon: Waves,
     description:
-      "Upcheck’s monitoring layer keeps critical pond data visible throughout the day so farmers can act before small changes become costly problems.",
+      "Every pond's working record in one place — dissolved oxygen, pH, temperature and salinity, feed given by meal, tray residue, mortality and treatments. A multi-pond grid lets one person log the whole farm in a single morning round.",
     points: [
-      "24/7 monitoring view with live status updates",
-      "Alert-first design for quick operational response",
-      "Built to match the existing Upcheck visual system",
+      "Log the whole farm in one pass, not pond by pond",
+      "Works offline at the pond bank and syncs when signal returns",
+      "Weekly chemistry, plankton and Vibrio counts in the same record",
     ],
   },
   {
-    name: "Smart Feeding Assistant",
+    name: "Feed Advisor",
     icon: Target,
     description:
-      "The feeding assistant turns farm context into clear guidance, helping teams keep feeding efficient and predictable.",
+      "How much to feed today, adjusted for tray residue, water conditions and molt stage. Where the readings are thin the advisor returns a range instead of a falsely precise number, and says what to go and measure.",
     points: [
-      "Practical recommendations for routine feeding",
-      "Designed to lower waste without adding complexity",
-      "Fits naturally into the existing app workflow",
+      "Tray-residue adjusted, so uneaten feed stops becoming ammonia",
+      "Lunar molt windows factored into the daily ration",
+      "States what each recommendation was computed from",
     ],
   },
   {
-    name: "Farm Analytics Dashboard",
+    name: "Cycle Economics & Reckoning",
     icon: BarChart3,
     description:
-      "The analytics dashboard gives owners and operators a single place to review performance and understand what is changing across the farm.",
+      "Feed conversion ratio, survival rate, cost per kilo, break-even count band, margin and return — computed from the record you kept all cycle, not estimated in a spreadsheet after harvest.",
     points: [
-      "Simple charts and summary cards for fast review",
-      "Supports operational planning and reporting",
-      "Uses the same card and spacing language as the rest of the site",
+      "Costs and feed attributed to the crop, not the farm in general",
+      "Break-even priced against count bands, the way buyers actually pay",
+      "Dealer credit tracked as a balance instead of remembered",
     ],
   },
   {
-    name: "Disease & Risk Alert System",
+    name: "Disease Risk & Responsible Treatment",
     icon: ShieldAlert,
     description:
-      "Risk alerts help teams detect unusual patterns early, improving response time and reducing the chance of larger losses.",
+      "A symptom checker that ranks likely causes from what you can actually see — on the animal, in its behaviour, in the water — instead of a guess from a WhatsApp group. Paired with a banned-substance warning at the moment a treatment is recorded.",
     points: [
-      "Early indicators based on environmental changes",
-      "Clear escalation path for farm teams",
-      "Keeps the interface aligned with Upcheck’s current design",
+      "Ranked candidates from observable signs, not a single guess",
+      "Warns on export-banned substances before they go in the water",
+      "Treatment history kept per pond for audit and certification",
     ],
   },
 ];
 
 const reasons = [
   {
-    title: "Built on the same product language",
+    title: "It speaks the shrimp belt's languages",
     description:
-      "The page reuses the same gradient, cards, spacing, and motion style already present in Upcheck.",
+      "Every screen, label and warning exists in six languages — English, Hindi, Bengali, Tamil, Telugu and Odia. The person who walks the pond bank at dawn is rarely the person who reads English.",
     icon: Sparkles,
   },
   {
-    title: "Designed for aquaculture operators",
+    title: "It works where the signal doesn't",
     description:
-      "Each section speaks to practical farm workflows: monitoring, feeding, analysis, and risk alerts.",
+      "Ponds are not where the towers are. Neerani keeps working through a dead patch and reconciles when the connection returns — because a logging tool that fails at the pond bank is one nobody uses twice.",
     icon: Activity,
   },
   {
-    title: "Clear next-step actions",
+    title: "A record several people can be trusted with",
     description:
-      "The page ends with the same call-to-action style used elsewhere in the site, keeping the experience consistent.",
+      "Workers log, managers verify, and money is visible only to whom the owner allows. A farm with hired labour cannot run on one shared password — and a lender or consultant can be given a read-only view without handing over the books.",
     icon: TrendingUp,
   },
 ];
@@ -420,17 +420,28 @@ export default function Products() {
                   viewport={{ once: true, amount: 0.1 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                  <Badge className="bg-cyan-500/10 text-[#0067B1] border border-cyan-500/20 px-3.5 py-1 text-xs font-semibold rounded-full shadow-2xs">
-                    Hardware
-                  </Badge>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge className="bg-cyan-500/10 text-[#0067B1] border border-cyan-500/20 px-3.5 py-1 text-xs font-semibold rounded-full shadow-2xs">
+                      Hardware
+                    </Badge>
+                    <Badge className="bg-amber-50 text-amber-800 border border-amber-300 px-3.5 py-1 text-xs font-bold rounded-full uppercase tracking-wide shadow-2xs">
+                      In development · Bench prototype
+                    </Badge>
+                  </div>
                   <h3 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 leading-tight">
-                    IoT Monitoring Device
+                    Neero — Floating Pond Sensor
                   </h3>
                   <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-medium">
-                    UpCheck is a solar-powered, floating IoT monitoring device that sits directly in the shrimp pond,
-                    continuously tracking the water quality parameters that matter most to shrimp health — pH, dissolved
-                    oxygen, temperature, humidity, and rainfall — and streaming that data to a simple mobile dashboard in real
-                    time.
+                    Neero is a solar-powered, floating IoT sensor designed to sit directly in the shrimp pond and
+                    continuously track the water quality parameters that matter most to shrimp health — pH, dissolved
+                    oxygen and temperature — streaming them over GSM into the Neerani app. It is duty-cycled to wake only
+                    when a reading is due, so a single solar charge carries it through overcast weather without cabling
+                    or battery swaps.
+                  </p>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    <strong className="text-slate-700">Where it stands:</strong> we are validating the sensing stack on
+                    the bench. Pond trials are the next milestone, and pricing will be announced alongside them. The
+                    image shown is a design render, not a deployed unit.
                   </p>
                 </motion.div>
               </div>
@@ -1054,24 +1065,28 @@ export default function Products() {
                   
                   <div className="flex flex-wrap justify-center items-center gap-6">
                     <MagneticWrapper>
-                      <Button
-                        size="lg"
-                        className="relative gap-2 font-semibold shadow-lg bg-white text-[#0067B1] hover:bg-slate-50 hover:text-[#005a9c] hover:scale-105 active:scale-95 group overflow-hidden border-none"
-                      >
-                        <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
-                        Request a Demo
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                      </Button>
+                      <a href="/contact?subject=demo">
+                        <Button
+                          size="lg"
+                          className="relative gap-2 font-semibold shadow-lg bg-white text-[#0067B1] hover:bg-slate-50 hover:text-[#005a9c] hover:scale-105 active:scale-95 group overflow-hidden border-none"
+                        >
+                          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
+                          Request a Demo
+                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                        </Button>
+                      </a>
                     </MagneticWrapper>
-                    
+
                     <MagneticWrapper>
-                      <Button
-                        size="lg"
-                        variant="outline"
-                        className="border-white/30 text-white bg-transparent hover:bg-white/10 hover:border-white/50 hover:scale-105 active:scale-95 hover:shadow-lg transition-all duration-300"
-                      >
-                        View Contact Options
-                      </Button>
+                      <a href="/contact">
+                        <Button
+                          size="lg"
+                          variant="outline"
+                          className="border-white/30 text-white bg-transparent hover:bg-white/10 hover:border-white/50 hover:scale-105 active:scale-95 hover:shadow-lg transition-all duration-300"
+                        >
+                          View Contact Options
+                        </Button>
+                      </a>
                     </MagneticWrapper>
                   </div>
                 </div>

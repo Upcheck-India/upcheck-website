@@ -14,15 +14,15 @@ const faqs = [
   },
   {
     question: "How does UpCheck work?",
-    answer: "UpCheck uses IoT sensors installed in your ponds to continuously monitor water quality parameters like dissolved oxygen, pH, temperature, and chlorophyll-a levels. Our AI algorithms analyze this data to predict potential disease outbreaks, optimize feeding schedules, and provide actionable insights through our mobile app."
+    answer: "Today, farmers record their daily round in the Neerani app — water readings, feed by meal, tray residue, mortality and treatments — and the app reads that record back as feeding guidance, disease risk and cycle economics. It works offline at the pond bank and syncs when signal returns. Neero, our solar-powered floating sensor, will automate the water readings (pH, dissolved oxygen and temperature) once it completes development; it is currently a bench prototype."
   },
   {
     question: "Is UpCheck available worldwide?",
     answer: "We are currently focused on serving shrimp farming communities in coastal regions. Our platform is expanding globally, and we're continuously working to bring our solutions to more farmers around the world. Contact us to learn about availability in your region."
   },
   {
-    question: "What are the pricing plans?",
-    answer: "We offer two main plans: Basic ($49/month) for up to 5 ponds with real-time monitoring, and Plus ($99/month) for unlimited ponds with AI disease prediction and smart feeding optimization. Annual plans are available with a 17% discount."
+    question: "What does it cost?",
+    answer: "The Neerani app is free to use — every farm, every pond, no limit. We may introduce paid plans for advanced features later, and we will say so clearly before anything changes. The Neero pond sensor is a separate paid product; it is still in development as a bench prototype, so its price will be announced closer to field trials."
   },
   {
     question: "Do I need technical expertise to use UpCheck?",

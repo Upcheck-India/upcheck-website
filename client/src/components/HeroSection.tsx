@@ -103,15 +103,17 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.5 }}
           >
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="gap-2 backdrop-blur-sm"
-              data-testid="button-watch-demo"
-            >
-              <PlayCircle className="w-5 h-5" />
-              Watch Demo
-            </Button>
+            <a href="/contact?subject=demo">
+              <Button
+                size="lg"
+                variant="outline"
+                className="gap-2 backdrop-blur-sm"
+                data-testid="button-request-demo"
+              >
+                <PlayCircle className="w-5 h-5" />
+                Request a Demo
+              </Button>
+            </a>
           </motion.div>
         </motion.div>
       </div>

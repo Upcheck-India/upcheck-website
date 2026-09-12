@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import { MongoClient, GridFSBucket } from "mongodb";
+import rateLimit from "express-rate-limit";
+import { z } from "zod";
 
 // Inline mongo connection (avoids dotenv issues in serverless)
 const uri = process.env.MONGODB_URI;
@@ -165,6 +167,76 @@ app.get("/api/media/:id", async (req, res) => {
   } catch (e) {
     console.error("Failed to fetch media:", e);
     res.status(500).json({ error: "Failed to fetch media" });
+  }
+});
+
+// POST /api/feedback
+// Mirrors the handler in server/routes.ts. Vercel rewrites every /api/* request to
+// this file, so a route that lives only in server/routes.ts 404s in production.
+const feedbackRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: {
+    error: "Too many feedback submissions from this IP. Please try again after 15 minutes.",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const feedbackSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name is too long"),
+  email: z.string().email("Invalid email address").max(100, "Email is too long"),
+  farmName: z.string().max(100, "Farm name is too long").optional().or(z.literal("")),
+  location: z.string().max(100, "Location is too long").optional().or(z.literal("")),
+  rating: z.preprocess(
+    (val) => Number(val),
+    z.number().int().min(1, "Rating must be between 1 and 5").max(5, "Rating must be between 1 and 5")
+  ),
+  feedback: z.string().min(1, "Feedback message is required").max(2000, "Feedback is too long"),
+});
+
+function sanitizeInput(str: string): string {
+  if (typeof str !== "string") return str;
+  return str
+    .replace(/<[^>]*>/g, "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;")
+    .trim();
+}
+
+app.post("/api/feedback", feedbackRateLimiter, async (req, res) => {
+  try {
+    const parseResult = feedbackSchema.safeParse(req.body);
+    if (!parseResult.success) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: parseResult.error.flatten().fieldErrors,
+      });
+    }
+
+    const data = parseResult.data;
+    const client = await getClientPromise();
+    const db = client.db("resources");
+
+    const result = await db.collection("feedback").insertOne({
+      name: sanitizeInput(data.name),
+      email: sanitizeInput(data.email),
+      farmName: data.farmName ? sanitizeInput(data.farmName) : "",
+      location: data.location ? sanitizeInput(data.location) : "",
+      rating: data.rating,
+      feedback: sanitizeInput(data.feedback),
+      createdAt: new Date(),
+    });
+
+    res.status(201).json({ success: true, id: result.insertedId });
+  } catch (e) {
+    console.error("Failed to save feedback:", e);
+    res.status(500).json({
+      error: "An unexpected error occurred while saving your feedback. Please try again.",
+    });
   }
 });
 

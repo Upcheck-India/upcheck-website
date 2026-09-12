@@ -186,18 +186,18 @@ export default function DownloadPage() {
                 <div className="space-y-3">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/15 border border-amber-300/30 text-amber-200 text-xs font-semibold backdrop-blur-md">
                     <Clock className="w-3.5 h-3.5 text-amber-300" />
-                    <span>Play Store Verification in Progress</span>
+                    <span>Closed Beta &middot; Testing with pilot farms</span>
                   </div>
 
                   <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-black tracking-tight leading-[1.12] text-white drop-shadow-sm">
-                    Next-Gen Shrimp Farming <br className="hidden sm:inline" />
+                    Neerani is in <br className="hidden sm:inline" />
                     <span className="text-amber-300">
-                      Coming Soon
+                      closed beta
                     </span>
                   </h1>
 
                   <p className="text-sm sm:text-base text-white/90 leading-relaxed font-medium max-w-xl">
-                    Our official Android application is currently under verification on Google Play. As soon as the review is complete, download links and QR code will be published right here.
+                    Neerani is running on Google Play closed testing with a small group of pilot farms while we work through a full crop cycle with them. Public release follows once that cycle closes. Request access below and we will add you to the tester list.
                   </p>
                 </div>
 
@@ -208,27 +208,27 @@ export default function DownloadPage() {
                       <FaGooglePlay className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-sm sm:text-base font-bold text-white">Google Play Store Release</h3>
+                      <h3 className="text-sm sm:text-base font-bold text-white">Google Play &mdash; closed testing</h3>
                       <p className="text-xs text-white/80 mt-0.5">
-                        Platform: Android 8.0+ • Review Status: Verification Pending
+                        Platform: {APP_CONFIG.minAndroidVersion} &bull; {APP_CONFIG.expectedRelease}
                       </p>
                     </div>
                   </div>
 
                   <div className="pt-3 border-t border-white/20 flex flex-wrap items-center gap-3">
-                    <Link href="/products">
-                      <Button 
+                    <a href="/contact?subject=demo">
+                      <Button
                         className="h-10 px-5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 text-xs font-bold shadow-md cursor-pointer"
                       >
-                        Explore Products
+                        Request beta access
                       </Button>
-                    </Link>
-                    <Link href="/contact">
-                      <Button 
+                    </a>
+                    <Link href="/products">
+                      <Button
                         variant="outline"
                         className="h-10 px-5 rounded-xl bg-white/10 hover:bg-white/20 border-white/30 text-white text-xs font-bold cursor-pointer"
                       >
-                        Contact Us
+                        Explore Products
                       </Button>
                     </Link>
                   </div>
