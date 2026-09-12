@@ -27,6 +27,11 @@ const ROUTES: Record<string, Meta> = {
     description:
       "Neerani handles daily logging, feed advice, disease risk and cycle economics. Neero, a solar-powered floating sensor, is a bench prototype in development.",
   },
+  "/technology": {
+    title: `Technology — architecture, sensors and data · ${SUFFIX}`,
+    description:
+      "How Neero's solar pond node, GSM store-and-forward uplink, time-series pipeline and offline-first app fit together — with honest stage labels and a costed scale projection.",
+  },
   "/about": {
     title: `About — why we built Upcheck · ${SUFFIX}`,
     description:

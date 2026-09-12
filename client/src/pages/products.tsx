@@ -764,22 +764,22 @@ export default function Products() {
                     <div className="absolute inset-0 p-5 flex flex-col justify-between z-20 text-left">
                       <div className="space-y-0.5">
                         <span className="text-white/80 text-[10px] font-extrabold uppercase tracking-widest block">
-                          Platform Accuracy
+                          Target Sampling Rate
                         </span>
                         <h4 className="text-white text-xs font-bold tracking-tight">
                           Continuous Monitoring
                         </h4>
                       </div>
-                      
+
                       <div className="my-auto transform transition-transform duration-300 group-hover:scale-105">
                         <span className="text-4xl md:text-5xl text-white font-black tracking-tighter flex items-baseline drop-shadow-md">
-                          <CountUp end={99} duration={2.5} enableScrollSpy scrollSpyOnce />
-                          <span className="text-[#00C9E4] text-2xl font-extrabold ml-0.5">%</span>
+                          15
+                          <span className="text-[#00C9E4] text-2xl font-extrabold ml-1">min</span>
                         </span>
                       </div>
 
                       <div className="flex items-center justify-between text-[10px] font-semibold text-white/80 border-t border-white/20 pt-2.5 group-hover:text-white transition-colors">
-                        <span>Real-Time Sensor Precision</span>
+                        <span>Design target · not yet field-verified</span>
                         <div className="w-6 h-6 rounded-full bg-white/15 group-hover:bg-white/30 flex items-center justify-center transition-all">
                           <ArrowRight className="w-3.5 h-3.5 text-white group-hover:translate-x-0.5 transition-transform" />
                         </div>
@@ -906,19 +906,20 @@ export default function Products() {
                             />
                           </svg>
                           <div className="absolute inset-0 flex items-center justify-center text-xs font-black text-white">
-                            60%
+                            1.5
                           </div>
                         </div>
                         <div className="space-y-1">
-                          <span className="text-base font-extrabold text-white leading-none block group-hover:text-cyan-100 transition-colors">60% vs 40%</span>
+                          <span className="text-base font-extrabold text-white leading-none block group-hover:text-cyan-100 transition-colors">FCR 1.5 &rarr; 1.8</span>
                           <p className="text-white/80 text-[10px] font-semibold leading-relaxed">
-                            Optimal feeding parameters met
+                            Typical Indian farm range. Feed is ~60% of production cost, so every
+                            0.1 of FCR is money.
                           </p>
                         </div>
                       </div>
 
                       <div className="text-[10px] text-white/60 border-t border-white/10 pt-2.5">
-                        Turn live data into quick actions.
+                        Tray-residue adjusted feeding, logged every meal.
                       </div>
                     </div>
                   </motion.div>

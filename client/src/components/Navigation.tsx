@@ -130,6 +130,9 @@ export default function Navigation({
                 <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#0067B1] focus:bg-slate-100 focus:text-[#0067B1] transition-colors">
                   <Link href="/products" className="w-full text-inherit">Products</Link>
                 </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium">
+                      <Link href="/technology" className="w-full">Technology</Link>
+                    </DropdownMenuItem>
                 <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-[#0067B1] hover:bg-cyan-50 dark:hover:bg-cyan-950/40 focus:bg-cyan-50 focus:text-[#0067B1] transition-colors">
                   <Link href="/download" className="w-full flex items-center justify-between text-inherit">
                     <span>{IS_APP_LAUNCHED ? "Download App" : "Mobile App"}</span>
@@ -290,6 +293,7 @@ export default function Navigation({
                         <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.about", "About")}</Link>
                         <Link href="/resources" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.resources", "Resources")}</Link>
                         <Link href="/products" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.products", "Products")}</Link>
+                        <Link href="/technology" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-muted-foreground">{t("nav.technology", "Technology")}</Link>
                         <Link href="/download" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm font-semibold text-[#0067B1] flex items-center justify-between">
                           <span>{IS_APP_LAUNCHED ? t("nav.download", "Download App") : t("nav.mobileApp", "Mobile App")}</span>
                           <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${

@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     question: "Is UpCheck available worldwide?",
-    answer: "We are currently focused on serving shrimp farming communities in coastal regions. Our platform is expanding globally, and we're continuously working to bring our solutions to more farmers around the world. Contact us to learn about availability in your region."
+    answer: "We are focused on India, and specifically on the Andhra Pradesh shrimp belt, which produces roughly 70–78% of the country's farmed shrimp and employs around 4 million people. Neerani works in English, Hindi, Bengali, Tamil, Telugu and Odia because that is where the ponds are. We would rather serve one region properly than claim coverage we do not have."
   },
   {
     question: "What does it cost?",
