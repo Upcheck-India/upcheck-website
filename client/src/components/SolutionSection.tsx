@@ -193,7 +193,7 @@ export default function SolutionSection() {
                 </p>
 
                 <p>
-                  <span className="text-white font-semibold">Neerani</span>, the farm-management app, is live in closed beta with pilot farms. It holds every pond&rsquo;s water, feed, growth, health and money records — offline at the pond bank, in six languages — and reads that record back as feeding guidance, disease risk and a cycle-end reckoning in FCR, survival and cost per kilo.
+                  <span className="text-white font-semibold">Neerani</span>, the farm-management app, is in closed beta on Google Play with more than 100 testers. It holds every pond&rsquo;s water, feed, growth, health and money records — offline at the pond bank, in six languages — and reads that record back as feeding guidance, disease risk and a cycle-end reckoning in FCR, survival and cost per kilo.
                 </p>
 
                 <p>

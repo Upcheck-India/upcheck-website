@@ -40,7 +40,7 @@ const ROUTES: Record<string, Meta> = {
   "/download": {
     title: `Get Neerani — closed beta · ${SUFFIX}`,
     description:
-      "Neerani is in Google Play closed testing with pilot farms while we work through a full crop cycle. Request access to join the tester list.",
+      "Neerani is in Google Play closed testing with more than 100 testers. Request access to join the tester list.",
   },
   "/resources": {
     title: `Resources — articles and guides for shrimp farmers · ${SUFFIX}`,
