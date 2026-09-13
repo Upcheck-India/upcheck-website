@@ -6,8 +6,8 @@ import { useRef } from "react";
 const values = [
   {
     icon: Sprout,
-    title: "Sustainability",
-    description: "We promote sustainable practices to ensure long-term environmental benefits.",
+    title: "Welfare and sustainability",
+    description: "Healthier shrimp, cleaner ponds and fewer blind treatments, so a farm can keep producing crop after crop.",
     color: "text-blue-600"
   },
   {

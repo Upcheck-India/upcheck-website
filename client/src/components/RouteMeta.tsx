@@ -32,6 +32,11 @@ const ROUTES: Record<string, Meta> = {
     description:
       "How Neero's solar pond node, GSM store-and-forward uplink, time-series pipeline and offline-first app fit together — with honest stage labels and a costed scale projection.",
   },
+  "/welfare": {
+    title: `Shrimp welfare — the animals, the pond and the people · ${SUFFIX}`,
+    description:
+      "How Neerani and the Neero sensor support the welfare of farmed shrimp, pond health and farm workers, what works today, and the measures we will report from pilot farms.",
+  },
   "/pricing": {
     title: `Pricing — start free with Neerani · ${SUFFIX}`,
     description:
