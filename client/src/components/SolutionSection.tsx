@@ -182,7 +182,7 @@ export default function SolutionSection() {
               {/* TOP HEADER OF CARD */}
               <div className="relative z-10 text-left">
                 <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
-                  Smart IoT Sensing & AI Farm Intelligence
+                  A farm record that works at the pond bank, and a sensor that fills it in
                 </h3>
               </div>
 
@@ -208,7 +208,7 @@ export default function SolutionSection() {
               {/* BOTTOM ACTION ROW */}
               <div className="relative z-10 pt-2 border-t border-white/15 flex items-center justify-between text-left">
                 <span className="text-[11px] text-white/80 font-medium">
-                  Autonomous Sensing • AI Analytics
+                  Neerani app and Neero sensor
                 </span>
 
                 <Link href="/products">

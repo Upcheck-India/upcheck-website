@@ -32,6 +32,11 @@ const ROUTES: Record<string, Meta> = {
     description:
       "How Neero's solar pond node, GSM store-and-forward uplink, time-series pipeline and offline-first app fit together — with honest stage labels and a costed scale projection.",
   },
+  "/pricing": {
+    title: `Pricing — Neerani is free, Neero is paid · ${SUFFIX}`,
+    description:
+      "The Neerani farm-management app is free for every farm and pond. The Neero pond sensor will be a paid product; its price will be announced closer to pond trials.",
+  },
   "/about": {
     title: `About — why we built Upcheck · ${SUFFIX}`,
     description:

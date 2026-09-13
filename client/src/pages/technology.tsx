@@ -3,10 +3,12 @@ import {
   motion,
   AnimatePresence,
   useInView,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { Link } from "wouter";
 import { BatteryCharging, Cloud, Cpu, Database, Radio, Smartphone, Brain } from "lucide-react";
@@ -41,6 +43,7 @@ const READINGS_PER_DAY = (24 * 60) / SAMPLE_MIN; // 96
 const BYTES_PER_READING = 80;
 const AWAKE_SECONDS = 10;
 const HYPOXIA = 3; // mg/L
+const BATTERY_DAYS = 90; // expected battery life, per the hardware team
 
 // International grouping: this page is read by cloud-programme reviewers, for whom
 // Indian lakh grouping (3,50,40,000) is easy to misread.
@@ -270,11 +273,12 @@ const journey: {
     title: "The buoy wakes up, measures, and goes back to sleep",
     state: "building",
     body:
-      "Neero floats in the pond carrying pH, dissolved oxygen and temperature probes. Every 15 minutes it wakes, powers the probes, takes a burst of readings and keeps the median, so a splash or a passing fish doesn't become a false alarm. Then it sleeps again.",
+      "Neero floats in the pond with its sensors in the underside, in a cartridge that can be swapped out rather than the whole buoy replaced. Every 15 minutes it wakes, powers the probes, takes a burst of readings and keeps the median, so a splash or a passing fish doesn't become a false alarm. It calibrates itself, so nobody has to wade out with a buffer solution. Then it sleeps again.",
     facts: [
       ["Wakes every", "15 minutes"],
-      ["Awake for", "about 10 seconds"],
-      ["One reading", "about 80 bytes"],
+      ["Sensors", "replaceable cartridge"],
+      ["Calibration", "self-calibrating"],
+
     ],
   },
   {
@@ -286,7 +290,7 @@ const journey: {
       "The reading goes to the buoy's own memory first. Nothing is sent yet. That ordering is the whole design: the pond bank often has no signal, and a sensor that loses data whenever the tower is out of reach is worse than no sensor, because people stop trusting it.",
     facts: [
       ["Memory holds", "about 30 days"],
-      ["Power", "solar panel and battery"],
+      ["Battery life", "about 90 days expected"],
       ["Cables to the pond", "none"],
     ],
   },
@@ -296,9 +300,9 @@ const journey: {
     title: "Once an hour, it sends everything it has",
     state: "building",
     body:
-      "The mobile modem is the hungriest part of the circuit, so it runs in short bursts instead of staying connected. Readings go out together in one small batch. If oxygen crosses a danger line, the buoy doesn't wait for the hour — it sends at once.",
+      "The radio is the hungriest part of the circuit, so it runs in short bursts instead of staying connected. Readings go out together in one small batch, over mobile data where there is coverage and a long-range link where the pond is out of reach of the towers. If oxygen crosses a danger line, the buoy doesn't wait for the hour — it sends at once.",
     facts: [
-      ["Network", "GSM mobile data"],
+      ["Network", "GSM, plus long-range for weak coverage"],
       ["Sends", "hourly, or instantly on danger"],
       ["Data per day", "about 8 KB"],
     ],
@@ -335,10 +339,10 @@ const journey: {
     title: "It reaches the farmer, even with no signal at the pond",
     state: "real",
     body:
-      "Neerani keeps a copy of the farm on the phone, so the morning round works with no connection and syncs later. Owners, managers and workers can all edit offline; the app is built so their changes merge instead of overwriting each other.",
+      "Anything abnormal lands on the app's home screen as a plain alert, so the farmer sees it the moment they open it rather than digging through charts. Neerani also keeps a copy of the farm on the phone, so the morning round works with no connection and syncs later, and an owner, a manager and a worker editing offline don't overwrite each other.",
     facts: [
       ["Status", "closed beta, 100+ testers"],
-      ["Works offline", "yes, fully"],
+      ["Alerts", "on the home screen"],
       ["Languages", "six"],
     ],
   },
@@ -565,92 +569,205 @@ function FollowTheReading() {
   );
 }
 
-/* ───────────────────────────── A day on the battery ───────────────────────────── */
+/* ───────────────────────────── Interlude: a pinned pause ───────────────────────────── */
 
-function BatteryDay() {
-  const ref = useRef<HTMLDivElement>(null);
+const INTERLUDE = [
+  "The farmer usually finds out at 6 am,",
+  "when the shrimp are already gasping at the surface.",
+  "Neero is being built to raise the alarm at 3.",
+];
+
+function Word({ word, progress, range }: { word: string; progress: MotionValue<number>; range: [number, number] }) {
+  const opacity = useTransform(progress, range, [0.14, 1]);
+  return (
+    <motion.span style={{ opacity }} className="inline-block mr-[0.28em]">
+      {word}
+    </motion.span>
+  );
+}
+
+function Interlude() {
+  const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 40%"] });
-  const reveal = useSpring(scrollYProgress, { stiffness: 80, damping: 22 });
-  const clip = useTransform(reveal, (v) => `inset(0 ${100 - Math.min(100, v * 100)}% 0 0)`);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
-  const awakeMinutes = Math.round((READINGS_PER_DAY * AWAKE_SECONDS) / 60);
-  const sendsPerDay = 24;
+  const total = INTERLUDE.reduce((n, line) => n + line.split(" ").length, 0);
+  let index = 0;
+
+  const text = (
+    <p className="text-3xl sm:text-4xl md:text-6xl font-bold leading-[1.12] tracking-tight max-w-[22ch]" style={{ color: C.ink }}>
+      {INTERLUDE.map((line, li) => (
+        <span key={li} className="block">
+          {line.split(" ").map((w, wi) => {
+            const i = index++;
+            // Words finish revealing by 85% of the pin, leaving a beat to read the whole thought.
+            const range: [number, number] = [(i / total) * 0.85, ((i + 1) / total) * 0.85];
+            return reduce ? (
+              <span key={wi} className="inline-block mr-[0.28em]">
+                {w}
+              </span>
+            ) : (
+              <Word key={wi} word={w} progress={scrollYProgress} range={range} />
+            );
+          })}
+        </span>
+      ))}
+    </p>
+  );
+
+  if (reduce) {
+    return (
+      <section className="px-6 py-24">
+        <div className="container mx-auto max-w-6xl">{text}</div>
+      </section>
+    );
+  }
 
   return (
-    <section ref={ref} className="px-6 py-24 md:py-32 border-t" style={{ borderColor: C.line }}>
-      <div className="container mx-auto max-w-6xl">
-        <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] gap-10 md:gap-16 items-end">
-          <div>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight" style={{ color: C.ink }}>
-              Awake for {awakeMinutes} minutes a day
-            </h2>
-            <p className="mt-5 text-lg leading-relaxed max-w-[52ch]" style={{ color: C.muted }}>
-              A floating sensor lives or dies by its power budget. Neero is designed to spend almost
-              the entire day asleep, so a small solar panel can keep it running through a run of
-              cloudy monsoon days.
-            </p>
-          </div>
-          <p className="text-sm leading-relaxed md:text-right" style={{ color: C.muted }}>
-            {READINGS_PER_DAY} wake-ups × about {AWAKE_SECONDS} seconds each = {awakeMinutes} minutes.
-            <br />
-            Design target, not yet measured on a pond.
-          </p>
-        </div>
-
-        <div className="mt-12">
-          {/* Measurements row */}
-          <div className="text-sm mb-2" style={{ color: C.ink }}>
-            Measuring
-          </div>
-          <div className="relative h-14 rounded-lg overflow-hidden" style={{ background: C.surface }}>
-            <motion.div className="absolute inset-0" style={{ clipPath: reduce ? undefined : clip }}>
-              {Array.from({ length: READINGS_PER_DAY }).map((_, i) => (
-                <span
-                  key={i}
-                  className="absolute top-2 bottom-2 rounded-full"
-                  style={{
-                    left: `${(i / READINGS_PER_DAY) * 100}%`,
-                    width: 2,
-                    background: C.cyan,
-                  }}
-                />
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Sending row */}
-          <div className="text-sm mt-6 mb-2" style={{ color: C.ink }}>
-            Sending
-          </div>
-          <div className="relative h-8 rounded-lg overflow-hidden" style={{ background: C.surface }}>
-            <motion.div className="absolute inset-0" style={{ clipPath: reduce ? undefined : clip }}>
-              {Array.from({ length: sendsPerDay }).map((_, i) => (
-                <span
-                  key={i}
-                  className="absolute top-1.5 bottom-1.5 rounded-sm"
-                  style={{
-                    left: `${(i / sendsPerDay) * 100}%`,
-                    width: 5,
-                    background: C.ink,
-                  }}
-                />
-              ))}
-            </motion.div>
-          </div>
-
-          <div className="mt-3 flex justify-between text-xs tabular-nums" style={{ color: C.muted }}>
-            <span>12 am</span>
-            <span>6 am</span>
-            <span>12 pm</span>
-            <span>6 pm</span>
-            <span>12 am</span>
-          </div>
-          <p className="mt-6 text-sm" style={{ color: C.muted }}>
-            Everything that isn't a line is sleep.
-          </p>
-        </div>
+    <section ref={ref} className="relative h-[240vh]" aria-label="Why overnight monitoring matters">
+      <div className="sticky top-0 h-[100svh] flex items-center px-6">
+        <div className="container mx-auto max-w-6xl">{text}</div>
       </div>
+    </section>
+  );
+}
+
+/* ───────────────────────────── A day on the battery (pinned) ───────────────────────────── */
+
+function clockLabel(fraction: number) {
+  const mins = Math.min(1439, Math.floor(fraction * 1440));
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  const h12 = h % 12 === 0 ? 12 : h % 12;
+  return `${h12}:${String(m).padStart(2, "0")} ${h < 12 ? "am" : "pm"}`;
+}
+
+function BatteryDay() {
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  // A short hold at each end of the pin, so the day starts and finishes at rest.
+  const day = useTransform(scrollYProgress, [0.08, 0.9], [0, 1], { clamp: true });
+  const smooth = useSpring(day, { stiffness: 120, damping: 26 });
+  const clip = useTransform(smooth, (v) => `inset(0 ${100 - v * 100}% 0 0)`);
+  const marker = useTransform(smooth, (v) => `${v * 100}%`);
+
+  const [t, setT] = useState(reduce ? 1 : 0);
+  useMotionValueEvent(smooth, "change", (v) => setT(v));
+
+  const awakeMinutes = Math.round((READINGS_PER_DAY * AWAKE_SECONDS) / 60);
+  const wakesSoFar = Math.min(READINGS_PER_DAY, Math.floor(t * READINGS_PER_DAY));
+  const awakeSoFar = wakesSoFar * AWAKE_SECONDS;
+  const sleptSoFar = Math.max(0, Math.round(t * 86400) - awakeSoFar);
+  const hm = (sec: number) => `${Math.floor(sec / 3600)}h ${String(Math.floor((sec % 3600) / 60)).padStart(2, "0")}m`;
+
+  const body = (
+    <div className="container mx-auto max-w-6xl w-full">
+      <div className="grid md:grid-cols-[minmax(0,1fr)_auto] gap-8 md:gap-16 items-end">
+        <div>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight" style={{ color: C.ink }}>
+            Awake for {awakeMinutes} minutes a day
+          </h2>
+          <p className="mt-5 text-lg leading-relaxed max-w-[52ch]" style={{ color: C.muted }}>
+            A floating sensor lives or dies by its power budget. Neero is designed to spend almost the whole day
+            asleep, which is what gets it to an expected battery life of about {BATTERY_DAYS} days. Keep scrolling to
+            run the clock.
+          </p>
+        </div>
+
+        <dl className="grid grid-cols-3 md:grid-cols-1 gap-4 md:gap-3 md:text-right tabular-nums">
+          <div>
+            <dt className="text-xs" style={{ color: C.muted }}>
+              Time
+            </dt>
+            <dd className="text-2xl md:text-3xl font-bold" style={{ color: C.ink }}>
+              {clockLabel(t)}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs" style={{ color: C.muted }}>
+              Awake so far
+            </dt>
+            <dd className="text-2xl md:text-3xl font-bold" style={{ color: C.cyan }}>
+              {Math.floor(awakeSoFar / 60)}m {String(awakeSoFar % 60).padStart(2, "0")}s
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs" style={{ color: C.muted }}>
+              Asleep so far
+            </dt>
+            <dd className="text-2xl md:text-3xl font-bold" style={{ color: C.muted }}>
+              {hm(sleptSoFar)}
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <div className="mt-12 relative">
+        <div className="text-sm mb-2" style={{ color: C.ink }}>
+          Measuring
+        </div>
+        <div className="relative h-14 rounded-lg overflow-hidden" style={{ background: C.surface }}>
+          <motion.div className="absolute inset-0" style={{ clipPath: reduce ? undefined : clip }}>
+            {Array.from({ length: READINGS_PER_DAY }).map((_, i) => (
+              <span
+                key={i}
+                className="absolute top-2 bottom-2 rounded-full"
+                style={{ left: `${(i / READINGS_PER_DAY) * 100}%`, width: 2, background: C.cyan }}
+              />
+            ))}
+          </motion.div>
+        </div>
+
+        <div className="text-sm mt-6 mb-2" style={{ color: C.ink }}>
+          Sending
+        </div>
+        <div className="relative h-8 rounded-lg overflow-hidden" style={{ background: C.surface }}>
+          <motion.div className="absolute inset-0" style={{ clipPath: reduce ? undefined : clip }}>
+            {Array.from({ length: 24 }).map((_, i) => (
+              <span
+                key={i}
+                className="absolute top-1.5 bottom-1.5 rounded-sm"
+                style={{ left: `${(i / 24) * 100}%`, width: 5, background: C.ink }}
+              />
+            ))}
+          </motion.div>
+        </div>
+
+        {!reduce && (
+          <motion.div
+            className="absolute top-6 bottom-8 w-px pointer-events-none"
+            style={{ left: marker, background: C.ink, opacity: 0.6 }}
+            aria-hidden="true"
+          />
+        )}
+
+        <div className="mt-3 flex justify-between text-xs tabular-nums" style={{ color: C.muted }}>
+          <span>12 am</span>
+          <span>6 am</span>
+          <span>12 pm</span>
+          <span>6 pm</span>
+          <span>12 am</span>
+        </div>
+        <p className="mt-6 text-sm" style={{ color: C.muted }}>
+          Everything that isn't a line is sleep. {READINGS_PER_DAY} wake-ups × about {AWAKE_SECONDS} seconds ={" "}
+          {awakeMinutes} minutes. Design targets, not yet measured on a pond.
+        </p>
+      </div>
+    </div>
+  );
+
+  if (reduce) {
+    return (
+      <section className="px-6 py-24 border-t" style={{ borderColor: C.line }}>
+        {body}
+      </section>
+    );
+  }
+
+  return (
+    <section ref={ref} className="relative h-[300vh] border-t" style={{ borderColor: C.line }}>
+      <div className="sticky top-0 h-[100svh] flex items-center px-6 pt-16">{body}</div>
     </section>
   );
 }
@@ -1022,6 +1139,7 @@ export default function Technology() {
           </div>
         </section>
 
+        <Interlude />
         <FollowTheReading />
         <BatteryDay />
         <DeadZone />
