@@ -186,7 +186,7 @@ export default function DownloadPage() {
                 <div className="space-y-3">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/15 border border-amber-300/30 text-amber-200 text-xs font-semibold backdrop-blur-md">
                     <Clock className="w-3.5 h-3.5 text-amber-300" />
-                    <span>Closed Beta &middot; Testing with pilot farms</span>
+                    <span>Closed beta &middot; 100+ testers</span>
                   </div>
 
                   <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-black tracking-tight leading-[1.12] text-white drop-shadow-sm">
@@ -197,7 +197,7 @@ export default function DownloadPage() {
                   </h1>
 
                   <p className="text-sm sm:text-base text-white/90 leading-relaxed font-medium max-w-xl">
-                    Neerani is running on Google Play closed testing with a small group of pilot farms while we work through a full crop cycle with them. Public release follows once that cycle closes. Request access below and we will add you to the tester list.
+                    Neerani is in Google Play closed testing with more than 100 testers. We are using this stage to harden offline sync and the daily logging flow before a public release. Request access below and we will add you to the tester list.
                   </p>
                 </div>
 

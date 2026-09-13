@@ -182,7 +182,7 @@ export default function SolutionSection() {
               {/* TOP HEADER OF CARD */}
               <div className="relative z-10 text-left">
                 <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
-                  Smart IoT Sensing & AI Farm Intelligence
+                  A farm record that works at the pond bank, and a sensor that fills it in
                 </h3>
               </div>
 
@@ -193,7 +193,7 @@ export default function SolutionSection() {
                 </p>
 
                 <p>
-                  <span className="text-white font-semibold">Neerani</span>, the farm-management app, is live in closed beta with pilot farms. It holds every pond&rsquo;s water, feed, growth, health and money records — offline at the pond bank, in six languages — and reads that record back as feeding guidance, disease risk and a cycle-end reckoning in FCR, survival and cost per kilo.
+                  <span className="text-white font-semibold">Neerani</span>, the farm-management app, is in closed beta on Google Play with more than 100 testers. It holds every pond&rsquo;s water, feed, growth, health and money records — offline at the pond bank, in six languages — and reads that record back as feeding guidance, disease risk and a cycle-end reckoning in FCR, survival and cost per kilo.
                 </p>
 
                 <p>
@@ -208,7 +208,7 @@ export default function SolutionSection() {
               {/* BOTTOM ACTION ROW */}
               <div className="relative z-10 pt-2 border-t border-white/15 flex items-center justify-between text-left">
                 <span className="text-[11px] text-white/80 font-medium">
-                  Autonomous Sensing • AI Analytics
+                  Neerani app and Neero sensor
                 </span>
 
                 <Link href="/products">

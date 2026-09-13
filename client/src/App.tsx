@@ -13,6 +13,7 @@ import Resources from "@/pages/resources";
 import Article from "@/pages/article";
 import Products from "@/pages/products";
 import Technology from "@/pages/technology";
+import Pricing from "@/pages/pricing";
 import Feedback from "@/pages/feedback";
 import Survey from "@/pages/survey";
 import Events from "@/pages/events";
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/resources/:id" component={Article} />
       <Route path="/products" component={Products} />
       <Route path="/technology" component={Technology} />
+      <Route path="/pricing" component={Pricing} />
       <Route path="/download" component={Download} />
       <Route path="/app" component={Download} />
       {/* Polls page hidden as requested */}

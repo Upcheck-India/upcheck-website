@@ -9,15 +9,15 @@ import { useRef } from "react";
 
 const faqs = [
   {
-    question: "What is UpCheck?",
-    answer: "UpCheck is an innovative aquaculture technology platform that provides real-time monitoring, AI-powered disease prediction, and smart feeding optimization for shrimp farmers. Our solution helps farmers make data-driven decisions to maximize yields and reduce environmental impact."
+    question: "What is Upcheck?",
+    answer: "Upcheck Technologies builds two things for shrimp and fish farmers in India. Neerani is a farm-management app that keeps every pond's water readings, feeding, growth, health treatments and money in one record, and turns that record into feeding guidance, disease-risk checks and end-of-crop numbers like FCR and cost per kilo. Neero is a solar-powered floating sensor, still in development, that will take the water readings automatically."
   },
   {
-    question: "How does UpCheck work?",
+    question: "How does it work?",
     answer: "Today, farmers record their daily round in the Neerani app — water readings, feed by meal, tray residue, mortality and treatments — and the app reads that record back as feeding guidance, disease risk and cycle economics. It works offline at the pond bank and syncs when signal returns. Neero, our solar-powered floating sensor, will automate the water readings (pH, dissolved oxygen and temperature) once it completes development; it is currently a bench prototype."
   },
   {
-    question: "Is UpCheck available worldwide?",
+    question: "Where is Upcheck available?",
     answer: "We are focused on India, and specifically on the Andhra Pradesh shrimp belt, which produces roughly 70–78% of the country's farmed shrimp and employs around 4 million people. Neerani works in English, Hindi, Bengali, Tamil, Telugu and Odia because that is where the ponds are. We would rather serve one region properly than claim coverage we do not have."
   },
   {
@@ -25,8 +25,8 @@ const faqs = [
     answer: "The Neerani app is free to use — every farm, every pond, no limit. We may introduce paid plans for advanced features later, and we will say so clearly before anything changes. The Neero pond sensor is a separate paid product; it is still in development as a bench prototype, so its price will be announced closer to field trials."
   },
   {
-    question: "Do I need technical expertise to use UpCheck?",
-    answer: "No technical expertise is required! Our platform is designed to be user-friendly and intuitive. We provide comprehensive onboarding, training materials, and dedicated support to help you get started. Our mobile app makes it easy to monitor your ponds from anywhere."
+    question: "Do I need to be good with technology to use it?",
+    answer: "No. Neerani is built for the person doing the morning round, not an office. One screen lets you log every pond in a single pass, it works in six languages, and it works without mobile signal. During the closed beta we set testers up directly and take their feedback into each release."
   }
 ];
 
@@ -47,7 +47,7 @@ export default function FAQSection() {
             FAQs
           </h2>
           <p className="text-muted-foreground text-lg" data-testid="text-faq-subtitle">
-            Answers to commonly asked questions about UpCheck
+            Straight answers about Neerani, Neero and what they cost
           </p>
         </motion.div>
 

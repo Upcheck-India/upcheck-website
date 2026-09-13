@@ -34,7 +34,7 @@ export default function NeeroHardwareSection() {
               backgroundClip: "text"
             }}
           >
-            Meet Neero — The Hardware Behind UpCheck
+            Meet Neero, the pond sensor behind Neerani
           </motion.h2>
           
           <motion.p
@@ -83,7 +83,7 @@ export default function NeeroHardwareSection() {
             >
               <img 
                 src={neeroInWaterImg} 
-                alt="UpCheck Neero Hardware Device floating in pond" 
+                alt="Design render of the Neero sensor floating in a pond" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
             </motion.div>
@@ -107,17 +107,17 @@ export default function NeeroHardwareSection() {
                 </span>
               </h3>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
-                Traditional water testing is manual, infrequent, and slow. <strong>Neero</strong> is being built to float freely in your pond, take continuous electrochemical measurements and transmit them to the cloud over GSM — solar powered, duty-cycled to wake only when a reading is due, so there are no power outlets to run and no battery swaps. We are validating the sensing stack on the bench now; pond trials are the next milestone.
+                Traditional water testing is manual, infrequent, and slow. <strong>Neero</strong> is being built to float freely in your pond, take continuous electrochemical measurements and transmit them to the cloud — solar-assisted, waking only when a reading is due for an expected battery life of about 90 days, with a self-calibrating sensor cartridge that can be swapped out and a long-range link for ponds with weak mobile coverage. We are validating the sensing stack on the bench now; pond trials are the next milestone.
               </p>
             </div>
 
             {/* Next Step CTA */}
             <div className="pt-2">
-              <Link href="/products">
+              <Link href="/technology">
                 <Button 
                   className="bg-gradient-to-r from-[#00C9E4] to-[#0067B1] hover:from-[#00b5cd] hover:to-[#005a9c] text-white font-bold px-6 py-3 rounded-xl text-sm gap-2 shadow-lg shadow-[#0067B1]/20 hover:scale-105 active:scale-95 transition-all"
                 >
-                  <span>Explore Hardware Specifications</span>
+                  <span>See how Neero works</span>
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>

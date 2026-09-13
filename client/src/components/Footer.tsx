@@ -126,7 +126,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><a href="/products" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-features-footer">Products</a></li>
               <li><a href="/download" className="hover-elevate inline-block px-2 py-1 rounded text-primary font-medium" data-testid="link-app-download-footer">Mobile App (Download)</a></li>
-              <li><a href="/#pricing" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-pricing-footer">Pricing</a></li>
+              <li><a href="/pricing" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-pricing-footer">Pricing</a></li>
             </ul>
           </div>
           <div>

@@ -76,6 +76,18 @@ const detailedSections = [
   },
 ];
 
+// Everything else in the app, beyond the four headline workflows above.
+const alsoInNeerani = [
+  { title: "Daily and feed logs", text: "The morning round and every meal, logged pond by pond or across the farm in one pass." },
+  { title: "Alerts on the home screen", text: "Anything abnormal shows up plainly the moment the app opens, not buried in a chart." },
+  { title: "Workforce and tasks", text: "Assign jobs, track attendance, and have a manager verify the work was done." },
+  { title: "Inventory", text: "Feed, chemicals and probiotics drawn down as they are used, flagged before they run out." },
+  { title: "Finance", text: "Expenses and income by pond and crop, plus the credit taken from feed dealers." },
+  { title: "Harvest planning and records", text: "Partial and final harvests, count per kilo, buyer and price, planned ahead and logged after." },
+  { title: "Calculators and simulators", text: "Change feed rate, price or stocking density and see the effect on profit before committing." },
+  { title: "Exports", text: "The farm record leaves the app in a file an accountant, buyer or certifier can read." },
+];
+
 const reasons = [
   {
     title: "It speaks the shrimp belt's languages",
@@ -432,11 +444,11 @@ export default function Products() {
                     Neero — Floating Pond Sensor
                   </h3>
                   <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-medium">
-                    Neero is a solar-powered, floating IoT sensor designed to sit directly in the shrimp pond and
-                    continuously track the water quality parameters that matter most to shrimp health — pH, dissolved
-                    oxygen and temperature — streaming them over GSM into the Neerani app. It is duty-cycled to wake only
-                    when a reading is due, so a single solar charge carries it through overcast weather without cabling
-                    or battery swaps.
+                    Neero is a solar-assisted floating sensor that sits in the shrimp pond and tracks the water
+                    readings that matter most to shrimp health — pH, dissolved oxygen and temperature — sending them
+                    into the Neerani app. The sensors live in a cartridge on the underside that can be swapped out, it
+                    calibrates itself, and it wakes only when a reading is due, for an expected battery life of about
+                    90 days. Where mobile coverage is weak, a long-range link carries the data instead.
                   </p>
                   <p className="text-sm text-slate-500 leading-relaxed">
                     <strong className="text-slate-700">Where it stands:</strong> we are validating the sensing stack on
@@ -448,7 +460,7 @@ export default function Products() {
             </PremiumCard>
           </motion.div>
 
-          {/* Section 2: UpCheck Mobile Application (Software) */}
+          {/* Section 2: Neerani mobile app (Software) */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -472,7 +484,7 @@ export default function Products() {
                     UpCheck Mobile Application
                   </h3>
                   <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-medium">
-                    Monitor your shrimp ponds anytime, anywhere with the UpCheck mobile application. Connected directly to your floating IoT device, the app delivers real-time pond insights, AI-powered recommendations, and complete farm management tools—all from a single dashboard.
+                    Neerani is where the whole farm is recorded: water readings, feed by meal, tray leftovers, deaths, treatments, stock and money. It works without signal at the pond bank, in six languages, and turns the record into feeding guidance and disease-risk checks that show what they were worked out from. Once Neero ships, its readings will flow into the same app.
                   </p>
 
                   {/* Feature highlights list */}
@@ -549,6 +561,73 @@ export default function Products() {
               </div>
             </PremiumCard>
           </motion.div>
+
+          {/* Section 2b: What Neerani does — these arrays existed but were never rendered */}
+          <section aria-labelledby="neerani-features" className="space-y-10">
+            <div className="max-w-3xl">
+              <h2
+                id="neerani-features"
+                className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white"
+              >
+                What Neerani does on a working farm
+              </h2>
+              <p className="mt-3 text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                Neerani is a shrimp farm manager: the daily record of every pond, and the tools for running the farm
+                as a business around it.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {detailedSections.map((section, i) => (
+                <motion.div
+                  key={section.name}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: i * 0.06 }}
+                  className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-7 md:p-8"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-xl bg-cyan-500/10 border border-cyan-500/20 p-2.5 text-[#0067B1]">
+                      <section.icon className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">{section.name}</h3>
+                  </div>
+                  <p className="mt-4 text-slate-600 dark:text-slate-300 leading-relaxed">{section.description}</p>
+                  <ul className="mt-4 space-y-2">
+                    {section.points.map((point) => (
+                      <li key={point} className="flex gap-2 text-sm text-slate-700 dark:text-slate-300">
+                        <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-[#00C9E4]" />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="rounded-3xl bg-slate-900 dark:bg-slate-950 p-7 md:p-10">
+              <h3 className="text-2xl font-bold text-white">And the rest of running the farm</h3>
+              <dl className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-7">
+                {alsoInNeerani.map((item) => (
+                  <div key={item.title} className="border-t border-white/15 pt-4">
+                    <dt className="font-semibold text-white">{item.title}</dt>
+                    <dd className="mt-1.5 text-sm text-white/65 leading-relaxed">{item.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 pt-2">
+              {reasons.map((reason) => (
+                <div key={reason.title}>
+                  <reason.icon className="w-6 h-6 text-[#0067B1]" />
+                  <h3 className="mt-3 text-lg font-bold text-slate-900 dark:text-white">{reason.title}</h3>
+                  <p className="mt-2 text-slate-600 dark:text-slate-300 leading-relaxed">{reason.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* Section 3: Transforming Every Pond into Actionable Insights (Intelligence) */}
           <motion.div
@@ -924,7 +1003,7 @@ export default function Products() {
                     </div>
                   </motion.div>
 
-                  {/* Card 6: AI Feeding */}
+                  {/* Card 6: Feed advisor */}
                   <motion.div
                     initial={{ opacity: 0, y: 35 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -935,7 +1014,7 @@ export default function Products() {
                   >
                     <motion.img
                       src={aiFeedingSeaweedImg}
-                      alt="AI Feeding"
+                      alt="Feed pellets in pond water"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/45 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-85" />
@@ -943,13 +1022,13 @@ export default function Products() {
                     <div className="absolute inset-0 p-5 flex flex-col justify-end z-20 text-left">
                       <div className="space-y-1 transform transition-transform duration-300 group-hover:-translate-y-1">
                         <span className="text-[#00C9E4] text-[10px] font-extrabold uppercase tracking-widest block">
-                          AI Feeding
+                          Feed advisor
                         </span>
                         <h4 className="text-white text-lg font-extrabold tracking-tight group-hover:text-cyan-100 transition-colors">
                           Precision feeding.
                         </h4>
                         <p className="text-white/85 text-xs font-medium">
-                          Zero guesswork.
+                          Adjusted to what's left on the tray.
                         </p>
                       </div>
                     </div>
