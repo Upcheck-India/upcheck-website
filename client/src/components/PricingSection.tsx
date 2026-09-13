@@ -8,10 +8,10 @@ const plans = [
   {
     name: "Neerani app",
     priceLabel: "Free",
-    priceNote: "For every farm, every pond, no limit",
+    priceNote: "Every farm, every pond",
     description:
-      "The full farm-management app. Free to use while we grow — advanced plans may follow later, and we will say so clearly before anything changes.",
-    cta: "Request beta access",
+      "The full shrimp farm manager, free to use on every pond you run. If we ever add optional advanced plans, we'll let you know well before anything changes.",
+    cta: "Get early access",
     ctaHref: "/download",
     features: [
       "Daily, feed, tray and mortality logging",
@@ -24,12 +24,12 @@ const plans = [
   },
   {
     name: "Neero device",
-    priceLabel: "Pricing to be announced",
-    priceNote: "Solar-powered pond sensor · in development",
+    priceLabel: "Coming soon",
+    priceNote: "Pond sensor · pricing shared at launch",
     popular: true,
     description:
-      "The floating sensor that feeds Neerani automatically. Currently a bench prototype — pricing will be announced closer to field trials.",
-    cta: "Talk to us about pilots",
+      "A floating sensor that fills in your water readings for you, day and night, straight into Neerani. Pond trials are coming up, and farms that join them get to try it first.",
+    cta: "Join the pond trials",
     ctaHref: "/contact?subject=demo",
     features: [
       "Continuous pH, dissolved oxygen and temperature",
@@ -70,13 +70,13 @@ export default function PricingSection() {
             }}
             data-testid="text-pricing-title"
           >
-            The app is free. The hardware isn't built yet.
+            Start free. Grow into more when you're ready.
           </h2>
           <p
             className="text-lg text-slate-500 max-w-2xl mx-auto"
             data-testid="text-pricing-subtitle"
           >
-            We would rather tell you exactly where we are than quote a number we cannot stand behind.
+            Everything in Neerani is free today. Neero, our pond sensor, is on its way to add automatic readings.
           </p>
         </motion.div>
 
@@ -104,7 +104,7 @@ export default function PricingSection() {
                       isActive ? "bg-white text-primary" : "bg-primary text-primary-foreground"
                     }`}
                   >
-                    In development
+                    Coming soon
                   </div>
                 )}
 

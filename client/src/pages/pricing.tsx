@@ -14,9 +14,9 @@ import {
 /**
  * Pricing page.
  *
- * The model is simple and we state it plainly: the Neerani app is free, the Neero
- * sensor will be a paid product whose price is not decided. The page's job is to
- * explain what free covers, what the paid part would change, and what is still open.
+ * Welcoming first: Neerani is free to start, and Neero is coming soon with pricing
+ * shared at launch. Honest about stage, without making farmers feel they are being
+ * sold to or warned off.
  */
 
 const handVsNeero: { task: string; byHand: string; withNeero: string }[] = [
@@ -28,7 +28,7 @@ const handVsNeero: { task: string; byHand: string; withNeero: string }[] = [
   {
     task: "The night shift",
     byHand: "Someone walks the pond bank in the dark to check oxygen and aerators.",
-    withNeero: "An alert when oxygen heads for the danger line. Night alerts are being built.",
+    withNeero: "An alert on your phone when oxygen heads toward the danger line.",
   },
   {
     task: "Calibration",
@@ -58,7 +58,7 @@ const questions = [
   },
   {
     q: "What will Neero cost?",
-    a: "We have not decided, and we would rather say that than guess. We are weighing an outright purchase against a seasonal lease. The price will be announced closer to pond trials.",
+    a: "We'll share Neero pricing closer to launch. We're working on options that suit different farm sizes, including buying outright or leasing for a season, so it fits the way you already budget a crop.",
   },
   {
     q: "Can I take my records with me?",
@@ -87,14 +87,14 @@ function HandVsNeero() {
         <div>
           <div className="md:sticky md:top-32">
             <h2 id="hand-vs-neero" className="text-3xl md:text-5xl font-bold tracking-tight leading-tight">
-              What the paid part would change
+              What Neero adds to your farm
             </h2>
             <p className="mt-5 text-lg text-white/65 leading-relaxed max-w-[42ch]">
               Neerani on its own is a complete farm record. Neero is for the part of the job that happens in the
               water, around the clock, whether or not anyone is awake.
             </p>
             <p className="mt-6 text-sm text-amber-300 max-w-[42ch]">
-              Neero is a bench prototype. Nothing on the right is available to buy yet.
+              Neero is in development, with pond trials coming up. Ask us if you'd like to take part.
             </p>
 
             {!reduce && (
@@ -152,7 +152,7 @@ export default function Pricing() {
               transition={{ duration: 0.6 }}
               className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.04] text-slate-900 dark:text-white max-w-[18ch]"
             >
-              Neerani is free. Neero will be paid.
+              Start free. Add a sensor when you're ready.
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 12 }}
@@ -160,7 +160,7 @@ export default function Pricing() {
               transition={{ duration: 0.6, delay: 0.12 }}
               className="mt-6 text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-[58ch]"
             >
-              What each one costs, what free actually covers, and the part we have not decided yet.
+              Neerani, the shrimp farm manager app, costs nothing to use on every pond you run. Neero, our pond sensor, is on its way, and you can ask to join its first pond trials.
             </motion.p>
           </div>
         </section>
