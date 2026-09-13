@@ -1085,6 +1085,12 @@ function WhereWeAre() {
           market feed, and the app currently works out risk when it is opened rather than waking on its
           own overnight. That second gap is exactly what the sensor network closes.
         </p>
+        <p className="mt-4 text-sm leading-relaxed max-w-[70ch]" style={{ color: C.muted }}>
+          Overnight oxygen is a welfare question before it is a cost question.{" "}
+          <Link href="/welfare" className="underline underline-offset-4" style={{ color: C.ink }}>
+            How the system supports shrimp welfare
+          </Link>
+        </p>
 
         <div className="mt-16 flex flex-wrap items-center gap-6">
           <Link

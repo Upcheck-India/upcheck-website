@@ -133,6 +133,7 @@ export default function Footer() {
             <h4 className="font-semibold mb-3" data-testid="text-footer-company">Company</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href="/about" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-about-footer">About</Link></li>
+              <li><Link href="/welfare" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-welfare-footer">Welfare</Link></li>
               <li><Link href="/contact" className="hover-elevate inline-block px-2 py-1 rounded" data-testid="link-contact-footer">Contact</Link></li>
             </ul>
           </div>

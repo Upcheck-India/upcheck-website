@@ -627,6 +627,14 @@ export default function Products() {
                 </div>
               ))}
             </div>
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
+              Several of these, like the banned-substance warning and feeding to tray leftovers, matter as much for the
+              animals as for the farm.{" "}
+              <a href="/welfare" className="font-semibold text-[#0067B1] underline underline-offset-4">
+                Read how Neerani supports shrimp welfare
+              </a>
+              .
+            </p>
           </section>
 
           {/* Section 3: Transforming Every Pond into Actionable Insights (Intelligence) */}
