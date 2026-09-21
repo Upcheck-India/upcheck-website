@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Check } from "lucide-react";
 import { Link } from "wouter";
-import { sendFormNotification } from "@/config/forms";
 
 const logoUrl = "/attached_assets/upcheck-logo.png";
 
@@ -18,15 +17,19 @@ export default function Footer() {
     if (!email) return;
 
     setError(null);
-    const result = await sendFormNotification({
-      subject: `[upcheck.in] Newsletter signup — ${email}`,
-      replyto: email,
-      email,
-      message: `Newsletter subscription request from ${email}`,
-    });
-
-    if (!result.ok) {
-      setError(result.error);
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        setError(body?.error ?? "We couldn't subscribe you right now. Please try again later.");
+        return;
+      }
+    } catch {
+      setError("We couldn't reach the server. Check your connection and try again.");
       return;
     }
 

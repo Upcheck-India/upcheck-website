@@ -4,6 +4,7 @@ import { ObjectId, GridFSBucket } from "mongodb";
 import clientPromise from "../lib/mongo"; // import MongoDB clientPromise
 import rateLimit from "express-rate-limit";
 import { z } from "zod";
+import { subscribeToNewsletter } from "../lib/brevo";
 
 // Rate limiting middleware to prevent spam on feedback submission
 const feedbackRateLimiter = rateLimit({
@@ -203,6 +204,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Failed to save feedback securely:", e);
       // Secure error handling to avoid leaking database/system internals
       res.status(500).json({ error: "An unexpected error occurred while saving your feedback. Please try again." });
+    }
+  });
+
+  // Mirrors POST /api/newsletter in api/index.ts (production handler).
+  app.post("/api/newsletter", async (req, res) => {
+    const parsed = z.object({ email: z.string().trim().email().max(254) }).safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ error: "Please enter a valid email address." });
+    }
+    try {
+      await subscribeToNewsletter(parsed.data.email.toLowerCase());
+      res.status(201).json({ success: true });
+    } catch (e) {
+      console.error("Newsletter signup failed:", e);
+      res.status(502).json({ error: "We couldn't subscribe you right now. Please try again later." });
     }
   });
 

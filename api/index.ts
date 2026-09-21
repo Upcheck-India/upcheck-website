@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { MongoClient, GridFSBucket } from "mongodb";
 import rateLimit from "express-rate-limit";
 import { z } from "zod";
+import { subscribeToNewsletter } from "../lib/brevo";
 
 // Inline mongo connection (avoids dotenv issues in serverless)
 const uri = process.env.MONGODB_URI;
@@ -277,6 +278,28 @@ app.post("/api/feedback", feedbackLimiter, async (req, res) => {
     res.status(500).json({
       error: "An unexpected error occurred while saving your feedback. Please try again.",
     });
+  }
+});
+
+// POST /api/newsletter — adds the email to the Brevo newsletter list.
+const newsletterLimiter = limiter(
+  5,
+  15 * 60 * 1000,
+  "Too many signup attempts from this IP. Please try again after 15 minutes."
+);
+const newsletterSchema = z.object({ email: z.string().trim().email().max(254) });
+
+app.post("/api/newsletter", newsletterLimiter, async (req, res) => {
+  const parsed = newsletterSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: "Please enter a valid email address." });
+  }
+  try {
+    await subscribeToNewsletter(parsed.data.email.toLowerCase());
+    res.status(201).json({ success: true });
+  } catch (e) {
+    console.error("Newsletter signup failed:", e);
+    res.status(502).json({ error: "We couldn't subscribe you right now. Please try again later." });
   }
 });
 
