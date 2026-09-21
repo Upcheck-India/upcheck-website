@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { ObjectId } from "mongodb";
 import { MongoClient, GridFSBucket } from "mongodb";
 import rateLimit from "express-rate-limit";
@@ -76,7 +76,7 @@ const feedbackLimiter = limiter(
 
 app.use("/api/", readLimiter);
 
-import localPosts from "../client/src/pages/posts.json";
+import localPosts from "../client/src/pages/posts.json" with { type: "json" };
 
 let cachedPosts: any[] | null = null;
 let lastFetchTime = 0;
@@ -277,6 +277,43 @@ app.post("/api/feedback", feedbackLimiter, async (req, res) => {
     res.status(500).json({
       error: "An unexpected error occurred while saving your feedback. Please try again.",
     });
+  }
+});
+
+// POST /api/newsletter — adds the email to the Brevo newsletter list.
+// Inlined rather than imported from lib/brevo.ts, like the Mongo client above:
+// the Vercel function runs as Node ESM, where relative imports are fragile.
+const NEWSLETTER_LIST_ID = 3; // Brevo list "Upcheck Website Newsletter"
+
+async function subscribeToNewsletter(email: string): Promise<void> {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) throw new Error("BREVO_API_KEY is not set");
+  const r = await fetch("https://api.brevo.com/v3/contacts", {
+    method: "POST",
+    headers: { "api-key": apiKey, "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ email, listIds: [NEWSLETTER_LIST_ID], updateEnabled: true }),
+  });
+  if (!r.ok) throw new Error(`Brevo ${r.status}: ${await r.text()}`);
+}
+
+const newsletterLimiter = limiter(
+  5,
+  15 * 60 * 1000,
+  "Too many signup attempts from this IP. Please try again after 15 minutes."
+);
+const newsletterSchema = z.object({ email: z.string().trim().email().max(254) });
+
+app.post("/api/newsletter", newsletterLimiter, async (req, res) => {
+  const parsed = newsletterSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: "Please enter a valid email address." });
+  }
+  try {
+    await subscribeToNewsletter(parsed.data.email.toLowerCase());
+    res.status(201).json({ success: true });
+  } catch (e) {
+    console.error("Newsletter signup failed:", e);
+    res.status(502).json({ error: "We couldn't subscribe you right now. Please try again later." });
   }
 });
 
