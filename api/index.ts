@@ -1,9 +1,8 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { ObjectId } from "mongodb";
 import { MongoClient, GridFSBucket } from "mongodb";
 import rateLimit from "express-rate-limit";
 import { z } from "zod";
-import { subscribeToNewsletter } from "../lib/brevo";
 
 // Inline mongo connection (avoids dotenv issues in serverless)
 const uri = process.env.MONGODB_URI;
@@ -77,7 +76,7 @@ const feedbackLimiter = limiter(
 
 app.use("/api/", readLimiter);
 
-import localPosts from "../client/src/pages/posts.json";
+import localPosts from "../client/src/pages/posts.json" with { type: "json" };
 
 let cachedPosts: any[] | null = null;
 let lastFetchTime = 0;
@@ -282,6 +281,21 @@ app.post("/api/feedback", feedbackLimiter, async (req, res) => {
 });
 
 // POST /api/newsletter — adds the email to the Brevo newsletter list.
+// Inlined rather than imported from lib/brevo.ts, like the Mongo client above:
+// the Vercel function runs as Node ESM, where relative imports are fragile.
+const NEWSLETTER_LIST_ID = 3; // Brevo list "Upcheck Website Newsletter"
+
+async function subscribeToNewsletter(email: string): Promise<void> {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) throw new Error("BREVO_API_KEY is not set");
+  const r = await fetch("https://api.brevo.com/v3/contacts", {
+    method: "POST",
+    headers: { "api-key": apiKey, "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ email, listIds: [NEWSLETTER_LIST_ID], updateEnabled: true }),
+  });
+  if (!r.ok) throw new Error(`Brevo ${r.status}: ${await r.text()}`);
+}
+
 const newsletterLimiter = limiter(
   5,
   15 * 60 * 1000,
