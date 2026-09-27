@@ -42,7 +42,9 @@ function sanitizeInput(str: string): string {
   return cleaned.trim();
 }
 
-import localPosts from "../client/src/pages/posts.json";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const localPosts = require("../client/src/pages/posts.json");
 
 let cachedPosts: any[] | null = null;
 let lastFetchTime = 0;
@@ -176,14 +178,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const sanitizedLocation = validatedData.location ? sanitizeInput(validatedData.location) : "";
       const sanitizedFeedback = sanitizeInput(validatedData.feedback);
 
-      console.log("Sanitized feedback received:", { 
-        name: sanitizedName, 
-        email: sanitizedEmail, 
-        farmName: sanitizedFarmName, 
-        location: sanitizedLocation, 
-        rating: validatedData.rating, 
-        feedback: sanitizedFeedback 
-      });
 
       const client = await clientPromise;
       const db = client.db("resources");
@@ -205,6 +199,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "An unexpected error occurred while saving your feedback. Please try again." });
     }
   });
+
+  const ALLOWED_IMAGE_TYPES = [
+    "image/png",
+    "image/jpeg",
+    "image/webp",
+    "image/gif",
+    "image/avif"
+  ];
 
   // Register GET /api/media/:id route to serve GridFS files
   app.get("/api/media/:id", async (req, res) => {
@@ -229,7 +231,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const file = files[0];
-      res.setHeader("Content-Type", file.contentType || "image/jpeg");
+      const contentType = (file.contentType || "").toLowerCase();
+      if (!ALLOWED_IMAGE_TYPES.includes(contentType)) {
+        return res.status(404).json({ error: "File not found" });
+      }
+
+      res.setHeader("Content-Type", contentType);
+      res.setHeader("X-Content-Type-Options", "nosniff");
       res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
 
       const downloadStream = bucket.openDownloadStream(objId);
@@ -238,14 +246,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       downloadStream.on("error", (err) => {
         console.error("GridFS download error:", err);
-        res.status(404).end();
+        if (res.headersSent) {
+          res.destroy();
+        } else {
+          res.status(404).json({ error: "File not found" });
+        }
       });
       downloadStream.on("end", () => {
         res.end();
       });
     } catch (e) {
       console.error("Failed to fetch media:", e);
-      res.status(500).json({ error: "Failed to fetch media" });
+      if (res.headersSent) {
+        res.destroy();
+      } else {
+        res.status(500).json({ error: "Failed to fetch media" });
+      }
     }
   });
 

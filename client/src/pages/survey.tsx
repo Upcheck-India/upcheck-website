@@ -319,6 +319,10 @@ export default function Survey() {
         <img 
           src={fishFarmBg} 
           alt="Aquaculture Background" 
+          width={1024}
+          height={682}
+          fetchPriority="high"
+          decoding="async"
           className="w-full h-full object-cover" 
         />
         {/* Dark overlay for full-bleed high-contrast text */}
@@ -555,6 +559,10 @@ export default function Survey() {
                   <img 
                     src={survey1} 
                     alt="Why Your Feedback Matters" 
+                    width={1024}
+                    height={1024}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent pointer-events-none" />

@@ -430,7 +430,7 @@ export default function EventDetail() {
       <div className="container mx-auto px-6 py-12 space-y-12">
         {/* Banner with Feature Chips */}
         <div className="relative rounded-3xl overflow-hidden h-72 md:h-96 shadow-xl border border-slate-200/80">
-          <img src={data.image} alt={data.title} className="w-full h-full object-cover" />
+          <img src={data.image} alt={data.title} width={1200} height={800} loading="lazy" decoding="async" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <div className="absolute bottom-6 left-8 right-8 flex items-end justify-between">
             <div className="flex gap-2.5 flex-wrap">

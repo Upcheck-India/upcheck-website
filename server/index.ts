@@ -23,7 +23,7 @@ app.use(cors({
       "http://localhost:5173",
       "http://127.0.0.1:5173"
     ];
-    if (allowed.includes(origin) || origin.endsWith(".gitpod.io") || origin.endsWith(".repl.co")) {
+    if (allowed.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));

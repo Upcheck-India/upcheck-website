@@ -527,6 +527,10 @@ export default function Products() {
                       <img
                         src={appScreenshotImg}
                         alt="UpCheck Mobile Application Interface"
+                        width={484}
+                        height={1024}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover object-top"
                       />
 
@@ -1019,6 +1023,10 @@ export default function Products() {
                   <img
                     src={traceabilityPlaceholderImg}
                     alt="Shrimp Traceability Supply Chain Concept"
+                    width={1024}
+                    height={1024}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-auto object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-500"
                   />
                 </div>

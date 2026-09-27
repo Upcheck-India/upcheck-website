@@ -1,6 +1,11 @@
 import express, { Request, Response } from "express";
-import { ObjectId } from "mongodb";
-import { MongoClient, GridFSBucket } from "mongodb";
+import { ObjectId, MongoClient, GridFSBucket } from "mongodb";
+import rateLimit from "express-rate-limit";
+import { z } from "zod";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const localPosts = require("../client/src/pages/posts.json");
 
 // Inline mongo connection (avoids dotenv issues in serverless)
 const uri = process.env.MONGODB_URI;
@@ -21,10 +26,43 @@ function getClientPromise(): Promise<MongoClient> {
 }
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "32kb" }));
+app.use(express.urlencoded({ extended: false, limit: "32kb" }));
 
-import localPosts from "../client/src/pages/posts.json";
+// Rate limiting middleware to prevent spam on feedback submission
+const feedbackRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 feedback submissions per 15 minutes
+  message: {
+    error: "Too many feedback submissions from this IP. Please try again after 15 minutes."
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Zod Validation Schema for request validation
+const feedbackSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name is too long"),
+  email: z.string().email("Invalid email address").max(100, "Email is too long"),
+  farmName: z.string().max(100, "Farm name is too long").optional().or(z.literal("")),
+  location: z.string().max(100, "Location is too long").optional().or(z.literal("")),
+  rating: z.preprocess((val) => Number(val), z.number().int().min(1, "Rating must be between 1 and 5").max(5, "Rating must be between 1 and 5")),
+  feedback: z.string().min(1, "Feedback message is required").max(2000, "Feedback is too long"),
+});
+
+// HTML Input Sanitizer & XSS Protection helper function
+function sanitizeInput(str: string): string {
+  if (typeof str !== "string") return str;
+  let cleaned = str.replace(/<[^>]*>/g, "");
+  cleaned = cleaned
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;")
+    .replace(/\//g, "&#x2F;");
+  return cleaned.trim();
+}
 
 let cachedPosts: any[] | null = null;
 let lastFetchTime = 0;
@@ -125,6 +163,14 @@ app.get("/api/posts/:id", async (req, res) => {
   }
 });
 
+const ALLOWED_IMAGE_TYPES = [
+  "image/png",
+  "image/jpeg",
+  "image/webp",
+  "image/gif",
+  "image/avif"
+];
+
 // GET /api/media/:id
 app.get("/api/media/:id", async (req, res) => {
   try {
@@ -148,7 +194,13 @@ app.get("/api/media/:id", async (req, res) => {
     }
 
     const file = files[0];
-    res.setHeader("Content-Type", file.contentType || "image/jpeg");
+    const contentType = (file.contentType || "").toLowerCase();
+    if (!ALLOWED_IMAGE_TYPES.includes(contentType)) {
+      return res.status(404).json({ error: "File not found" });
+    }
+
+    res.setHeader("Content-Type", contentType);
+    res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
 
     const downloadStream = bucket.openDownloadStream(objId);
@@ -157,14 +209,63 @@ app.get("/api/media/:id", async (req, res) => {
     });
     downloadStream.on("error", (err) => {
       console.error("GridFS download error:", err);
-      res.status(404).end();
+      if (res.headersSent) {
+        res.destroy();
+      } else {
+        res.status(404).json({ error: "File not found" });
+      }
     });
     downloadStream.on("end", () => {
       res.end();
     });
   } catch (e) {
     console.error("Failed to fetch media:", e);
-    res.status(500).json({ error: "Failed to fetch media" });
+    if (res.headersSent) {
+      res.destroy();
+    } else {
+      res.status(500).json({ error: "Failed to fetch media" });
+    }
+  }
+});
+
+// POST /api/feedback
+app.post("/api/feedback", feedbackRateLimiter, async (req, res) => {
+  try {
+    // 1. Request Structure & Type Validation
+    const parseResult = feedbackSchema.safeParse(req.body);
+    if (!parseResult.success) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: parseResult.error.flatten().fieldErrors
+      });
+    }
+
+    const validatedData = parseResult.data;
+
+    // 2. Input Sanitization & XSS Protection
+    const sanitizedName = sanitizeInput(validatedData.name);
+    const sanitizedEmail = sanitizeInput(validatedData.email);
+    const sanitizedFarmName = validatedData.farmName ? sanitizeInput(validatedData.farmName) : "";
+    const sanitizedLocation = validatedData.location ? sanitizeInput(validatedData.location) : "";
+    const sanitizedFeedback = sanitizeInput(validatedData.feedback);
+
+    const client = await getClientPromise();
+    const db = client.db("resources");
+
+    const result = await db.collection("feedback").insertOne({
+      name: sanitizedName,
+      email: sanitizedEmail,
+      farmName: sanitizedFarmName,
+      location: sanitizedLocation,
+      rating: validatedData.rating,
+      feedback: sanitizedFeedback,
+      createdAt: new Date()
+    });
+
+    res.status(201).json({ success: true, id: result.insertedId });
+  } catch (e) {
+    console.error("Failed to save feedback securely:", e);
+    res.status(500).json({ error: "An unexpected error occurred while saving your feedback. Please try again." });
   }
 });
 

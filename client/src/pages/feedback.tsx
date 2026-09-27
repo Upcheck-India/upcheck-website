@@ -503,7 +503,7 @@ export default function FeedbackPage() {
                           <div className="flex items-center gap-3 pt-4 border-t border-border/40">
                             <div className="w-10 h-10 rounded-full overflow-hidden bg-muted border border-border flex items-center justify-center shrink-0">
                               {t.avatarUrl ? (
-                                <img src={t.avatarUrl} alt={t.name} className="w-full h-full object-cover" />
+                                <img src={t.avatarUrl} alt={t.name} width={40} height={40} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                               ) : (
                                 <Users className="w-5 h-5 text-muted-foreground" />
                               )}
@@ -579,6 +579,10 @@ export default function FeedbackPage() {
                           <img
                             src={story.image}
                             alt={story.title}
+                            width={800}
+                            height={600}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&w=800&q=80";
@@ -1026,7 +1030,7 @@ export default function FeedbackPage() {
                         {/* Upcheck Branding */}
                         <div className="flex justify-between items-center">
                           <div className="flex items-center">
-                            <img src={logoUrl} alt="Upcheck" className="h-12 md:h-14 w-auto" />
+                            <img src={logoUrl} alt="Upcheck" width={500} height={200} loading="lazy" decoding="async" className="h-12 md:h-14 w-auto" />
                           </div>
                           <span className="text-[10px] font-bold uppercase tracking-wider text-[#0067B1] dark:text-[#00C9E4] bg-[#00C9E4]/10 dark:bg-[#00C9E4]/25 px-2.5 py-1 rounded-full">
                             IoT Smart Platform

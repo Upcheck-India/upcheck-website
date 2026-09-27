@@ -48,6 +48,9 @@ export default function DownloadPage() {
             <img 
               src={logoUrl} 
               alt="Upcheck" 
+              width={500}
+              height={200}
+              decoding="async"
               className="h-14 md:h-16 w-auto drop-shadow-md group-hover:scale-105 transition-transform brightness-110" 
             />
           </Link>
@@ -148,8 +151,11 @@ export default function DownloadPage() {
                       <img 
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=1&data=${encodeURIComponent(APP_CONFIG.playStoreUrl)}`}
                         alt="QR Code to open in Google Play Store"
-                        className="w-full h-full object-contain"
+                        width={160}
+                        height={160}
                         loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-contain"
                       />
                     </div>
                     <div className="text-left">
@@ -268,6 +274,10 @@ export default function DownloadPage() {
               <img
                 src={appScreenImg}
                 alt="Upcheck Farm App Interface"
+                width={484}
+                height={1024}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover object-top select-none pointer-events-none group-hover:scale-[1.02] transition-transform duration-500"
               />
             </div>

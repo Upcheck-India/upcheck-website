@@ -97,7 +97,7 @@ export default function Navigation({
       <div className="container mx-auto px-6 flex items-center justify-between">
         <motion.div style={{ scale: logoScale }} className="flex items-center gap-3">
           <Link href="/" className="cursor-pointer flex items-center gap-3 hover:opacity-90 transition-opacity" data-testid="link-nav-logo">
-            <img src={logoUrl} alt="Upcheck" className="h-16 w-auto" data-testid="img-nav-logo" />
+            <img src={logoUrl} alt="Upcheck" width={500} height={200} decoding="async" className="h-16 w-auto" data-testid="img-nav-logo" />
           </Link>
         </motion.div>
 

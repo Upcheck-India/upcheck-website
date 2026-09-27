@@ -37,7 +37,11 @@ export default function HeroSection() {
           <img 
             src="/attached_assets/upcheck-logo.png" 
             alt="Upcheck Logo" 
-            className="h-32 md:h-20 "
+            width={500}
+            height={200}
+            fetchPriority="high"
+            decoding="async"
+            className="h-32 md:h-20 w-auto"
             data-testid="img-logo"
           />
         </motion.div>

@@ -120,6 +120,10 @@ export default function AppSection() {
                 <img
                   src={appScreenImg}
                   alt="Upcheck Mobile App Dashboard"
+                  width={484}
+                  height={1024}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover object-top select-none pointer-events-none group-hover:scale-[1.02] transition-transform duration-500"
                 />
               </div>

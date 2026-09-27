@@ -110,6 +110,10 @@ export default function SolutionSection() {
                 <img 
                   src="/attached_assets/shrimpfarm.png" 
                   alt="Shrimp farm operations" 
+                  width={1408}
+                  height={768}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </motion.div>
@@ -132,6 +136,10 @@ export default function SolutionSection() {
                 <img 
                   src="/attached_assets/sol2.jpg" 
                   alt="Farmer shrimp harvest" 
+                  width={547}
+                  height={561}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </motion.div>
@@ -154,6 +162,10 @@ export default function SolutionSection() {
                 <img 
                   src="/attached_assets/sol1.jpg" 
                   alt="Healthy shrimp aquaculture" 
+                  width={1749}
+                  height={980}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </motion.div>

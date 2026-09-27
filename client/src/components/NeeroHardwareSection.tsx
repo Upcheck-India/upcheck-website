@@ -71,6 +71,10 @@ export default function NeeroHardwareSection() {
               <img 
                 src={neeroInWaterImg} 
                 alt="UpCheck Neero Hardware Device floating in pond" 
+                width={1024}
+                height={576}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
             </motion.div>

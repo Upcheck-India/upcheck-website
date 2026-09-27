@@ -29,7 +29,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 gap-12 mb-12">
           <div>
             <Link href="/" className="inline-block cursor-pointer hover:opacity-90 transition-opacity">
-              <img src={logoUrl} alt="Upcheck" className="h-8 mb-4" data-testid="img-footer-logo" />
+              <img src={logoUrl} alt="Upcheck" width={500} height={200} loading="lazy" decoding="async" className="h-8 w-auto mb-4" data-testid="img-footer-logo" />
             </Link>
             <p className="text-muted-foreground mb-6 max-w-md" data-testid="text-footer-desc">
               Revolutionizing aquaculture with AI-powered monitoring and insights for sustainable shrimp farming.

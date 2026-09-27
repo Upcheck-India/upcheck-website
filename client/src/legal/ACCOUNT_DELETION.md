@@ -2,7 +2,7 @@
 
 > **Google Play requires a publicly reachable URL** describing how users delete their
 > account and data, declared in Play Console → App content → **Data deletion**.
-> Host this page (e.g. `https://upcheck.in/account-deletion`).
+> Host this page (e.g. `https://www.upcheck.in/account-deletion`).
 
 ## Delete in‑app (recommended)
 1. Open **Neerani** and sign in.

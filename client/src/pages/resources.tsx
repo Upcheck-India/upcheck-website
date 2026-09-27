@@ -342,6 +342,10 @@ export default function Resources() {
                         <img
                           src={article.image || "/attached_assets/shrimpfarm.png"}
                           alt={article.title}
+                          width={800}
+                          height={450}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                           onError={(e) => {
                             const target = e.currentTarget;

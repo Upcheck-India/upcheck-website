@@ -10,7 +10,6 @@ import About from "@/pages/about";
 import Resources from "@/pages/resources";
 import Article from "@/pages/article";
 import Products from "@/pages/products";
-import Polls from "@/pages/polls";
 import Feedback from "@/pages/feedback";
 import Survey from "@/pages/survey";
 import Events from "@/pages/events";
@@ -21,10 +20,13 @@ import Privacy from "@/pages/privacy";
 import Terms from "@/pages/terms";
 import AccountDeletion from "@/pages/account-deletion";
 import NotFound from "@/pages/not-found";
+import RouteMeta from "@/components/RouteMeta";
 
 function Router() {
   return (
-    <Switch>
+    <>
+      <RouteMeta />
+      <Switch>
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
       <Route path="/resources" component={Resources} />
@@ -32,7 +34,6 @@ function Router() {
       <Route path="/products" component={Products} />
       <Route path="/download" component={Download} />
       <Route path="/app" component={Download} />
-      {/* Polls page hidden as requested */}
       <Route path="/feedback" component={Feedback} />
       <Route path="/participate/survey" component={Survey} />
       <Route path="/events" component={Events} />
@@ -45,6 +46,7 @@ function Router() {
       <Route path="/account-deletion" component={AccountDeletion} />
       <Route component={NotFound} />
     </Switch>
+    </>
   );
 }
 

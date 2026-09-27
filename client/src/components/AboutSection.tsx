@@ -15,7 +15,7 @@ export default function AboutSection() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            <motion.h2
+            <motion.h1
               className="text-3xl md:text-5xl font-bold mb-4"
               style={{
                 background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)",
@@ -26,7 +26,7 @@ export default function AboutSection() {
               data-testid="text-about-title"
             >
               About UpCheck
-            </motion.h2>
+            </motion.h1>
 
             <h3
               className="text-2xl font-bold mb-6"
@@ -67,6 +67,10 @@ export default function AboutSection() {
                 <img
                   src={farmImage}
                   alt="Aerial view of shrimp farm with monitoring sensors"
+                  width={1408}
+                  height={768}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
