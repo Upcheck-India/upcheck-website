@@ -3,7 +3,7 @@ import helmet from "helmet";
 import cors from "cors";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import clientPromise from "../lib/mongo.js";  // Import the Mongo client promise
+import getMongoClient from "../lib/mongo.js"; // lazily connects; boot continues without MONGODB_URI
 
 const app = express();
 app.set("trust proxy", 1);
@@ -70,9 +70,15 @@ app.use((req, res, next) => {
 
 (async () => {
   try {
-    // Await MongoDB connection before proceeding
-    const client = await clientPromise;
-    log("MongoDB connected");
+    // Connect to MongoDB when configured. Without MONGODB_URI (local dev
+    // without the database) the site still serves; database-backed API
+    // routes fail per request until the URI is set in .env.local.
+    if (!process.env.MONGODB_URI) {
+      log("MONGODB_URI not set — starting without MongoDB; database-backed API routes will error until it is configured");
+    } else {
+      await getMongoClient();
+      log("MongoDB connected");
+    }
 
     // Now register your API routes
     const server = await registerRoutes(app);

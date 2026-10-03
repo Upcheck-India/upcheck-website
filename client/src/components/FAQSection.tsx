@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     question: "Do I need to be good with technology to use it?",
-    answer: "No. Neerani is built for the person doing the morning round, not an office. One screen lets you log every pond in a single pass, it works in six languages, and it works without mobile signal. During the closed beta we set testers up directly and take their feedback into each release."
+    answer: "No. Neerani is built for the person doing the morning round, not an office. One screen lets you log every pond in a single pass, it works in six languages, and it works without mobile signal. The app is free to download on Google Play, and we take farmers' feedback into each release."
   }
 ];
 

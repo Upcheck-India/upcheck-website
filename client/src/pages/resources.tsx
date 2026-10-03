@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, Calendar, User } from "lucide-react";
+import { Search, User } from "lucide-react";
+import { IconCycleCalendar } from "@/components/icons";
 import { useLanguage } from "@/context/LanguageContext";
 
 // Define article type
@@ -371,7 +372,7 @@ export default function Resources() {
                             <span>{article.author}</span>
                           </div>
                           <div className="flex items-center gap-1">
-                            <Calendar className="w-4 h-4" />
+                            <IconCycleCalendar className="w-4 h-4" />
                             <span>{article.date}</span>
                           </div>
                         </div>

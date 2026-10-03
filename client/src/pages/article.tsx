@@ -10,14 +10,13 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   ArrowLeft,
-  Calendar,
   User,
-  Clock,
   Twitter,
   Linkedin,
   Facebook,
   Link2,
 } from "lucide-react";
+import { IconCycleCalendar, IconClock } from "@/components/icons";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -292,11 +291,11 @@ export default function Article() {
                 <span>{article.author}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
+                <IconCycleCalendar className="w-4 h-4" />
                 <span>{article.date}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
+                <IconClock className="w-4 h-4" />
                 <span>{article.readTime}</span>
               </div>
             </div>

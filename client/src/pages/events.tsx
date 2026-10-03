@@ -3,15 +3,12 @@ import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import {
-  Calendar,
-  Clock,
-  MapPin,
-  Sparkles,
   ChevronDown,
   ArrowRight,
   Trophy,
   ExternalLink,
 } from "lucide-react";
+import { IconCycleCalendar, IconClock, IconMapPin, IconWaterDrop } from "@/components/icons";
 
 export interface EventItem {
   id: number;
@@ -189,7 +186,7 @@ export default function Events() {
           <div className="max-w-3xl">
             {/* Pill Badge */}
             <div className="inline-flex items-center gap-2 bg-[#00C9E4]/15 border border-[#00C9E4]/30 px-4 py-1.5 rounded-full text-[#0067B1] text-sm font-semibold mb-6 shadow-2xs">
-              <Sparkles className="w-4 h-4 text-[#00C9E4]" />
+              <IconWaterDrop className="w-4 h-4 text-[#00C9E4]" />
               <span>Where Innovation Meets Industry</span>
             </div>
 
@@ -269,7 +266,7 @@ export default function Events() {
           <div className="space-y-6">
             {filteredEvents.length === 0 && (
               <div className="py-24 text-center bg-white rounded-3xl border border-slate-200/80 shadow-sm">
-                <Calendar className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                <IconCycleCalendar className="w-12 h-12 text-slate-300 mx-auto mb-4" />
                 <p className="text-slate-400 text-lg font-medium">No events in this category yet.</p>
               </div>
             )}
@@ -363,7 +360,7 @@ export default function Events() {
                       <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
                         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
                           <span className="flex items-center gap-1.5">
-                            <Calendar className="w-4 h-4 text-[#00C9E4]" />
+                            <IconCycleCalendar className="w-4 h-4 text-[#00C9E4]" />
                             {new Date(event.startDate).toLocaleDateString("en-IN", {
                               day: "numeric",
                               month: "short",
@@ -371,11 +368,11 @@ export default function Events() {
                             })}
                           </span>
                           <span className="flex items-center gap-1.5">
-                            <Clock className="w-4 h-4 text-[#0067B1]" />
+                            <IconClock className="w-4 h-4 text-[#0067B1]" />
                             {event.duration}
                           </span>
                           <span className="flex items-center gap-1.5">
-                            <MapPin className="w-4 h-4 text-rose-500" />
+                            <IconMapPin className="w-4 h-4 text-rose-500" />
                             {event.venue}
                           </span>
                         </div>
@@ -433,7 +430,7 @@ export default function Events() {
       >
         <div className="container mx-auto max-w-4xl text-center relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 px-4 py-1.5 rounded-full text-white text-xs font-semibold uppercase tracking-wider mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+            <IconWaterDrop className="w-3.5 h-3.5 text-cyan-200" />
             <span>Partner with us</span>
           </div>
 

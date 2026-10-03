@@ -7,9 +7,11 @@
     "dev": "cross-env NODE_ENV=development tsx server/index.ts",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "cross-env NODE_ENV=production node dist/index.js",
-    "check": "tsc"
+    "check": "tsc",
+    "icons:export": "node scripts/export-icons.mjs"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@hookform/resolvers": "^3.10.0",
     "@jridgewell/trace-mapping": "^0.3.25",
     "@radix-ui/react-accordion": "^1.2.4",
@@ -52,6 +54,7 @@
     "express": "^4.21.2",
     "express-rate-limit": "^8.6.1",
     "framer-motion": "^11.18.2",
+    "gsap": "^3.15.0",
     "helmet": "^8.3.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.453.0",

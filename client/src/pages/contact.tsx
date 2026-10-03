@@ -6,17 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { sendFormNotification, honeypotFieldProps } from "@/config/forms";
 import { 
-  MapPin, 
-  Mail,
-  Clock,
   Send, 
   CheckCircle2, 
   User, 
   Building2, 
   Info,
-  ChevronRight,
-  Sparkles
+  ChevronRight
 } from "lucide-react";
+import { IconMapPin, IconMail, IconClock, IconWaterDrop } from "@/components/icons";
 
 const SUBJECT_BY_SLUG: Record<string, string> = {
   demo: "Schedule a Demo",
@@ -121,7 +118,7 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-md"
           >
-            <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-spin duration-1000" />
+            <IconWaterDrop className="w-3.5 h-3.5 text-yellow-300 animate-spin duration-1000" />
             Active Support Platform
           </motion.div>
 
@@ -195,7 +192,7 @@ export default function Contact() {
                 className="flex items-start gap-5 p-6 rounded-2xl border border-border/50 bg-[#F8FAFC]/40 dark:bg-slate-900/30 backdrop-blur-md shadow-xs hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 hover:border-[#00C9E4]/30 group"
               >
                 <div className="p-3 bg-gradient-to-br from-[#00C9E4]/10 to-[#0067B1]/10 text-[#0067B1] dark:text-[#00C9E4] rounded-xl group-hover:scale-110 transition-transform duration-300 border border-[#00C9E4]/20">
-                  <MapPin className="w-6 h-6" />
+                  <IconMapPin className="w-6 h-6" />
                 </div>
                 <div className="text-left">
                   <h4 className="font-extrabold text-slate-400 dark:text-slate-500 mb-1 text-xs tracking-wider uppercase">Visit Us</h4>
@@ -213,7 +210,7 @@ export default function Contact() {
                 className="flex items-start gap-5 p-6 rounded-2xl border border-border/50 bg-[#F8FAFC]/40 dark:bg-slate-900/30 backdrop-blur-md shadow-xs hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 hover:border-[#00C9E4]/30 group"
               >
                 <div className="p-3 bg-gradient-to-br from-[#00C9E4]/10 to-[#0067B1]/10 text-[#0067B1] dark:text-[#00C9E4] rounded-xl group-hover:scale-110 transition-transform duration-300 border border-[#00C9E4]/20">
-                  <Mail className="w-6 h-6" />
+                  <IconMail className="w-6 h-6" />
                 </div>
                 <div className="text-left">
                   <h4 className="font-extrabold text-slate-400 dark:text-slate-500 mb-1 text-xs tracking-wider uppercase">Email Us</h4>
@@ -235,7 +232,7 @@ export default function Contact() {
                 className="flex items-start gap-5 p-6 rounded-2xl border border-border/50 bg-[#F8FAFC]/40 dark:bg-slate-900/30 backdrop-blur-md shadow-xs hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 hover:border-[#00C9E4]/30 group"
               >
                 <div className="p-3 bg-gradient-to-br from-[#00C9E4]/10 to-[#0067B1]/10 text-[#0067B1] dark:text-[#00C9E4] rounded-xl group-hover:scale-110 transition-transform duration-300 border border-[#00C9E4]/20">
-                  <Clock className="w-6 h-6" />
+                  <IconClock className="w-6 h-6" />
                 </div>
                 <div className="text-left">
                   <h4 className="font-extrabold text-slate-400 dark:text-slate-500 mb-1 text-xs tracking-wider uppercase">Working Hours</h4>
@@ -303,7 +300,7 @@ export default function Contact() {
                           </label>
                           <div className="relative group/input">
                             <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within/input:text-[#00C9E4] transition-colors duration-200">
-                              <Mail className="w-4 h-4" />
+                              <IconMail className="w-4 h-4" />
                             </div>
                             <Input
                               id="contact-email"

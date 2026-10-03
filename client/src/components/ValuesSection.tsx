@@ -1,23 +1,23 @@
 import { motion, useInView } from "framer-motion";
 import { Card } from "@/components/ui/card";
-import { Sprout, Zap, DollarSign } from "lucide-react";
+import { IconSprout, IconInsight, IconRupee } from "@/components/icons";
 import { useRef } from "react";
 
 const values = [
   {
-    icon: Sprout,
+    icon: IconSprout,
     title: "Welfare and sustainability",
     description: "Healthier shrimp, cleaner ponds and fewer blind treatments, so a farm can keep producing crop after crop.",
     color: "text-blue-600"
   },
   {
-    icon: Zap,
+    icon: IconInsight,
     title: "Empowerment",
     description: "We empower farmers with actionable data and tools for better decision-making.",
     color: "text-blue-600"
   },
   {
-    icon: DollarSign,
+    icon: IconRupee,
     title: "Affordability",
     description: "We offer solutions that are accessible and affordable for all farmers.",
     color: "text-blue-600"

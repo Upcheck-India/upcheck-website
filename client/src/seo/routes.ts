@@ -40,17 +40,17 @@ export const ROUTES: Record<string, RouteMetadata> = {
     lastmod: "2026-03-01",
   },
   "/download": {
-    title: "Download Neerani App · Upcheck",
+    title: "Get Neerani — free on Google Play · Upcheck",
     description:
-      "Download Neerani, the mobile farm management app for shrimp farmers. Track water parameters, feeding, and pond health.",
+      "Neerani, the shrimp farm manager app, is now available on Google Play. Free to download on Android — works offline at the pond bank, in six languages.",
     canonical: `${SITE_ORIGIN}/download`,
     ogImage: DEFAULT_OG_IMAGE,
     lastmod: "2026-03-01",
   },
   "/app": {
-    title: "Download Neerani App · Upcheck",
+    title: "Get Neerani — free on Google Play · Upcheck",
     description:
-      "Download Neerani, the mobile farm management app for shrimp farmers. Track water parameters, feeding, and pond health.",
+      "Neerani, the shrimp farm manager app, is now available on Google Play. Free to download on Android — works offline at the pond bank, in six languages.",
     canonical: `${SITE_ORIGIN}/download`,
     ogImage: DEFAULT_OG_IMAGE,
     lastmod: "2026-03-01",

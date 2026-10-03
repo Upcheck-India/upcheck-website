@@ -11,7 +11,14 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { Link } from "wouter";
-import { BatteryCharging, Cloud, Cpu, Database, Radio, Smartphone, Brain } from "lucide-react";
+import {
+  IconBuoy,
+  IconBattery,
+  IconRadioTower,
+  IconCloudDrop,
+  IconAdvice,
+  IconOfflineSync,
+} from "@/components/icons";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -260,7 +267,7 @@ const STATE_COLOR: Record<State, string> = {
 };
 
 const journey: {
-  icon: typeof Cpu;
+  icon: typeof IconBuoy;
   node: string;
   title: string;
   state: State;
@@ -268,7 +275,7 @@ const journey: {
   facts: [string, string][];
 }[] = [
   {
-    icon: Cpu,
+    icon: IconBuoy,
     node: "Sensor",
     title: "The buoy wakes up, measures, and goes back to sleep",
     state: "building",
@@ -282,7 +289,7 @@ const journey: {
     ],
   },
   {
-    icon: BatteryCharging,
+    icon: IconBattery,
     node: "Buffer",
     title: "It writes the reading down before it tries to send it",
     state: "building",
@@ -295,7 +302,7 @@ const journey: {
     ],
   },
   {
-    icon: Radio,
+    icon: IconRadioTower,
     node: "Tower",
     title: "Once an hour, it sends everything it has",
     state: "building",
@@ -308,7 +315,7 @@ const journey: {
     ],
   },
   {
-    icon: Database,
+    icon: IconCloudDrop,
     node: "Cloud",
     title: "The cloud files it under the pond and the crop",
     state: "building",
@@ -321,7 +328,7 @@ const journey: {
     ],
   },
   {
-    icon: Brain,
+    icon: IconAdvice,
     node: "Advice",
     title: "The reading is compared with everything else the farm knows",
     state: "real",
@@ -334,14 +341,14 @@ const journey: {
     ],
   },
   {
-    icon: Smartphone,
+    icon: IconOfflineSync,
     node: "Phone",
     title: "It reaches the farmer, even with no signal at the pond",
     state: "real",
     body:
       "Anything abnormal lands on the app's home screen as a plain alert, so the farmer sees it the moment they open it rather than digging through charts. Neerani also keeps a copy of the farm on the phone, so the morning round works with no connection and syncs later, and an owner, a manager and a worker editing offline don't overwrite each other.",
     facts: [
-      ["Status", "closed beta, 100+ testers"],
+      ["Status", "public release on Google Play"],
       ["Alerts", "on the home screen"],
       ["Languages", "six"],
     ],
@@ -847,13 +854,13 @@ function DeadZone() {
         <div className="rounded-2xl p-6 md:p-8" style={{ background: C.surface, border: `1px solid ${C.line}` }}>
           <div className="flex items-center justify-between text-sm">
             <span className="flex items-center gap-2" style={{ color: C.ink }}>
-              <Cpu className="w-4 h-4" /> Buoy memory
+              <IconBuoy className="w-4 h-4" /> Buoy memory
             </span>
             <span
               className="flex items-center gap-2 font-semibold"
               style={{ color: online ? C.cyan : C.amber }}
             >
-              <Radio className="w-4 h-4" /> {online ? "Signal" : "No signal"}
+              <IconRadioTower className="w-4 h-4" /> {online ? "Signal" : "No signal"}
             </span>
           </div>
 
@@ -874,7 +881,7 @@ function DeadZone() {
           </div>
 
           <div className="mt-6 pt-5 border-t flex items-center gap-2 text-sm" style={{ borderColor: C.line, color: C.muted }}>
-            <Cloud className="w-4 h-4" />
+            <IconCloudDrop className="w-4 h-4" />
             Each square is one 15-minute reading. The memory holds about 30 days.
           </div>
         </div>
@@ -980,7 +987,7 @@ function CostOfScale() {
           </dl>
 
           <p className="mt-10 text-sm" style={{ color: C.amber }}>
-            A projection from our design targets. We are in closed beta and have no sensors in ponds yet.
+            A projection from our design targets. The app is newly launched on Google Play, and we have no sensors in ponds yet.
           </p>
         </div>
 
@@ -1022,7 +1029,7 @@ const ledger: { state: State; items: string[] }[] = [
   {
     state: "real",
     items: [
-      "Neerani app in closed beta on Google Play, with more than 100 testers",
+      "Neerani app publicly available on Google Play",
       "Daily pond logging that works offline and syncs later",
       "Six languages, and owner, manager, worker and viewer roles",
       "Feed and aeration advice from documented rules, labelled as such in the app",

@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { ObjectId, GridFSBucket } from "mongodb";
-import clientPromise from "../lib/mongo"; // import MongoDB clientPromise
+import getMongoClient from "../lib/mongo"; // lazily connects; throws per-call when unconfigured
 import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { subscribeToNewsletter } from "../lib/brevo";
@@ -60,7 +60,7 @@ async function getPostsWithCache(): Promise<any[]> {
   try {
     // 2.5 second timeout so user never waits for slow MongoDB connection
     const fetchPromise = (async () => {
-      const client = await clientPromise;
+      const client = await getMongoClient();
       const db = client.db("resources");
       return await db
         .collection("website-resource")
@@ -105,7 +105,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let post: any = null;
 
       try {
-        const client = await clientPromise;
+        const client = await getMongoClient();
         const db = client.db("resources");
 
         // First try to find by string id
@@ -180,7 +180,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const sanitizedFeedback = sanitizeInput(validatedData.feedback);
 
 
-      const client = await clientPromise;
+      const client = await getMongoClient();
       const db = client.db("resources");
 
       const result = await db.collection("feedback").insertOne({
@@ -228,7 +228,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/media/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const client = await clientPromise;
+      const client = await getMongoClient();
       const db = client.db("resources");
 
       let objId: ObjectId;

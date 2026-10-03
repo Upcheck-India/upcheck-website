@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+  <path d="M12.5 8.6c1.45 1.8 2.15 3.05 2.15 3.95a2.15 2.15 0 1 1-4.3 0c0-.9.7-2.15 2.15-3.95z" stroke="none" style="fill:var(--uc-accent,#00C9E4)"/>
+</svg>

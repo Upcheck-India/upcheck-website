@@ -70,7 +70,7 @@ const questions = [
   },
   {
     q: "How do I start?",
-    a: "Neerani is in closed testing on Google Play with more than 100 testers. Request access and we will add you to the tester list.",
+    a: "Neerani is free to download on Google Play. Search for Neerani by Upcheck, or use the link on our download page.",
   },
 ];
 
@@ -196,7 +196,7 @@ export default function Pricing() {
                 className="rounded-full px-7 py-3.5 text-[15px] font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0067B1]"
                 style={{ background: "linear-gradient(90deg, #00C9E4 0%, #0067B1 100%)" }}
               >
-                Request beta access
+                Get it on Google Play
               </Link>
               <Link
                 href="/contact?subject=demo"

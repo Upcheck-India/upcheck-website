@@ -5,7 +5,7 @@
  * - true  : App is launched and available on Google Play Store (Case 1)
  * - false : App is in "Coming Soon" / Pre-registration phase (Case 2)
  */
-export const IS_APP_LAUNCHED: boolean = false;
+export const IS_APP_LAUNCHED: boolean = true;
 
 export interface AppConfigType {
   appName: string;
@@ -26,13 +26,13 @@ export interface AppConfigType {
 export const APP_CONFIG: AppConfigType = {
   appName: "Neerani by Upcheck",
   tagline: "Smart Shrimp Farming & Pond Intelligence",
-  packageName: "com.upcheck.aquafarm",
-  playStoreUrl: "https://play.google.com/store/apps/details?id=com.upcheck.aquafarm",
-  version: "Closed beta",
+  packageName: "com.upcheck.app",
+  playStoreUrl: "https://play.google.com/store/apps/details?id=com.upcheck.app",
+  version: "Latest release · Sep 2026",
   fileSize: "—",
   minAndroidVersion: "Android 8.0+",
   lastUpdated: "Sep 2026",
-  expectedRelease: "Public release date to be announced",
+  expectedRelease: "Now publicly available on Google Play",
   features: [
     {
       title: "Real-time Pond Alerts",

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round">
+  <path d="M4 19c1.25-1.25 2.75-1.25 4 0s2.75 1.25 4 0 2.75-1.25 4 0 2.75 1.25 4 0"/>
+  <circle cx="8.5" cy="13.5" r="1.7"/>
+  <circle cx="16" cy="13" r="1.4"/>
+  <circle cx="12.3" cy="8.5" r="2.2" stroke="none" style="fill:var(--uc-accent,#00C9E4)"/>
+</svg>

@@ -3,11 +3,6 @@ import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import {
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  Sparkles,
   ArrowLeft,
   ArrowRight,
   ExternalLink,
@@ -19,9 +14,16 @@ import {
   ChevronUp,
   Award,
   Building2,
-  Lightbulb,
   Globe,
 } from "lucide-react";
+import {
+  IconCycleCalendar,
+  IconClock,
+  IconMapPin,
+  IconRoles,
+  IconWaterDrop,
+  IconInsight,
+} from "@/components/icons";
 
 export const EVENT_DETAIL_DATA = {
   title: "Makeathon 7.0",
@@ -318,7 +320,7 @@ export default function EventDetail() {
                   LIVE NOW
                 </span>
                 <span className="inline-flex items-center gap-1.5 bg-cyan-50 border border-cyan-200 text-[#0067B1] text-xs font-semibold px-3 py-1 rounded-full shadow-2xs">
-                  <Sparkles className="w-3 h-3 text-[#00C9E4]" />
+                  <IconWaterDrop className="w-3 h-3 text-[#00C9E4]" />
                   Featured Event
                 </span>
               </div>
@@ -340,7 +342,7 @@ export default function EventDetail() {
 
               <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-600">
                 <span className="inline-flex items-center gap-1.5 bg-white/80 border border-slate-200/80 px-3 py-1.5 rounded-xl shadow-2xs">
-                  <Calendar className="w-4 h-4 text-[#00C9E4]" />
+                  <IconCycleCalendar className="w-4 h-4 text-[#00C9E4]" />
                   {new Date(data.startDate).toLocaleDateString("en-IN", {
                     day: "numeric",
                     month: "long",
@@ -348,15 +350,15 @@ export default function EventDetail() {
                   })}
                 </span>
                 <span className="inline-flex items-center gap-1.5 bg-white/80 border border-slate-200/80 px-3 py-1.5 rounded-xl shadow-2xs">
-                  <Clock className="w-4 h-4 text-[#0067B1]" />
+                  <IconClock className="w-4 h-4 text-[#0067B1]" />
                   24 Hours
                 </span>
                 <span className="inline-flex items-center gap-1.5 bg-white/80 border border-slate-200/80 px-3 py-1.5 rounded-xl shadow-2xs">
-                  <MapPin className="w-4 h-4 text-rose-500" />
+                  <IconMapPin className="w-4 h-4 text-rose-500" />
                   {data.venueShort}
                 </span>
                 <span className="inline-flex items-center gap-1.5 bg-white/80 border border-slate-200/80 px-3 py-1.5 rounded-xl shadow-2xs">
-                  <Users className="w-4 h-4 text-amber-500" />
+                  <IconRoles className="w-4 h-4 text-amber-500" />
                   {data.teamSize}
                 </span>
               </div>
@@ -460,7 +462,7 @@ export default function EventDetail() {
             {/* Left 2 Cols: About & Domains */}
             <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-200/80 p-8 shadow-sm">
               <h2 className="text-2xl font-extrabold text-slate-900 mb-1 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-[#00C9E4]" />
+                <IconWaterDrop className="w-5 h-5 text-[#00C9E4]" />
                 About Makeathon 7.0
               </h2>
               <p className="text-slate-500 text-sm mb-5">Organised by Dept. of ECE, SVCE</p>
@@ -553,7 +555,7 @@ export default function EventDetail() {
         <div ref={(el) => (sectionRefs.current.problem = el)} className="scroll-mt-20">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 bg-cyan-100 rounded-2xl flex items-center justify-center">
-              <Lightbulb className="w-5 h-5 text-[#0067B1]" />
+              <IconInsight className="w-5 h-5 text-[#0067B1]" />
             </div>
             <div>
               <h2 className="text-2xl font-extrabold text-slate-900">Industry Problem Statement</h2>
@@ -564,7 +566,7 @@ export default function EventDetail() {
           <div className="relative bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-dashed border-amber-300 rounded-3xl p-12 text-center overflow-hidden">
             <div className="relative">
               <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-5 border border-amber-200">
-                <Lightbulb className="w-8 h-8 text-amber-500" />
+                <IconInsight className="w-8 h-8 text-amber-500" />
               </div>
               <h3 className="text-xl font-extrabold text-slate-900 mb-3">
                 Problem Statement Coming Soon
@@ -661,7 +663,7 @@ export default function EventDetail() {
       >
         <div className="container mx-auto max-w-4xl text-center relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 px-4 py-1.5 rounded-full text-white text-xs font-semibold uppercase tracking-wider mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+            <IconWaterDrop className="w-3.5 h-3.5 text-cyan-200" />
             <span>Partner with us</span>
           </div>
 
