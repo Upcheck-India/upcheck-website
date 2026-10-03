@@ -7,8 +7,8 @@
   stroke-width="1.75"
   stroke-linecap="round"
   stroke-linejoin="round">
-  <path d="M5.5 9.6v8.9a1.5 1.5 0 0 0 1.5 1.5h10a1.5 1.5 0 0 0 1.5-1.5V9.6"/>
-  <path d="M4 10.9L12 4l8 6.9"/>
-  <path d="M12 11.4c.95 1.2 1.45 2 1.45 2.65a1.45 1.45 0 1 1-2.9 0c0-.65.5-1.45 1.45-2.65z" stroke="none" style="fill:var(--uc-accent,#00C9E4)"/>
-  <path d="M8.75 17.4c.65-.65 1.55-.65 2.2 0s1.55.65 2.2 0 1.55-.65 2.2 0"/>
+  <path d="M3.9 11L12 3.9l8.1 7.1"/>
+  <path d="M5.4 9.9v9a1.5 1.5 0 0 0 1.5 1.5h10.2a1.5 1.5 0 0 0 1.5-1.5v-9"/>
+  <path d="M8.7 16.3c.65-.65 1.55-.65 2.2 0s1.55.65 2.2 0 1.55-.65 2.2 0"/>
+  <circle cx="12" cy="13.4" r="1.25" stroke="none" style="fill:var(--uc-accent,#00C9E4)"/>
 </svg>

@@ -8,5 +8,6 @@
   stroke-linecap="round"
   stroke-linejoin="round">
   <path d="M6.2 3.6h11.6a2 2 0 0 1 2 2v7.2a2 2 0 0 1-2 2h-6.4l-3.7 3.2v-3.2H6.2a2 2 0 0 1-2-2V5.6a2 2 0 0 1 2-2z"/>
-  <path d="M12 6.4c1.35 1.7 2.05 2.9 2.05 3.8a2.05 2.05 0 1 1-4.1 0c0-.9.7-2.1 2.05-3.8z" stroke="none" style="fill:var(--uc-accent,#00C9E4)"/>
+  <path d="M8.6 7.8h6.8"/>
+  <path d="M8.6 11.2h4.2"/>
 </svg>

@@ -180,10 +180,11 @@ export function IconBuoy(props: UpIconProps) {
 export function IconRupee(props: UpIconProps) {
   return (
     <UpIcon {...props}>
-      <path d="M6.5 3.6h11" />
-      <path d="M6.5 8.4h11" />
-      <path d="M17.5 8.4c0 4.2-3.3 7-8.7 7l8.7 5.9" />
-      <path d="M7.2 16.9c.8 1.05 1.25 1.8 1.25 2.35a1.25 1.25 0 1 1-2.5 0c0-.55.45-1.3 1.25-2.35z" stroke="none" style={accent} />
+      <path d="M6.5 3.5h11" />
+      <path d="M6.5 8.5h11" />
+      <path d="M9.5 13.5C16.2 13.5 16.2 3.5 9.5 3.5" />
+      <path d="M6.5 13.5h3" />
+      <path d="M6.5 13.5l7.5 7" />
     </UpIcon>
   );
 }
@@ -272,9 +273,9 @@ export function IconScale(props: UpIconProps) {
 export function IconPill(props: UpIconProps) {
   return (
     <UpIcon {...props}>
-      <rect x="3.5" y="9.5" width="17" height="5" rx="2.5" />
-      <path d="M12 9.5v5" />
-      <circle cx="15.2" cy="12" r="1.5" stroke="none" style={accent} />
+      <path d="M6.63 13.83l7.2-7.2a2.5 2.5 0 0 1 3.54 3.54l-7.2 7.2a2.5 2.5 0 0 1-3.54-3.54z" />
+      <path d="M10.23 10.23l3.54 3.54" />
+      <path d="M10.23 10.23l3.6-3.6a2.5 2.5 0 0 1 3.54 3.54l-3.6 3.6z" stroke="none" style={accent} />
     </UpIcon>
   );
 }
@@ -427,8 +428,8 @@ export function IconRadioTower(props: UpIconProps) {
 export function IconCloudDrop(props: UpIconProps) {
   return (
     <UpIcon {...props}>
-      <path d="M6.2 11.4a3.55 3.55 0 0 1 3-5.5 3.2 3.2 0 0 1 6.4-.2 4.15 4.15 0 0 1 4 5.7z" />
-      <path d="M12 12.6c1.25 1.55 1.9 2.65 1.9 3.5a1.9 1.9 0 1 1-3.8 0c0-.85.65-1.95 1.9-3.5z" stroke="none" style={accent} />
+      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+      <path d="M12.5 8.6c1.45 1.8 2.15 3.05 2.15 3.95a2.15 2.15 0 1 1-4.3 0c0-.9.7-2.15 2.15-3.95z" stroke="none" style={accent} />
     </UpIcon>
   );
 }
@@ -437,7 +438,8 @@ export function IconAdvice(props: UpIconProps) {
   return (
     <UpIcon {...props}>
       <path d="M6.2 3.6h11.6a2 2 0 0 1 2 2v7.2a2 2 0 0 1-2 2h-6.4l-3.7 3.2v-3.2H6.2a2 2 0 0 1-2-2V5.6a2 2 0 0 1 2-2z" />
-      <path d="M12 6.4c1.35 1.7 2.05 2.9 2.05 3.8a2.05 2.05 0 1 1-4.1 0c0-.9.7-2.1 2.05-3.8z" stroke="none" style={accent} />
+      <path d="M8.6 7.8h6.8" />
+      <path d="M8.6 11.2h4.2" />
     </UpIcon>
   );
 }
@@ -467,10 +469,10 @@ export function IconDashboard(props: UpIconProps) {
 export function IconHomePond(props: UpIconProps) {
   return (
     <UpIcon {...props}>
-      <path d="M5.5 9.6v8.9a1.5 1.5 0 0 0 1.5 1.5h10a1.5 1.5 0 0 0 1.5-1.5V9.6" />
-      <path d="M4 10.9L12 4l8 6.9" />
-      <path d="M12 11.4c.95 1.2 1.45 2 1.45 2.65a1.45 1.45 0 1 1-2.9 0c0-.65.5-1.45 1.45-2.65z" stroke="none" style={accent} />
-      <path d="M8.75 17.4c.65-.65 1.55-.65 2.2 0s1.55.65 2.2 0 1.55-.65 2.2 0" />
+      <path d="M3.9 11L12 3.9l8.1 7.1" />
+      <path d="M5.4 9.9v9a1.5 1.5 0 0 0 1.5 1.5h10.2a1.5 1.5 0 0 0 1.5-1.5v-9" />
+      <path d="M8.7 16.3c.65-.65 1.55-.65 2.2 0s1.55.65 2.2 0 1.55-.65 2.2 0" />
+      <circle cx="12" cy="13.4" r="1.25" stroke="none" style={accent} />
     </UpIcon>
   );
 }
@@ -502,10 +504,9 @@ export function IconExportFile(props: UpIconProps) {
 export function IconSprout(props: UpIconProps) {
   return (
     <UpIcon {...props}>
-      <path d="M12 21v-7.6" />
-      <path d="M12 13.4c-4.1 0-6.1-2.3-6.1-6 4.2 0 6.1 2.3 6.1 6z" />
-      <path d="M12 11.2c0-3.2 1.7-4.9 4.9-4.9 0 3.4-1.7 4.9-4.9 4.9z" />
-      <path d="M16.2 15.9c.95 1.2 1.45 2.05 1.45 2.7a1.45 1.45 0 1 1-2.9 0c0-.65.5-1.5 1.45-2.7z" stroke="none" style={accent} />
+      <path d="M12 21v-7.4" />
+      <path d="M12 13.6c-4.6 0-8-3.2-8-7.6 4.6 0 8 3.2 8 7.6z" />
+      <path d="M12 13.6c4.2 0 7.2-2.9 7.2-6.8-4.2 0-7.2 2.9-7.2 6.8z" stroke="none" style={accent} />
     </UpIcon>
   );
 }
