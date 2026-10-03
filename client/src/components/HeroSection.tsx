@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Download, PlayCircle } from "lucide-react";
+import { PlayCircle } from "lucide-react";
+import { IconDownload } from "@/components/icons";
 // Logo path used directly: /attached_assets/upcheck-logo.png
 
 const HERO_POSTER = "/attached_assets/hero-poster.jpg";
@@ -135,7 +136,7 @@ export default function HeroSection() {
                   border: "none"
                 }}
               >
-                <Download className="w-5 h-5" />
+                <IconDownload className="w-5 h-5" />
                 Download App
               </Button>
             </a>

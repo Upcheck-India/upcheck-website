@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { IconWaterDrop } from "@/components/icons";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 
@@ -64,7 +65,7 @@ export default function SolutionSection() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-2.5 shadow-2xs"
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#0067B1]" />
+            <IconWaterDrop className="w-3.5 h-3.5 text-[#0067B1]" />
             <span className="text-[10px] font-extrabold tracking-[0.2em] text-[#0067B1] uppercase">
               The Future of Aquaculture
             </span>

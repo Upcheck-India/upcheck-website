@@ -18,21 +18,24 @@ const liveAnalyticsSeaImg = "/attached_assets/live-analytics-sea.webp";
 const aiFeedingSeaweedImg = "/attached_assets/ai-feeding-seaweed.jpg";
 const traceabilityPlaceholderImg = "/attached_assets/traceability-placeholder.webp";
 import {
-  Activity,
   ArrowRight,
-  BarChart3,
   CheckCircle2,
-  ShieldAlert,
-  Sparkles,
-  Target,
-  TrendingUp,
-  Waves,
 } from "lucide-react";
+import {
+  IconPond,
+  IconFeedTray,
+  IconRupee,
+  IconShrimp,
+  IconLanguages,
+  IconOfflineSync,
+  IconRoles,
+  IconWaterDrop,
+} from "@/components/icons";
 
 const detailedSections = [
   {
     name: "Pond Monitoring & Daily Log",
-    icon: Waves,
+    icon: IconPond,
     description:
       "Every pond's working record in one place — dissolved oxygen, pH, temperature and salinity, feed given by meal, tray residue, mortality and treatments. A multi-pond grid lets one person log the whole farm in a single morning round.",
     points: [
@@ -43,7 +46,7 @@ const detailedSections = [
   },
   {
     name: "Feed Advisor",
-    icon: Target,
+    icon: IconFeedTray,
     description:
       "How much to feed today, adjusted for tray residue, water conditions and molt stage. Where the readings are thin the advisor returns a range instead of a falsely precise number, and says what to go and measure.",
     points: [
@@ -54,7 +57,7 @@ const detailedSections = [
   },
   {
     name: "Cycle Economics & Reckoning",
-    icon: BarChart3,
+    icon: IconRupee,
     description:
       "Feed conversion ratio, survival rate, cost per kilo, break-even count band, margin and return — computed from the record you kept all cycle, not estimated in a spreadsheet after harvest.",
     points: [
@@ -65,7 +68,7 @@ const detailedSections = [
   },
   {
     name: "Disease Risk & Responsible Treatment",
-    icon: ShieldAlert,
+    icon: IconShrimp,
     description:
       "A symptom checker that ranks likely causes from what you can actually see — on the animal, in its behaviour, in the water — instead of a guess from a WhatsApp group. Paired with a banned-substance warning at the moment a treatment is recorded.",
     points: [
@@ -93,19 +96,19 @@ const reasons = [
     title: "It speaks the shrimp belt's languages",
     description:
       "Every screen, label and warning exists in six languages — English, Hindi, Bengali, Tamil, Telugu and Odia. The person who walks the pond bank at dawn is rarely the person who reads English.",
-    icon: Sparkles,
+    icon: IconLanguages,
   },
   {
     title: "It works where the signal doesn't",
     description:
       "Ponds are not where the towers are. Neerani keeps working through a dead patch and reconciles when the connection returns — because a logging tool that fails at the pond bank is one nobody uses twice.",
-    icon: Activity,
+    icon: IconOfflineSync,
   },
   {
     title: "A record several people can be trusted with",
     description:
       "Workers log, managers verify, and money is visible only to whom the owner allows. A farm with hired labour cannot run on one shared password — and a lender or consultant can be given a read-only view without handing over the books.",
-    icon: TrendingUp,
+    icon: IconRoles,
   },
 ];
 
@@ -339,7 +342,7 @@ export default function Products() {
               transition={{ duration: 0.6 }}
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 shadow-2xs"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#0067B1]" />
+              <IconWaterDrop className="w-3.5 h-3.5 text-[#0067B1]" />
               <span className="text-[10px] font-extrabold tracking-[0.2em] text-[#0067B1] uppercase">
                 COMPLETE AQUACULTURE PLATFORM
               </span>
@@ -785,7 +788,7 @@ export default function Products() {
                   className="text-center max-w-3xl mx-auto space-y-3 pb-2"
                 >
                   <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-50 border border-cyan-200/80 shadow-2xs">
-                    <Sparkles className="w-3.5 h-3.5 text-[#0067B1]" />
+                    <IconWaterDrop className="w-3.5 h-3.5 text-[#0067B1]" />
                     <span className="text-[11px] font-extrabold tracking-[0.2em] text-[#0067B1] uppercase">
                       Smart Technology. Smarter Shrimp Farming.
                     </span>

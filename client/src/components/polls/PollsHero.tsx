@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Users, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { IconRoles } from "@/components/icons";
 
 export default function PollsHero() {
   const scrollToPolls = () => {
@@ -134,7 +135,7 @@ export default function PollsHero() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25 text-primary text-sm font-semibold mb-8 backdrop-blur-md animate-pulse"
         >
-          <Users className="w-4 h-4 text-[#00B4D8]" />
+          <IconRoles className="w-4 h-4 text-[#00B4D8]" />
           <span>Interactive Farmer Community</span>
         </motion.div>
 

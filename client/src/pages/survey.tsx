@@ -19,10 +19,9 @@ import {
   Users,
   Compass,
   ArrowLeft,
-  X,
-  Clock,
-  ClipboardList
+  X
 } from "lucide-react";
+import { IconClock, IconTasks } from "@/components/icons";
 
 // Survey Data Types
 interface SurveyQuestion {
@@ -638,12 +637,12 @@ export default function Survey() {
                         </h4>
                         <div className="flex items-center gap-3 text-xs text-slate-500 font-semibold">
                           <span className="flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5" />
+                            <IconClock className="w-3.5 h-3.5" />
                             {survey.duration}
                           </span>
                           <span>•</span>
                           <span className="flex items-center gap-1">
-                            <ClipboardList className="w-3.5 h-3.5" />
+                            <IconTasks className="w-3.5 h-3.5" />
                             {survey.questionsCount} Qs
                           </span>
                         </div>
@@ -705,14 +704,14 @@ export default function Survey() {
                               <div className="space-y-1">
                                 <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider">Estimated Time</span>
                                 <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-bold text-sm">
-                                  <Clock className="w-4 h-4 text-[#0067B1]" />
+                                  <IconClock className="w-4 h-4 text-[#0067B1]" />
                                   {selectedSurvey.duration}
                                 </div>
                               </div>
                               <div className="space-y-1">
                                 <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider">Total Length</span>
                                 <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-bold text-sm">
-                                  <ClipboardList className="w-4 h-4 text-[#0067B1]" />
+                                  <IconTasks className="w-4 h-4 text-[#0067B1]" />
                                   {selectedSurvey.questionsCount} Questions
                                 </div>
                               </div>

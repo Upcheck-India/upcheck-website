@@ -8,13 +8,9 @@ import { useToast } from "@/hooks/use-toast";
 import { sendFormNotification } from "@/config/forms";
 import {
   Star,
-  Users,
   CheckCircle2,
   MessageSquare,
   Award,
-  Activity,
-  MapPin,
-  TrendingUp,
   Send,
   Heart,
   ChevronRight,
@@ -22,19 +18,26 @@ import {
   Sparkles,
   ShieldCheck,
   AlertCircle,
-  Cloud,
   Wifi,
   Bell,
   Droplet,
   Smartphone,
   Lock,
   FileText,
-  Lightbulb,
   Bug,
   Quote,
   Info,
   Rocket
 } from "lucide-react";
+import {
+  IconRoles,
+  IconMapPin,
+  IconAeration,
+  IconCloudDrop,
+  IconInsight,
+  IconGrowthChart,
+  IconBell,
+} from "@/components/icons";
 import logoUrl from "@assets/upcheck-logo.png";
 
 // Testimonial Type Definition
@@ -148,21 +151,21 @@ export default function FeedbackPage() {
       title: "Farms Connected",
       value: "500+",
       description: "Active aquaculture farms utilizing Upcheck sensors worldwide.",
-      icon: Users,
+      icon: IconRoles,
       trend: "+12% this month"
     },
     {
       title: "Shrimp Survival Improvement",
       value: "+25%",
       description: "Average increase in post-larvae survival rate across monitored ponds.",
-      icon: TrendingUp,
+      icon: IconGrowthChart,
       trend: "Based on 12-month data"
     },
     {
       title: "Water Quality Alerts Sent",
       value: "1.2M+",
       description: "Dissolved oxygen, pH, and temperature alerts sent to prevent crop losses.",
-      icon: Activity,
+      icon: IconBell,
       trend: "99.9% delivery uptime"
     },
     {
@@ -522,7 +525,7 @@ export default function FeedbackPage() {
                               {t.avatarUrl ? (
                                 <img src={t.avatarUrl} alt={t.name} className="w-full h-full object-cover" />
                               ) : (
-                                <Users className="w-5 h-5 text-muted-foreground" />
+                                <IconRoles className="w-5 h-5 text-muted-foreground" />
                               )}
                             </div>
                             <div className="min-w-0">
@@ -531,7 +534,7 @@ export default function FeedbackPage() {
                                 {t.farmName}
                               </p>
                               <div className="flex items-center gap-1.5 mt-0.5 text-[10px] text-muted-foreground">
-                                <MapPin className="w-3 h-3 shrink-0" />
+                                <IconMapPin className="w-3 h-3 shrink-0" />
                                 <span className="truncate">{t.location}</span>
                                 <span className="mx-1">•</span>
                                 <span>{t.date}</span>
@@ -614,7 +617,7 @@ export default function FeedbackPage() {
                         <CardContent className="p-6 flex-1 flex flex-col justify-between space-y-6">
                           <div className="space-y-3">
                             <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
+                              <IconMapPin className="w-3.5 h-3.5 text-primary shrink-0" />
                               <span>{story.location}</span>
                             </div>
                             <h3 className="text-lg font-bold group-hover:text-[#00C9E4] transition-colors leading-snug">
@@ -1004,7 +1007,7 @@ export default function FeedbackPage() {
                               transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
                               className="relative z-20 flex flex-col items-center gap-1.5"
                             >
-                              <Activity className="w-8 h-8 text-[#00C9E4] drop-shadow-[0_0_8px_rgba(0,201,228,0.45)]" />
+                              <IconAeration className="w-8 h-8 text-[#00C9E4] drop-shadow-[0_0_8px_rgba(0,201,228,0.45)]" />
                               <span className="text-[10px] font-bold uppercase tracking-wider text-foreground/80">Telemetry Live Link</span>
                             </motion.div>
                           </div>
@@ -1086,7 +1089,7 @@ export default function FeedbackPage() {
                             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
                           >
                             <div className="relative">
-                              <Cloud className="w-8 h-8 text-[#0067B1]" />
+                              <IconCloudDrop className="w-8 h-8 text-[#0067B1]" />
                               <Wifi className="w-4 h-4 text-[#00C9E4] absolute -top-1.5 -right-1.5 animate-pulse" />
                             </div>
                           </motion.div>
@@ -1098,7 +1101,7 @@ export default function FeedbackPage() {
                             transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
                           >
                             <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#00C9E4] to-[#0067B1] flex items-center justify-center text-white shadow-inner relative">
-                              <Activity className="w-3.5 h-3.5 animate-pulse" />
+                              <IconAeration className="w-3.5 h-3.5 animate-pulse" />
                               <span className="absolute -inset-1 rounded-full border border-[#00C9E4]/40 animate-ping opacity-75" />
                             </div>
                             <span className="text-[8px] font-bold tracking-wider text-muted-foreground uppercase leading-none mt-1">IoT Probe</span>
@@ -1172,7 +1175,7 @@ export default function FeedbackPage() {
                         <div className="divide-y divide-border/45 pt-2">
                           <div className="flex items-center gap-3 py-3 group">
                             <div className="w-7 h-7 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0 transition-transform group-hover:scale-110 duration-200">
-                              <Lightbulb className="w-3.5 h-3.5" />
+                              <IconInsight className="w-3.5 h-3.5" />
                             </div>
                             <span className="text-xs font-medium text-foreground/90">
                               Your ideas help improve Upcheck.

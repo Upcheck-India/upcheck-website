@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round">
+  <path d="M14 4v9.8a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/>
+  <path d="M16.8 7h2.2"/>
+  <path d="M16.8 10.5h2.2"/>
+  <path d="M11.4 11h1.2v4.6h-1.2z" stroke="none" style="fill:var(--uc-accent,#00C9E4)"/>
+  <circle cx="12" cy="17.3" r="2" stroke="none" style="fill:var(--uc-accent,#00C9E4)"/>
+</svg>

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { Link } from "wouter";
-import { AlertTriangle, Search } from "lucide-react";
+import { Search } from "lucide-react";
+import { IconPondAlert } from "@/components/icons";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -230,7 +231,7 @@ function TreatmentWarning() {
         >
           <div className="rounded-xl p-3.5" style={{ background: W.alertSoft }}>
             <div className="flex items-start gap-2.5">
-              <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: W.alert }} />
+              <IconPondAlert className="w-5 h-5 shrink-0 mt-0.5" style={{ color: W.alert }} />
               <div>
                 <p className="text-sm font-bold" style={{ color: W.alert }}>
                   Banned for use in shrimp farming

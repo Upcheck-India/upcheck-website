@@ -1,7 +1,8 @@
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { FaAndroid, FaApple } from "react-icons/fa";
-import { ArrowRight, Thermometer, Droplet, Shield, Wind, Calendar, ChevronDown, Wifi, Battery } from "lucide-react";
+import { ArrowRight, Calendar, ChevronDown, Wifi, Battery } from "lucide-react";
+import { IconThermometer, IconWaterDrop, IconAeration, IconTestKit } from "@/components/icons";
 import { useRef } from "react";
 
 export default function CTASection() {
@@ -182,7 +183,7 @@ export default function CTASection() {
                     {/* Temperature */}
                     <div className="flex flex-col items-center">
                       <div className="w-9 h-9 rounded-full bg-[#58B5F7]/10 flex items-center justify-center mb-2.5">
-                        <Thermometer className="w-4.5 h-4.5 text-[#58B5F7] stroke-[1.5]" />
+                        <IconThermometer className="w-4.5 h-4.5 text-[#58B5F7]" />
                       </div>
                       <div className="text-[12.5px] font-bold text-[#111827]">28.4 C</div>
                       <div className="text-[9px] text-[#6B7280] font-medium leading-tight mt-1">Temperature</div>
@@ -191,7 +192,7 @@ export default function CTASection() {
                     {/* pH */}
                     <div className="flex flex-col items-center">
                       <div className="w-9 h-9 rounded-full bg-[#58B5F7]/10 flex items-center justify-center mb-2.5">
-                        <Droplet className="w-4.5 h-4.5 text-[#58B5F7] stroke-[1.5]" />
+                        <IconWaterDrop className="w-4.5 h-4.5 text-[#58B5F7]" />
                       </div>
                       <div className="text-[12.5px] font-bold text-[#111827]">7.6</div>
                       <div className="text-[9px] text-[#6B7280] font-medium leading-tight mt-1">pH</div>
@@ -200,7 +201,7 @@ export default function CTASection() {
                     {/* DO */}
                     <div className="flex flex-col items-center">
                       <div className="w-9 h-9 rounded-full bg-[#58B5F7]/10 flex items-center justify-center mb-2.5">
-                        <Wind className="w-4.5 h-4.5 text-[#58B5F7] stroke-[1.5]" />
+                        <IconAeration className="w-4.5 h-4.5 text-[#58B5F7]" />
                       </div>
                       <div className="text-[12.5px] font-bold text-[#111827]">5.8</div>
                       <div className="text-[9px] text-[#6B7280] font-medium leading-tight mt-1">DO(mg/L)</div>
@@ -209,7 +210,7 @@ export default function CTASection() {
                     {/* Alkalinity */}
                     <div className="flex flex-col items-center">
                       <div className="w-9 h-9 rounded-full bg-[#58B5F7]/10 flex items-center justify-center mb-2.5">
-                        <Shield className="w-4.5 h-4.5 text-[#58B5F7] stroke-[1.5]" />
+                        <IconTestKit className="w-4.5 h-4.5 text-[#58B5F7]" />
                       </div>
                       <div className="text-[12.5px] font-bold text-[#111827]">120</div>
                       <div className="text-[9px] text-[#6B7280] font-medium leading-tight mt-1">Alkalinity</div>

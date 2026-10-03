@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { CheckCircle2, Award, Users } from "lucide-react";
+import { CheckCircle2, Award } from "lucide-react";
+import { IconRoles } from "@/components/icons";
 import { useToast } from "@/hooks/use-toast";
 
 const OPTIONS = [
@@ -138,7 +139,7 @@ export default function FeaturedPoll() {
 
                     <div className="flex items-center justify-between flex-wrap gap-4 pt-4 border-t border-border/50">
                       <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                        <Users className="w-4 h-4" />
+                        <IconRoles className="w-4 h-4" />
                         <span>{totalVotes.toLocaleString()} farmers have responded</span>
                       </div>
 
@@ -211,7 +212,7 @@ export default function FeaturedPoll() {
 
                     <div className="flex justify-between items-center flex-wrap gap-4 pt-6 border-t border-border/50 text-sm text-muted-foreground">
                       <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4" />
+                        <IconRoles className="w-4 h-4" />
                         <span>Consensus based on {totalVotes.toLocaleString()} answers</span>
                       </div>
                       <span>Real-time tracking active</span>

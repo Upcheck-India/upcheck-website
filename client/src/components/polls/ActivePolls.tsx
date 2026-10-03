@@ -4,7 +4,8 @@ import { CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Users, Calendar, Vote } from "lucide-react";
+import { CheckCircle2, Vote } from "lucide-react";
+import { IconRoles, IconCycleCalendar } from "@/components/icons";
 import { useToast } from "@/hooks/use-toast";
 
 interface Option {
@@ -264,11 +265,11 @@ export default function ActivePolls() {
                   <CardFooter className="p-0 border-t border-border/40 pt-5 flex items-center justify-between mt-auto text-xs text-muted-foreground relative z-10">
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-1">
-                        <Users className="w-3.5 h-3.5" />
+                        <IconRoles className="w-3.5 h-3.5" />
                         <span>{poll.votesCount}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5" />
+                        <IconCycleCalendar className="w-3.5 h-3.5" />
                         <span>{poll.timeLeft}</span>
                       </div>
                     </div>

@@ -2,7 +2,8 @@ import * as React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Lightbulb, X } from "lucide-react";
+import { X } from "lucide-react";
+import { IconInsight } from "@/components/icons";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {
   Dialog,
@@ -112,7 +113,7 @@ export default function SuggestPollCTA() {
           transition={{ duration: 0.5 }}
           className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20"
         >
-          <Lightbulb className="w-7 h-7 text-[#00B4D8] animate-pulse" />
+          <IconInsight className="w-7 h-7 text-[#00B4D8] animate-pulse" />
         </motion.div>
 
         {/* Heading (stagger 2) */}
