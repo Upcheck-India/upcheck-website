@@ -341,7 +341,7 @@ const journey: {
     body:
       "Anything abnormal lands on the app's home screen as a plain alert, so the farmer sees it the moment they open it rather than digging through charts. Neerani also keeps a copy of the farm on the phone, so the morning round works with no connection and syncs later, and an owner, a manager and a worker editing offline don't overwrite each other.",
     facts: [
-      ["Status", "closed beta, 100+ testers"],
+      ["Status", "public release on Google Play"],
       ["Alerts", "on the home screen"],
       ["Languages", "six"],
     ],
@@ -980,7 +980,7 @@ function CostOfScale() {
           </dl>
 
           <p className="mt-10 text-sm" style={{ color: C.amber }}>
-            A projection from our design targets. We are in closed beta and have no sensors in ponds yet.
+            A projection from our design targets. The app is newly launched on Google Play, and we have no sensors in ponds yet.
           </p>
         </div>
 
@@ -1022,7 +1022,7 @@ const ledger: { state: State; items: string[] }[] = [
   {
     state: "real",
     items: [
-      "Neerani app in closed beta on Google Play, with more than 100 testers",
+      "Neerani app publicly available on Google Play",
       "Daily pond logging that works offline and syncs later",
       "Six languages, and owner, manager, worker and viewer roles",
       "Feed and aeration advice from documented rules, labelled as such in the app",

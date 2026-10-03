@@ -48,9 +48,9 @@ const ROUTES: Record<string, Meta> = {
       "Upcheck Technologies Private Limited builds tools for shrimp and fish producers in India. Our story, our values and the team behind Neerani.",
   },
   "/download": {
-    title: `Get Neerani — closed beta · ${SUFFIX}`,
+    title: `Get Neerani — free on Google Play · ${SUFFIX}`,
     description:
-      "Neerani is in Google Play closed testing with more than 100 testers. Request access to join the tester list.",
+      "Neerani, the shrimp farm manager app, is now available on Google Play. Free to download on Android — works offline at the pond bank, in six languages.",
   },
   "/resources": {
     title: `Resources — articles and guides for shrimp farmers · ${SUFFIX}`,

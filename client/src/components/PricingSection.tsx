@@ -11,7 +11,7 @@ const plans = [
     priceNote: "Every farm, every pond",
     description:
       "The full shrimp farm manager, free to use on every pond you run. If we ever add optional advanced plans, we'll let you know well before anything changes.",
-    cta: "Get early access",
+    cta: "Get it on Google Play",
     ctaHref: "/download",
     features: [
       "Daily, feed, tray and mortality logging",
