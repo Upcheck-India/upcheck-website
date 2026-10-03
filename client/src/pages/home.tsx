@@ -3,6 +3,7 @@ import ProblemsScrollytelling from "@/components/ProblemsScrollytelling";
 import SolutionSection from "@/components/SolutionSection";
 import NeeroHardwareSection from "@/components/NeeroHardwareSection";
 import PricingSection from "@/components/PricingSection";
+import WelfareSection from "@/components/WelfareSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
@@ -16,6 +17,7 @@ export default function Home() {
         <ProblemsScrollytelling />
         <SolutionSection />
         <NeeroHardwareSection />
+        <WelfareSection />
         <PricingSection />
         <CTASection />
       </main>

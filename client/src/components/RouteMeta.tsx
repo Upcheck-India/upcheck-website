@@ -3,6 +3,14 @@ import { useLocation } from "wouter";
 import { useLanguage } from "@/context/LanguageContext";
 import { getRouteMetadata, SITE_ORIGIN, DEFAULT_OG_IMAGE } from "@/seo/routes";
 
+/**
+ * Keeps the document title, description and canonical URL in step with the route.
+ *
+ * Centralized metadata is defined in client/src/seo/routes.ts, supporting static
+ * routes, dynamic articles and events, and noindex configuration.
+ * Canonical URLs consistently use https://www.upcheck.in.
+ */
+
 function setOrCreateMeta(attrName: "name" | "property", attrValue: string, content: string) {
   let element = document.querySelector(`meta[${attrName}="${attrValue}"]`);
   if (!element) {

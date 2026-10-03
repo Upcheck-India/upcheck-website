@@ -55,15 +55,17 @@ export default function CTASection() {
               </a>
 
               {/* Demo button */}
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="h-14 px-6 gap-2 rounded-xl transition-all duration-300 hover:scale-[1.03] border-white/40 hover:border-white text-white bg-transparent hover:bg-white/10"
-                data-testid="button-cta-demo"
-              >
-                Request a Demo
-                <ArrowRight className="w-5 h-5" />
-              </Button>
+              <a href="/contact?subject=demo">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-14 px-6 gap-2 rounded-xl transition-all duration-300 hover:scale-[1.03] border-white/40 hover:border-white text-white bg-transparent hover:bg-white/10"
+                  data-testid="button-cta-demo"
+                >
+                  Request a Demo
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </a>
             </div>
           </motion.div>
 

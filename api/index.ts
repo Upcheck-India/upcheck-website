@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import { ObjectId, MongoClient, GridFSBucket } from "mongodb";
 import rateLimit from "express-rate-limit";
 import { z } from "zod";
@@ -26,43 +26,64 @@ function getClientPromise(): Promise<MongoClient> {
 }
 
 const app = express();
+
+// Vercel terminates TLS and proxies, so the client IP arrives in x-forwarded-for.
+// Without this, express-rate-limit buckets every request under the proxy IP and
+// would rate-limit all users as one.
+app.set("trust proxy", 1);
+
+// Cap body size. The only POST takes a short feedback form; anything larger is
+// either a mistake or an attempt to exhaust memory.
 app.use(express.json({ limit: "32kb" }));
 app.use(express.urlencoded({ extended: false, limit: "32kb" }));
 
-// Rate limiting middleware to prevent spam on feedback submission
-const feedbackRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 feedback submissions per 15 minutes
-  message: {
-    error: "Too many feedback submissions from this IP. Please try again after 15 minutes."
-  },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+/**
+ * Rate limiting.
+ *
+ * Caveat worth knowing: express-rate-limit's default store is in-memory, and on
+ * serverless each cold instance starts with an empty bucket. Fluid Compute reuses
+ * instances so this does bite casual abuse and accidental request storms, but it
+ * is not a hard guarantee across a distributed fleet. For a real ceiling, enable
+ * rate limiting in the Vercel Firewall (WAF) at the platform edge — that runs
+ * before the function is ever invoked, so it also protects your compute bill.
+ */
+const limiter = (max: number, windowMs: number, message: string) =>
+  rateLimit({
+    windowMs,
+    max,
+    message: { error: message },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
 
-// Zod Validation Schema for request validation
-const feedbackSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100, "Name is too long"),
-  email: z.string().email("Invalid email address").max(100, "Email is too long"),
-  farmName: z.string().max(100, "Farm name is too long").optional().or(z.literal("")),
-  location: z.string().max(100, "Location is too long").optional().or(z.literal("")),
-  rating: z.preprocess((val) => Number(val), z.number().int().min(1, "Rating must be between 1 and 5").max(5, "Rating must be between 1 and 5")),
-  feedback: z.string().min(1, "Feedback message is required").max(2000, "Feedback is too long"),
-});
+// Read endpoints: generous, but bounded so a scraper cannot hammer MongoDB.
+const readLimiter = limiter(
+  120,
+  60 * 1000,
+  "Too many requests. Please slow down and try again shortly."
+);
 
-// HTML Input Sanitizer & XSS Protection helper function
-function sanitizeInput(str: string): string {
-  if (typeof str !== "string") return str;
-  let cleaned = str.replace(/<[^>]*>/g, "");
-  cleaned = cleaned
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#x27;")
-    .replace(/\//g, "&#x2F;");
-  return cleaned.trim();
-}
+// Media streams straight out of GridFS, so it is the most expensive read.
+const mediaLimiter = limiter(
+  60,
+  60 * 1000,
+  "Too many media requests. Please try again shortly."
+);
+
+// Writes: tight, since this is the only endpoint that persists user input.
+const feedbackLimiter = limiter(
+  5,
+  15 * 60 * 1000,
+  "Too many feedback submissions from this IP. Please try again after 15 minutes."
+);
+
+const newsletterLimiter = limiter(
+  5,
+  15 * 60 * 1000,
+  "Too many signup attempts from this IP. Please try again after 15 minutes."
+);
+
+app.use("/api/", readLimiter);
 
 let cachedPosts: any[] | null = null;
 let lastFetchTime = 0;
@@ -172,7 +193,7 @@ const ALLOWED_IMAGE_TYPES = [
 ];
 
 // GET /api/media/:id
-app.get("/api/media/:id", async (req, res) => {
+app.get("/api/media/:id", mediaLimiter, async (req, res) => {
   try {
     const { id } = req.params;
     const client = await getClientPromise();
@@ -228,44 +249,94 @@ app.get("/api/media/:id", async (req, res) => {
   }
 });
 
+// Zod Validation Schema for feedback request validation
+const feedbackSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name is too long"),
+  email: z.string().email("Invalid email address").max(100, "Email is too long"),
+  farmName: z.string().max(100, "Farm name is too long").optional().or(z.literal("")),
+  location: z.string().max(100, "Location is too long").optional().or(z.literal("")),
+  rating: z.preprocess(
+    (val) => Number(val),
+    z.number().int().min(1, "Rating must be between 1 and 5").max(5, "Rating must be between 1 and 5")
+  ),
+  feedback: z.string().min(1, "Feedback message is required").max(2000, "Feedback is too long"),
+});
+
+// HTML Input Sanitizer & XSS Protection helper function
+function sanitizeInput(str: string): string {
+  if (typeof str !== "string") return str;
+  return str
+    .replace(/<[^>]*>/g, "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;")
+    .replace(/\//g, "&#x2F;")
+    .trim();
+}
+
 // POST /api/feedback
-app.post("/api/feedback", feedbackRateLimiter, async (req, res) => {
+app.post("/api/feedback", feedbackLimiter, async (req, res) => {
   try {
-    // 1. Request Structure & Type Validation
     const parseResult = feedbackSchema.safeParse(req.body);
     if (!parseResult.success) {
       return res.status(400).json({
         error: "Validation failed",
-        details: parseResult.error.flatten().fieldErrors
+        details: parseResult.error.flatten().fieldErrors,
       });
     }
 
-    const validatedData = parseResult.data;
-
-    // 2. Input Sanitization & XSS Protection
-    const sanitizedName = sanitizeInput(validatedData.name);
-    const sanitizedEmail = sanitizeInput(validatedData.email);
-    const sanitizedFarmName = validatedData.farmName ? sanitizeInput(validatedData.farmName) : "";
-    const sanitizedLocation = validatedData.location ? sanitizeInput(validatedData.location) : "";
-    const sanitizedFeedback = sanitizeInput(validatedData.feedback);
-
+    const data = parseResult.data;
     const client = await getClientPromise();
     const db = client.db("resources");
 
     const result = await db.collection("feedback").insertOne({
-      name: sanitizedName,
-      email: sanitizedEmail,
-      farmName: sanitizedFarmName,
-      location: sanitizedLocation,
-      rating: validatedData.rating,
-      feedback: sanitizedFeedback,
-      createdAt: new Date()
+      name: sanitizeInput(data.name),
+      email: sanitizeInput(data.email),
+      farmName: data.farmName ? sanitizeInput(data.farmName) : "",
+      location: data.location ? sanitizeInput(data.location) : "",
+      rating: data.rating,
+      feedback: sanitizeInput(data.feedback),
+      createdAt: new Date(),
     });
 
     res.status(201).json({ success: true, id: result.insertedId });
   } catch (e) {
     console.error("Failed to save feedback securely:", e);
-    res.status(500).json({ error: "An unexpected error occurred while saving your feedback. Please try again." });
+    res.status(500).json({
+      error: "An unexpected error occurred while saving your feedback. Please try again.",
+    });
+  }
+});
+
+// POST /api/newsletter — adds the email to the Brevo newsletter list.
+const NEWSLETTER_LIST_ID = 3; // Brevo list "Upcheck Website Newsletter"
+
+async function subscribeToNewsletter(email: string): Promise<void> {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) throw new Error("BREVO_API_KEY is not set");
+  const r = await fetch("https://api.brevo.com/v3/contacts", {
+    method: "POST",
+    headers: { "api-key": apiKey, "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ email, listIds: [NEWSLETTER_LIST_ID], updateEnabled: true }),
+  });
+  if (!r.ok) throw new Error(`Brevo ${r.status}: ${await r.text()}`);
+}
+
+const newsletterSchema = z.object({ email: z.string().trim().email().max(254) });
+
+app.post("/api/newsletter", newsletterLimiter, async (req, res) => {
+  const parsed = newsletterSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: "Please enter a valid email address." });
+  }
+  try {
+    await subscribeToNewsletter(parsed.data.email.toLowerCase());
+    res.status(201).json({ success: true });
+  } catch (e) {
+    console.error("Newsletter signup failed:", e);
+    res.status(502).json({ error: "We couldn't subscribe you right now. Please try again later." });
   }
 });
 

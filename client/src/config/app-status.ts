@@ -12,13 +12,9 @@ export interface AppConfigType {
   tagline: string;
   packageName: string;
   playStoreUrl: string;
-  apkDownloadUrl: string;
   version: string;
   fileSize: string;
   minAndroidVersion: string;
-  rating: number;
-  reviewCount: string;
-  downloadCount: string;
   lastUpdated: string;
   expectedRelease: string;
   features: Array<{
@@ -28,19 +24,15 @@ export interface AppConfigType {
 }
 
 export const APP_CONFIG: AppConfigType = {
-  appName: "UpCheck Farm Manager",
+  appName: "Neerani by Upcheck",
   tagline: "Smart Shrimp Farming & Pond Intelligence",
   packageName: "com.upcheck.aquafarm",
   playStoreUrl: "https://play.google.com/store/apps/details?id=com.upcheck.aquafarm",
-  apkDownloadUrl: "/downloads/upcheck-farm-manager.apk",
-  version: "v2.4.1",
-  fileSize: "28.4 MB",
+  version: "Closed beta",
+  fileSize: "—",
   minAndroidVersion: "Android 8.0+",
-  rating: 4.8,
-  reviewCount: "1,280+ reviews",
-  downloadCount: "10,000+",
-  lastUpdated: "Aug 29, 2026",
-  expectedRelease: "Q3 2026",
+  lastUpdated: "Sep 2026",
+  expectedRelease: "Public release date to be announced",
   features: [
     {
       title: "Real-time Pond Alerts",

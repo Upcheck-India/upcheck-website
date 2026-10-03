@@ -5,11 +5,16 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { Analytics } from "@vercel/analytics/react";
+import RouteMeta from "@/components/RouteMeta";
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import Resources from "@/pages/resources";
 import Article from "@/pages/article";
 import Products from "@/pages/products";
+import Technology from "@/pages/technology";
+import Pricing from "@/pages/pricing";
+import Welfare from "@/pages/welfare";
 import Feedback from "@/pages/feedback";
 import Survey from "@/pages/survey";
 import Events from "@/pages/events";
@@ -20,18 +25,18 @@ import Privacy from "@/pages/privacy";
 import Terms from "@/pages/terms";
 import AccountDeletion from "@/pages/account-deletion";
 import NotFound from "@/pages/not-found";
-import RouteMeta from "@/components/RouteMeta";
 
 function Router() {
   return (
-    <>
-      <RouteMeta />
-      <Switch>
+    <Switch>
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
       <Route path="/resources" component={Resources} />
       <Route path="/resources/:id" component={Article} />
       <Route path="/products" component={Products} />
+      <Route path="/technology" component={Technology} />
+      <Route path="/pricing" component={Pricing} />
+      <Route path="/welfare" component={Welfare} />
       <Route path="/download" component={Download} />
       <Route path="/app" component={Download} />
       <Route path="/feedback" component={Feedback} />
@@ -46,7 +51,6 @@ function Router() {
       <Route path="/account-deletion" component={AccountDeletion} />
       <Route component={NotFound} />
     </Switch>
-    </>
   );
 }
 
@@ -56,6 +60,8 @@ function App() {
       <ThemeProvider>
         <LanguageProvider>
           <TooltipProvider>
+            <RouteMeta />
+            <Analytics />
             <Toaster />
             <Router />
           </TooltipProvider>

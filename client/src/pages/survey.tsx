@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-const fishFarmBg = "/attached_assets/fish-farm-background.jpg";
-const survey1 = "/attached_assets/survey_1.png";
+const fishFarmBg = "/attached_assets/fish-farm-background.webp";
+const survey1 = "/attached_assets/survey_1.webp";
 
 import { 
   ArrowRight, 

@@ -74,8 +74,8 @@ export default function AppSection() {
               </Link>
 
               {/* Request a Demo Button */}
-              <Link href="/contact">
-                <Button 
+              <Link href="/contact?subject=demo">
+                <Button
                   size="lg"
                   variant="outline"
                   className="h-12 px-6 rounded-2xl bg-white/15 hover:bg-white/25 border border-white/30 text-white font-bold text-xs sm:text-sm gap-2 backdrop-blur-md shadow-lg hover:scale-105 active:scale-95 transition-all"

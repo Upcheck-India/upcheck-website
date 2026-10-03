@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { sendFormNotification } from "@/config/forms";
 import {
   Star,
   Users,
@@ -87,7 +88,7 @@ export default function FeedbackPage() {
       feedback: "Upcheck helped us monitor water quality in real time. Shrimp survival rates have improved significantly.",
       date: "July 12, 2025",
       avatarUrl: "/attached_assets/image_1760003217493.png",
-      bgImageUrl: "/attached_assets/shrimp_probe.jpg"
+      bgImageUrl: "/attached_assets/shrimp_probe.webp"
     },
     {
       name: "Tran Minh",
@@ -97,7 +98,7 @@ export default function FeedbackPage() {
       feedback: "The dashboard gives us instant alerts before problems become serious. We prevent oxygen depletion regularly.",
       date: "June 28, 2025",
       avatarUrl: "/attached_assets/image_1759908674341.png",
-      bgImageUrl: "/attached_assets/sol1.jpg"
+      bgImageUrl: "/attached_assets/sol1.webp"
     },
     {
       name: "Made Sukartha",
@@ -106,7 +107,7 @@ export default function FeedbackPage() {
       rating: 5,
       feedback: "We reduced manual work and increased production after installing Upcheck. The automation recommendations are unmatched.",
       date: "May 15, 2025",
-      avatarUrl: "/attached_assets/image_1759908687526.png",
+      avatarUrl: "/attached_assets/image_1759908687526.webp",
       bgImageUrl: "/attached_assets/sol2.jpg"
     },
     {
@@ -117,7 +118,7 @@ export default function FeedbackPage() {
       feedback: "The telemetry from Upcheck devices matches lab results perfectly. We have full trust in the analytics engine.",
       date: "April 02, 2025",
       avatarUrl: "/attached_assets/image_1760003217493.png",
-      bgImageUrl: "/attached_assets/problem2.jpg"
+      bgImageUrl: "/attached_assets/problem2.webp"
     },
     {
       name: "Fatima Al-Saeed",
@@ -127,7 +128,7 @@ export default function FeedbackPage() {
       feedback: "Upcheck's team helped us configure localized salinity thresholds. Outstanding customer service and product utility.",
       date: "March 18, 2025",
       avatarUrl: "/attached_assets/image_1759908674341.png",
-      bgImageUrl: "/attached_assets/salinity_alert.jpg"
+      bgImageUrl: "/attached_assets/salinity_alert.webp"
     },
     {
       name: "Somchai Prasert",
@@ -182,7 +183,7 @@ export default function FeedbackPage() {
       location: "Andhra Pradesh, India",
       challenge: "Frequent, unpredictable drops in dissolved oxygen at night, resulting in periodic crop stress and lower yields.",
       result: "Maintained optimal oxygen levels 24/7, leading to a 95% survival rate and a 20% increase in harvest weight.",
-      image: "/attached_assets/shrimpfarm.png",
+      image: "/attached_assets/shrimpfarm.webp",
       tags: ["Oxygen Monitoring", "Precision Yields"]
     },
     {
@@ -192,7 +193,7 @@ export default function FeedbackPage() {
       location: "Soc Trang, Vietnam",
       challenge: "High cost of manual daily water testing across dozens of remote, spread-out farming blocks.",
       result: "Centralized real-time status monitoring, reducing labor hours by 40% while ensuring warning alerts reach site managers instantly.",
-      image: "/attached_assets/sol1.jpg",
+      image: "/attached_assets/sol1.webp",
       tags: ["Farm Analytics", "Decentralized Ponds"]
     },
     {
@@ -269,48 +270,64 @@ export default function FeedbackPage() {
     setIsSubmitting(true);
     
     try {
-      // Send data to backend POST /api/feedback or mock it
+      // Persist to MongoDB. A 404 is a real failure, not something to paper over —
+      // showing success for a submission we did not store is how feedback silently
+      // disappeared before.
       const response = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
-      
-      // If endpoint doesn't exist, we fallback gracefully to simulate success
-      if (response.ok || response.status === 404) {
-        // Success simulation
-        setTimeout(() => {
-          setIsSubmitting(false);
-          setSubmitSuccess(true);
-          
-          // Add to local state dynamically for preview
-          const newTestimonial: Testimonial = {
-            name: formData.name,
-            farmName: formData.farmName,
-            location: formData.location,
-            rating: formData.rating,
-            feedback: formData.feedback,
-            date: "Today",
-            avatarUrl: "/attached_assets/image_1760003217493.png",
-            bgImageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80"
-          };
-          
-          setTestimonials((prev) => [newTestimonial, ...prev]);
-          
-          toast({
-            title: "Thank You!",
-            description: "Your feedback has been successfully submitted and helps us improve Upcheck.",
-          });
-        }, 1200);
-      } else {
-        throw new Error("Failed to submit feedback");
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        throw new Error(body?.error ?? `Failed to submit feedback (${response.status})`);
       }
+
+      // Stored. Also notify the team by email so feedback is read, not just filed.
+      // A failure here must not tell the farmer their feedback was lost — it wasn't.
+      const notified = await sendFormNotification({
+        subject: `[upcheck.in] Feedback ${formData.rating}★ — ${formData.name}`,
+        replyto: formData.email,
+        name: formData.name,
+        email: formData.email,
+        farm: formData.farmName || "—",
+        location: formData.location || "—",
+        rating: `${formData.rating}/5`,
+        message: formData.feedback,
+      });
+      if (!notified.ok) {
+        console.warn("Feedback stored, but email notification failed:", notified.error);
+      }
+
+      setIsSubmitting(false);
+      setSubmitSuccess(true);
+
+      const newTestimonial: Testimonial = {
+        name: formData.name,
+        farmName: formData.farmName,
+        location: formData.location,
+        rating: formData.rating,
+        feedback: formData.feedback,
+        date: "Today",
+        avatarUrl: "/attached_assets/image_1760003217493.png",
+        bgImageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80"
+      };
+      setTestimonials((prev) => [newTestimonial, ...prev]);
+
+      toast({
+        title: "Thank You!",
+        description: "Your feedback has been successfully submitted and helps us improve Upcheck.",
+      });
     } catch (err) {
       console.error(err);
       setIsSubmitting(false);
       toast({
         title: "Submission Error",
-        description: "Something went wrong. Please try again.",
+        description:
+          err instanceof Error && /Too many/i.test(err.message)
+            ? err.message
+            : "Something went wrong and your feedback was not saved. Please try again, or email admin@upcheck.in.",
         variant: "destructive"
       });
     }

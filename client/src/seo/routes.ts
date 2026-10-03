@@ -127,6 +127,14 @@ export const ROUTES: Record<string, RouteMetadata> = {
     ogImage: DEFAULT_OG_IMAGE,
     lastmod: "2026-03-01",
   },
+  "/pricing": {
+    title: "Pricing · Upcheck",
+    description:
+      "Neerani, the shrimp farm manager app, is free for every farm and pond. Neero pond sensor pricing will be shared closer to launch.",
+    canonical: `${SITE_ORIGIN}/pricing`,
+    ogImage: DEFAULT_OG_IMAGE,
+    lastmod: "2026-03-01",
+  },
   "/feedback": {
     title: "Feedback · Upcheck",
     description:

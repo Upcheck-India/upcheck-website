@@ -108,7 +108,7 @@ export default function SolutionSection() {
                 className="w-full h-full rounded-2xl overflow-hidden shadow-lg border border-slate-100 cursor-pointer relative group"
               >
                 <img 
-                  src="/attached_assets/shrimpfarm.png" 
+                  src="/attached_assets/shrimpfarm.webp" 
                   alt="Shrimp farm operations" 
                   width={1408}
                   height={768}
@@ -160,7 +160,7 @@ export default function SolutionSection() {
                 className="w-full h-full rounded-2xl overflow-hidden shadow-2xl border-2 border-white cursor-pointer relative group"
               >
                 <img 
-                  src="/attached_assets/sol1.jpg" 
+                  src="/attached_assets/sol1.webp" 
                   alt="Healthy shrimp aquaculture" 
                   width={1749}
                   height={980}
@@ -194,33 +194,33 @@ export default function SolutionSection() {
               {/* TOP HEADER OF CARD */}
               <div className="relative z-10 text-left">
                 <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
-                  Smart IoT Sensing & AI Farm Intelligence
+                  A farm record that works at the pond bank, and a sensor that fills it in
                 </h3>
               </div>
 
               {/* MIDDLE BODY CONTENT (Rich Structured Narrative Filling the Card) */}
               <div className="relative z-10 space-y-3.5 text-white/95 text-xs sm:text-sm leading-relaxed text-left font-medium">
                 <p>
-                  <strong className="text-white font-bold">UpCheck</strong> is an integrated precision aquaculture platform designed to help shrimp farmers manage their entire operation intelligently, sustainably, and profitably.
+                  <strong className="text-white font-bold">Upcheck</strong> is a precision aquaculture platform built in two parts, and we are honest about where each one stands.
                 </p>
 
                 <p>
-                  At its core is a solar-powered floating IoT device that continuously monitors critical pond parameters such as <span className="text-white font-semibold">pH, dissolved oxygen, temperature, humidity, and rainfall</span>, providing instant real-time insights through a simple mobile application.
+                  <span className="text-white font-semibold">Neerani</span>, the farm-management app, is in closed beta on Google Play with more than 100 testers. It holds every pond&rsquo;s water, feed, growth, health and money records — offline at the pond bank, in six languages — and reads that record back as feeding guidance, disease risk and a cycle-end reckoning in FCR, survival and cost per kilo.
                 </p>
 
                 <p>
-                  By combining live pond data with AI-driven analytics, UpCheck generates personalized feeding schedules, enables early detection of unfavorable conditions, and supports healthier shrimp growth with reduced chemical usage.
+                  <span className="text-white font-semibold">Neero</span>, the solar-powered floating sensor, is a bench prototype in active development. Once it reaches the pond it will measure <span className="text-white font-semibold">pH, dissolved oxygen and temperature</span> continuously and feed those readings into the same app, so the daily round stops depending on someone remembering to test.
                 </p>
 
                 <p>
-                  By bringing all farm activities into a single ecosystem, UpCheck transforms traditional, guesswork-based shrimp farming into a data-driven, sustainable, and profitable operation.
+                  Together they turn guesswork-based shrimp farming into a recorded, data-driven operation — with advice that states what it was computed from, and declines to answer when the readings are too thin to be trusted.
                 </p>
               </div>
 
               {/* BOTTOM ACTION ROW */}
               <div className="relative z-10 pt-2 border-t border-white/15 flex items-center justify-between text-left">
                 <span className="text-[11px] text-white/80 font-medium">
-                  Autonomous Sensing • AI Analytics
+                  Neerani app and Neero sensor
                 </span>
 
                 <Link href="/products">

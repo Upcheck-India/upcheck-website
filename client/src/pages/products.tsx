@@ -6,17 +6,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import CountUp from "react-countup";
-const upcheckDeviceImg = "/attached_assets/upcheck-iot-device.png";
-const yellowDeviceImg = "/attached_assets/upcheck-yellow-device.jpg";
+const upcheckDeviceImg = "/attached_assets/upcheck-iot-device.webp";
+const yellowDeviceImg = "/attached_assets/upcheck-yellow-device.webp";
 const appScreenshotImg = "/attached_assets/upcheck-farm-app.jpg";
-const aquaculturePensImg = "/attached_assets/aquaculture-pens.png";
-const shrimpHarvestImg = "/attached_assets/shrimp-harvest.png";
-const fishermanBoatImg = "/attached_assets/fisherman-boat.jpg";
+const aquaculturePensImg = "/attached_assets/aquaculture-pens.webp";
+const shrimpHarvestImg = "/attached_assets/shrimp-harvest.webp";
+const fishermanBoatImg = "/attached_assets/fisherman-boat.webp";
 const diseaseShrimpImg = "/attached_assets/disease-shrimp.jpg";
-const platformAccuracyImg = "/attached_assets/platform-accuracy.png";
-const liveAnalyticsSeaImg = "/attached_assets/live-analytics-sea.png";
+const platformAccuracyImg = "/attached_assets/platform-accuracy.webp";
+const liveAnalyticsSeaImg = "/attached_assets/live-analytics-sea.webp";
 const aiFeedingSeaweedImg = "/attached_assets/ai-feeding-seaweed.jpg";
-const traceabilityPlaceholderImg = "/attached_assets/traceability-placeholder.png";
+const traceabilityPlaceholderImg = "/attached_assets/traceability-placeholder.webp";
 import {
   Activity,
   ArrowRight,
@@ -31,68 +31,80 @@ import {
 
 const detailedSections = [
   {
-    name: "Pond Monitoring System",
+    name: "Pond Monitoring & Daily Log",
     icon: Waves,
     description:
-      "Upcheck’s monitoring layer keeps critical pond data visible throughout the day so farmers can act before small changes become costly problems.",
+      "Every pond's working record in one place — dissolved oxygen, pH, temperature and salinity, feed given by meal, tray residue, mortality and treatments. A multi-pond grid lets one person log the whole farm in a single morning round.",
     points: [
-      "24/7 monitoring view with live status updates",
-      "Alert-first design for quick operational response",
-      "Built to match the existing Upcheck visual system",
+      "Log the whole farm in one pass, not pond by pond",
+      "Works offline at the pond bank and syncs when signal returns",
+      "Weekly chemistry, plankton and Vibrio counts in the same record",
     ],
   },
   {
-    name: "Smart Feeding Assistant",
+    name: "Feed Advisor",
     icon: Target,
     description:
-      "The feeding assistant turns farm context into clear guidance, helping teams keep feeding efficient and predictable.",
+      "How much to feed today, adjusted for tray residue, water conditions and molt stage. Where the readings are thin the advisor returns a range instead of a falsely precise number, and says what to go and measure.",
     points: [
-      "Practical recommendations for routine feeding",
-      "Designed to lower waste without adding complexity",
-      "Fits naturally into the existing app workflow",
+      "Tray-residue adjusted, so uneaten feed stops becoming ammonia",
+      "Lunar molt windows factored into the daily ration",
+      "States what each recommendation was computed from",
     ],
   },
   {
-    name: "Farm Analytics Dashboard",
+    name: "Cycle Economics & Reckoning",
     icon: BarChart3,
     description:
-      "The analytics dashboard gives owners and operators a single place to review performance and understand what is changing across the farm.",
+      "Feed conversion ratio, survival rate, cost per kilo, break-even count band, margin and return — computed from the record you kept all cycle, not estimated in a spreadsheet after harvest.",
     points: [
-      "Simple charts and summary cards for fast review",
-      "Supports operational planning and reporting",
-      "Uses the same card and spacing language as the rest of the site",
+      "Costs and feed attributed to the crop, not the farm in general",
+      "Break-even priced against count bands, the way buyers actually pay",
+      "Dealer credit tracked as a balance instead of remembered",
     ],
   },
   {
-    name: "Disease & Risk Alert System",
+    name: "Disease Risk & Responsible Treatment",
     icon: ShieldAlert,
     description:
-      "Risk alerts help teams detect unusual patterns early, improving response time and reducing the chance of larger losses.",
+      "A symptom checker that ranks likely causes from what you can actually see — on the animal, in its behaviour, in the water — instead of a guess from a WhatsApp group. Paired with a banned-substance warning at the moment a treatment is recorded.",
     points: [
-      "Early indicators based on environmental changes",
-      "Clear escalation path for farm teams",
-      "Keeps the interface aligned with Upcheck’s current design",
+      "Ranked candidates from observable signs, not a single guess",
+      "Warns on export-banned substances before they go in the water",
+      "Treatment history kept per pond for audit and certification",
     ],
   },
 ];
 
+// Everything else in the app, beyond the four headline workflows above.
+const alsoInNeerani = [
+  { title: "Daily and feed logs", text: "The morning round and every meal, logged pond by pond or across the farm in one pass." },
+  { title: "Alerts on the home screen", text: "Anything abnormal shows up plainly the moment the app opens, not buried in a chart." },
+  { title: "Workforce and tasks", text: "Assign jobs, track attendance, and have a manager verify the work was done." },
+  { title: "Inventory", text: "Feed, chemicals and probiotics drawn down as they are used, flagged before they run out." },
+  { title: "Finance", text: "Expenses and income by pond and crop, plus the credit taken from feed dealers." },
+  { title: "Harvest planning and records", text: "Partial and final harvests, count per kilo, buyer and price, planned ahead and logged after." },
+  { title: "Calculators and simulators", text: "Change feed rate, price or stocking density and see the effect on profit before committing." },
+  { title: "Exports", text: "The farm record leaves the app in a file an accountant, buyer or certifier can read." },
+];
+
 const reasons = [
   {
-    title: "Built on the same product language",
+    title: "It speaks the shrimp belt's languages",
     description:
-      "The page reuses the same gradient, cards, spacing, and motion style already present in Upcheck.",
+      "Every screen, label and warning exists in six languages — English, Hindi, Bengali, Tamil, Telugu and Odia. The person who walks the pond bank at dawn is rarely the person who reads English.",
     icon: Sparkles,
   },
   {
-    title: "Designed for aquaculture operators",
+    title: "It works where the signal doesn't",
     description:
-      "Each section speaks to practical farm workflows: monitoring, feeding, analysis, and risk alerts.",
+      "Ponds are not where the towers are. Neerani keeps working through a dead patch and reconciles when the connection returns — because a logging tool that fails at the pond bank is one nobody uses twice.",
     icon: Activity,
   },
   {
-    title: "Clear next-step actions",
+    title: "A record several people can be trusted with",
     description:
-      "The page ends with the same call-to-action style used elsewhere in the site, keeping the experience consistent.",
+      "Workers log, managers verify, and money is visible only to whom the owner allows. A farm with hired labour cannot run on one shared password — and a lender or consultant can be given a read-only view without handing over the books.",
     icon: TrendingUp,
   },
 ];
@@ -420,24 +432,35 @@ export default function Products() {
                   viewport={{ once: true, amount: 0.1 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                  <Badge className="bg-cyan-500/10 text-[#0067B1] border border-cyan-500/20 px-3.5 py-1 text-xs font-semibold rounded-full shadow-2xs">
-                    Hardware
-                  </Badge>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge className="bg-cyan-500/10 text-[#0067B1] border border-cyan-500/20 px-3.5 py-1 text-xs font-semibold rounded-full shadow-2xs">
+                      Hardware
+                    </Badge>
+                    <Badge className="bg-amber-50 text-amber-800 border border-amber-300 px-3.5 py-1 text-xs font-bold rounded-full uppercase tracking-wide shadow-2xs">
+                      In development · Bench prototype
+                    </Badge>
+                  </div>
                   <h3 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 leading-tight">
-                    IoT Monitoring Device
+                    Neero — Floating Pond Sensor
                   </h3>
                   <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-medium">
-                    UpCheck is a solar-powered, floating IoT monitoring device that sits directly in the shrimp pond,
-                    continuously tracking the water quality parameters that matter most to shrimp health — pH, dissolved
-                    oxygen, temperature, humidity, and rainfall — and streaming that data to a simple mobile dashboard in real
-                    time.
+                    Neero is a solar-assisted floating sensor that sits in the shrimp pond and tracks the water
+                    readings that matter most to shrimp health — pH, dissolved oxygen and temperature — sending them
+                    into the Neerani app. The sensors live in a cartridge on the underside that can be swapped out, it
+                    calibrates itself, and it wakes only when a reading is due, for an expected battery life of about
+                    90 days. Where mobile coverage is weak, a long-range link carries the data instead.
+                  </p>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    <strong className="text-slate-700">Where it stands:</strong> we are validating the sensing stack on
+                    the bench. Pond trials are the next milestone, and pricing will be announced alongside them. The
+                    image shown is a design render, not a deployed unit.
                   </p>
                 </motion.div>
               </div>
             </PremiumCard>
           </motion.div>
 
-          {/* Section 2: UpCheck Mobile Application (Software) */}
+          {/* Section 2: Neerani mobile app (Software) */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -461,7 +484,7 @@ export default function Products() {
                     UpCheck Mobile Application
                   </h3>
                   <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-medium">
-                    Monitor your shrimp ponds anytime, anywhere with the UpCheck mobile application. Connected directly to your floating IoT device, the app delivers real-time pond insights, AI-powered recommendations, and complete farm management tools—all from a single dashboard.
+                    Neerani is where the whole farm is recorded: water readings, feed by meal, tray leftovers, deaths, treatments, stock and money. It works without signal at the pond bank, in six languages, and turns the record into feeding guidance and disease-risk checks that show what they were worked out from. Once Neero ships, its readings will flow into the same app.
                   </p>
 
                   {/* Feature highlights list */}
@@ -542,6 +565,81 @@ export default function Products() {
               </div>
             </PremiumCard>
           </motion.div>
+
+          {/* Section 2b: What Neerani does — these arrays existed but were never rendered */}
+          <section aria-labelledby="neerani-features" className="space-y-10">
+            <div className="max-w-3xl">
+              <h2
+                id="neerani-features"
+                className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white"
+              >
+                What Neerani does on a working farm
+              </h2>
+              <p className="mt-3 text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                Neerani is a shrimp farm manager: the daily record of every pond, and the tools for running the farm
+                as a business around it.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {detailedSections.map((section, i) => (
+                <motion.div
+                  key={section.name}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: i * 0.06 }}
+                  className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-7 md:p-8"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-xl bg-cyan-500/10 border border-cyan-500/20 p-2.5 text-[#0067B1]">
+                      <section.icon className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">{section.name}</h3>
+                  </div>
+                  <p className="mt-4 text-slate-600 dark:text-slate-300 leading-relaxed">{section.description}</p>
+                  <ul className="mt-4 space-y-2">
+                    {section.points.map((point) => (
+                      <li key={point} className="flex gap-2 text-sm text-slate-700 dark:text-slate-300">
+                        <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-[#00C9E4]" />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="rounded-3xl bg-slate-900 dark:bg-slate-950 p-7 md:p-10">
+              <h3 className="text-2xl font-bold text-white">And the rest of running the farm</h3>
+              <dl className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-7">
+                {alsoInNeerani.map((item) => (
+                  <div key={item.title} className="border-t border-white/15 pt-4">
+                    <dt className="font-semibold text-white">{item.title}</dt>
+                    <dd className="mt-1.5 text-sm text-white/65 leading-relaxed">{item.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 pt-2">
+              {reasons.map((reason) => (
+                <div key={reason.title}>
+                  <reason.icon className="w-6 h-6 text-[#0067B1]" />
+                  <h3 className="mt-3 text-lg font-bold text-slate-900 dark:text-white">{reason.title}</h3>
+                  <p className="mt-2 text-slate-600 dark:text-slate-300 leading-relaxed">{reason.description}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
+              Several of these, like the banned-substance warning and feeding to tray leftovers, matter as much for the
+              animals as for the farm.{" "}
+              <a href="/welfare" className="font-semibold text-[#0067B1] underline underline-offset-4">
+                Read how Neerani supports shrimp welfare
+              </a>
+              .
+            </p>
+          </section>
 
           {/* Section 3: Transforming Every Pond into Actionable Insights (Intelligence) */}
           <motion.div
@@ -757,22 +855,22 @@ export default function Products() {
                     <div className="absolute inset-0 p-5 flex flex-col justify-between z-20 text-left">
                       <div className="space-y-0.5">
                         <span className="text-white/80 text-[10px] font-extrabold uppercase tracking-widest block">
-                          Platform Accuracy
+                          Target Sampling Rate
                         </span>
                         <h4 className="text-white text-xs font-bold tracking-tight">
                           Continuous Monitoring
                         </h4>
                       </div>
-                      
+
                       <div className="my-auto transform transition-transform duration-300 group-hover:scale-105">
                         <span className="text-4xl md:text-5xl text-white font-black tracking-tighter flex items-baseline drop-shadow-md">
-                          <CountUp end={99} duration={2.5} enableScrollSpy scrollSpyOnce />
-                          <span className="text-[#00C9E4] text-2xl font-extrabold ml-0.5">%</span>
+                          15
+                          <span className="text-[#00C9E4] text-2xl font-extrabold ml-1">min</span>
                         </span>
                       </div>
 
                       <div className="flex items-center justify-between text-[10px] font-semibold text-white/80 border-t border-white/20 pt-2.5 group-hover:text-white transition-colors">
-                        <span>Real-Time Sensor Precision</span>
+                        <span>Design target · not yet field-verified</span>
                         <div className="w-6 h-6 rounded-full bg-white/15 group-hover:bg-white/30 flex items-center justify-center transition-all">
                           <ArrowRight className="w-3.5 h-3.5 text-white group-hover:translate-x-0.5 transition-transform" />
                         </div>
@@ -899,24 +997,25 @@ export default function Products() {
                             />
                           </svg>
                           <div className="absolute inset-0 flex items-center justify-center text-xs font-black text-white">
-                            60%
+                            1.5
                           </div>
                         </div>
                         <div className="space-y-1">
-                          <span className="text-base font-extrabold text-white leading-none block group-hover:text-cyan-100 transition-colors">60% vs 40%</span>
+                          <span className="text-base font-extrabold text-white leading-none block group-hover:text-cyan-100 transition-colors">FCR 1.5 &rarr; 1.8</span>
                           <p className="text-white/80 text-[10px] font-semibold leading-relaxed">
-                            Optimal feeding parameters met
+                            Typical Indian farm range. Feed is ~60% of production cost, so every
+                            0.1 of FCR is money.
                           </p>
                         </div>
                       </div>
 
                       <div className="text-[10px] text-white/60 border-t border-white/10 pt-2.5">
-                        Turn live data into quick actions.
+                        Tray-residue adjusted feeding, logged every meal.
                       </div>
                     </div>
                   </motion.div>
 
-                  {/* Card 6: AI Feeding */}
+                  {/* Card 6: Feed advisor */}
                   <motion.div
                     initial={{ opacity: 0, y: 35 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -927,7 +1026,7 @@ export default function Products() {
                   >
                     <motion.img
                       src={aiFeedingSeaweedImg}
-                      alt="AI Feeding"
+                      alt="Feed pellets in pond water"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/45 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-85" />
@@ -935,13 +1034,13 @@ export default function Products() {
                     <div className="absolute inset-0 p-5 flex flex-col justify-end z-20 text-left">
                       <div className="space-y-1 transform transition-transform duration-300 group-hover:-translate-y-1">
                         <span className="text-[#00C9E4] text-[10px] font-extrabold uppercase tracking-widest block">
-                          AI Feeding
+                          Feed advisor
                         </span>
                         <h4 className="text-white text-lg font-extrabold tracking-tight group-hover:text-cyan-100 transition-colors">
                           Precision feeding.
                         </h4>
                         <p className="text-white/85 text-xs font-medium">
-                          Zero guesswork.
+                          Adjusted to what's left on the tray.
                         </p>
                       </div>
                     </div>
@@ -1062,24 +1161,28 @@ export default function Products() {
                   
                   <div className="flex flex-wrap justify-center items-center gap-6">
                     <MagneticWrapper>
-                      <Button
-                        size="lg"
-                        className="relative gap-2 font-semibold shadow-lg bg-white text-[#0067B1] hover:bg-slate-50 hover:text-[#005a9c] hover:scale-105 active:scale-95 group overflow-hidden border-none"
-                      >
-                        <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
-                        Request a Demo
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                      </Button>
+                      <a href="/contact?subject=demo">
+                        <Button
+                          size="lg"
+                          className="relative gap-2 font-semibold shadow-lg bg-white text-[#0067B1] hover:bg-slate-50 hover:text-[#005a9c] hover:scale-105 active:scale-95 group overflow-hidden border-none"
+                        >
+                          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
+                          Request a Demo
+                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                        </Button>
+                      </a>
                     </MagneticWrapper>
-                    
+
                     <MagneticWrapper>
-                      <Button
-                        size="lg"
-                        variant="outline"
-                        className="border-white/30 text-white bg-transparent hover:bg-white/10 hover:border-white/50 hover:scale-105 active:scale-95 hover:shadow-lg transition-all duration-300"
-                      >
-                        View Contact Options
-                      </Button>
+                      <a href="/contact">
+                        <Button
+                          size="lg"
+                          variant="outline"
+                          className="border-white/30 text-white bg-transparent hover:bg-white/10 hover:border-white/50 hover:scale-105 active:scale-95 hover:shadow-lg transition-all duration-300"
+                        >
+                          View Contact Options
+                        </Button>
+                      </a>
                     </MagneticWrapper>
                   </div>
                 </div>
